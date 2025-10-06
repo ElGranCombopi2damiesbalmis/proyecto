@@ -5,7 +5,7 @@
 
 ## Índice de Meses
 
-* 📅 Octubre 2025
+* [📅 Octubre 2025](#octubre-2025)
 
 ## Octubre 2025
 
