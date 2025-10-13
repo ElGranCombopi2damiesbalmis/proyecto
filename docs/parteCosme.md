@@ -3,9 +3,9 @@
 ## Datos del Equipo
 | Participantes | Roles | Perfil Github |
 | --- | --- | --- |
-| Victor | Profe | [Victietje](https://github.com/victietje) |
-| Ayman | Camis de Furbo | [Aymanelhattachi](https://github.com/aymanelhattachi) |
-| Cosme | Puto amo | [Mafellas](https://github.com/Mafellas) |
+| Victor | Gestor | [Victietje](https://github.com/victietje) |
+| Ayman | Analista | [Aymanelhattachi](https://github.com/aymanelhattachi) |
+| Cosme | Colaborador | [Mafellas](https://github.com/Mafellas) |
 
 ## ODS y su correlación con el proyecto
 
