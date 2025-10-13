@@ -18,4 +18,3 @@ Por último tenemos el **ODS** de *trabajo decente y crecimiento económico* ali
 ## Descripción del Problema
 
 Normalmente tenemos varias aplicaciones distintas para planificarnos, hacernos rutinas y analizar nuestros gastos, para eso con nuestro proyecto buscamos tenerlos en una única aplicación y así poder unificarlo todo en ella.
-
