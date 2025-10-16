@@ -20,6 +20,14 @@ Por último tenemos el **ODS** de *trabajo decente y crecimiento económico* ali
 
 Normalmente tenemos varias aplicaciones distintas para planificarnos, hacernos rutinas y analizar nuestros gastos, para eso con nuestro proyecto buscamos tenerlos en una única aplicación y así poder unificarlo todo en ella.
 
+## Descripción de la Solucion Propuesta
+
+Vamos a crear una aplicación que tenga un apartado centrado en la salud fisica y mental del usuario, uno dedicado a crear una planificacion mensual, semanal, etc. y por ultimo una sección aplicada a la economía del usuario.
+
+## Actores y Roles
+
+Nuestra intención es que el propio usuario registrado sea el administrador de la aplicación y asi se pueda organizar él mismo con la maxima privacidad posible.
+
 ## Riesgos y  mitigación
 
 | Riesgo | Mitigación |
