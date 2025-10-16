@@ -15,7 +15,7 @@
 
 ### Para Usuario (App Móvil)
 
-| Caso de Uso                  | Descripción                                                                                         | Prioridad |
+| Caso de Uso | Descripción | Prioridad |
 |-----------------------------|--------------------------------------------------------------------------------------------------|-----------|
 | Registro / Inicio de sesión  | Permitir que el usuario cree una cuenta y acceda a la app.                                        | Alta      |
 | Gestión de actividades       | Crear, editar y eliminar actividades o eventos con fecha, hora y recordatorios.                   | Alta      |
@@ -29,7 +29,7 @@
 
 ### Para Usuario (App Escritorio)
 
-| Caso de Uso                  | Descripción                                                                                         | Prioridad |
+| Caso de Uso | Descripción | Prioridad |
 |-----------------------------|--------------------------------------------------------------------------------------------------|-----------|
 | Inicio de sesión            | Permitir al usuario acceder a su cuenta de forma segura.                                          | Alta      |
 | Gestión de actividades       | Crear, editar y eliminar actividades o eventos, con más detalles y facilidad desde escritorio.    | Alta      |

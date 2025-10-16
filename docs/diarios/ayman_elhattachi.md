@@ -12,6 +12,8 @@
 | Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
 |---|---|---|---|---|---|---|
 | 06/10 | S1 | Creacion del nuevo repositorio de documentos del proyecto y creacion del diario. | 1h |
+| 13/10 | S1 | Creacion de la documentación necesaria para el proyecto. | 1h |
+| 16/10 | S1 | Desarrollo de la documentación del proyecto. | 1h |
 |Pendiente|
 
 **Resumen del mes:**
