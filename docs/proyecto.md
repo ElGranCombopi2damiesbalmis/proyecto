@@ -1,6 +1,7 @@
 # Título del Proyecto
 
 ## Datos del Equipo
+
 | Participantes | Roles | Perfil Github |
 | --- | --- | --- |
 | Victor | Profe | [Victietje](https://github.com/victietje) |
