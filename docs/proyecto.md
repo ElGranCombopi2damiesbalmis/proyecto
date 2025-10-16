@@ -58,7 +58,7 @@ NombreApp/
 ├── docs/
 │ ├── PROYECTO.md ← visión, ODS, casos de uso
 │ ├── DISENO.md ← modelo, decisiones arquitectónicas
-│ └── DIARIO.md ← seguimiento semanal individual
+│ └── DIARIO.md ← seguimiento semanal individual.
 ├── backend/
 ├── frontend-wpf/
 └── frontend-android/
