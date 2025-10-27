@@ -15,10 +15,11 @@
 | 13/10/2025 | S2 | Brainstorming sobre las diferentes ideas de aplicaciones que teníamos por separado / Elección de la aplicación final / Realización de la memoria inicial en Markdown | 2h | No teníamos respuesta a diferentes acciones o posibilidades de las aplicaciones que teníamos en mente | Investigar sobre dichas funciones y juntar las más viables | El proceso de realizar una aplicación ya luce complicado, pero la parte previa a encontrar las ideas y el 'qué' es igual o más difícil |
 | 16/10/2025 | S3 | Una hora de teoría sobre SCRUM y | 1h 30' | * | * | El SCRUM parece realmente útil y un sistema que las empresas utilizarán mucho las empresas, por lo que es interesante que lo aprendamos bien |
 | 21/10/2025 | S4 | Dinámica basada en el SCRUM realizada sobre un supuesto de aviones de papel, en el que teníamos que dividirnos los roles y completar diferentes tareas relacionadas con diferentes tipos de aviones | 2h | Éramos únicamente 2 personas puesto que un compañero de equipo estaba realizando un examen, asi que ninguno pudo hacer el rol del SCRUM OWNER | Juanjo tuvo que realizar ese rol sobre el resto de equipos | Parece una metodología bastante útil en lo que al entorno laboral se refiere, sobretodo en el ámbito del teletrabajo el cual está cada vez más en auge |
+| 27/10/2025 | S5 | Toma de contacto con GitHub Projects con base SCRUM, creando el Backlog, organizando los issues y sprints además de asignarles la dificultad a cada uno | 1h 30' | Nunca habíamos trabajado con GitHub Projects por lo que la interfaz y su uso nos ha resultado desconocido, haciendo que tardemos algo de tiempo en adaptarnos a la interfaz | Apoyarnos en el PDF facilitado por el profesor | Primera toma de contacto con una herramienta que buscando prácticas en LinkIn veo que utilizan la gran mayoría de empresas para trabajar, pidiendo siempre experiencia en este tipo de formatos, por lo que considero que es muy útil que tengamos un módulo dedicado solo a la utilización de la misma |
 
 **Resumen del mes:**
 
-- **Total de horas:** 7h 30'
+- **Total de horas:** 9h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
