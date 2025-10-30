@@ -1,4 +1,4 @@
-# Planify
+# PLANIFY
 
 ## Datos del Equipo
 
