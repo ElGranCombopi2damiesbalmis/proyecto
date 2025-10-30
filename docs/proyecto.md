@@ -1,4 +1,4 @@
-# Título del Proyecto
+# PLANIFY
 
 ## Datos del Equipo
 
