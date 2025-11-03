@@ -1,0 +1,104 @@
+@startuml
+
+skinparam ClassAttributeIconStyle none
+skinparam ClassEndStyle stereotype
+
+class Usuario {
+  + String nombre
+  + String correo
+  + String telefono
+  + String calle
+  + String fotoPerfil
+  --
+  + void verAjustes()
+  + void editarPerfil()
+}
+
+class Tarea {
+  + String id
+  + String titulo
+  + String descripcion
+  + Date fecha
+  + EtiquetaTarea etiqueta
+  --
+  + void marcarComoCompletada()
+  + void editarTarea()
+  + void añadirTarea()
+  + void eliminarTarea()
+}
+
+enum EtiquetaTarea {
+  TRABAJO
+  PERSONAL
+  ESTUDIO
+  HOGAR
+  SALUD
+  OTROS
+}
+
+class Economia {
+  + List<Transaccion> transacciones
+  + double saldo
+  --
+  + void verGastos()
+  + void verIngresos()
+  + void verAmbos()
+  + void filtrarPorFecha(Date fecha)
+  + double obtenerSaldoActual()
+}
+
+class Transaccion {
+  + String descripcion
+  + double cantidad
+  + Date fecha
+  + TipoTransaccion tipo
+}
+
+enum TipoTransaccion {
+  GASTO
+  INGRESO
+}
+
+class EstadoAnimo {
+  + Map<Date, IconoEstadoAnimo> registroAnimo
+  --
+  + void registrarEstadoAnimo(Date fecha, IconoEstadoAnimo icono)
+  + IconoEstadoAnimo obtenerEstadoAnimo(Date fecha)
+}
+
+enum IconoEstadoAnimo {
+  GENIAL
+  BIEN
+  NORMAL
+  MAL
+  MUYMAL
+}
+
+class Home {
+  + String fraseBienvenida
+  + int notificacionesPendientes
+  --
+  + void mostrarPreviewEstadoAnimo()
+  + void mostrarPreviewEconomia()
+  + void mostrarPreviewTareas()
+  + void verNotificaciones()
+  + void seleccionarEstadoAnimo(IconoEstadoAnimo icono)
+}
+
+Usuario "1" -- "0..*" Tarea : crea
+Usuario "1" -- "1" Economia : gestiona
+Usuario "1" -- "1" EstadoAnimo : registra
+Usuario "1" -- "1" Home : interactua con
+
+Economia "1" -- "0..*" Transaccion : contiene
+Transaccion "1" -- "0..*" TipoTransaccion : utiliza
+
+Tarea "0..*" -- "1" EtiquetaTarea : tiene
+
+EstadoAnimo "1" -- "0..*" IconoEstadoAnimo : utiliza
+
+Home "1" --> "1" Economia : navega a
+Home "1" --> "1" Tarea : navega a
+Home "1" --> "1" EstadoAnimo : interactua con
+
+@enduml
