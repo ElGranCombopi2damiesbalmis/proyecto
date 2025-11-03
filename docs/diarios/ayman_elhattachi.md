@@ -18,6 +18,7 @@
 | 23/10 | S5 | Actividad Scrum - métricas y cierre y teoria de Github Proyects.| 1h |
 | 27/10 | S6 | Hemos creado el las tareas del backlog y el Sprint 1 en GitHub Project y nos hemos quedado en las subissues.| 2h | Algunas tareas de la documentación no cuadraban del todo. | Hemos tendido que modificar alguna cosa de la documentación.|
 | 30/10 | S7 | Hemos terminado las creacion de subtareas y el reparto de estas, hemos puesto un nombre a la app y organizado la gestion del Sprint 1 de nuesto projecto. | 1h |
+| 03/11 | S8 | Hemos terminado el sprint 1, hemos terminado las tareas respectivas al Sprint como la Clase de UML. | 2h | 
 |Pendiente|
 
 **Resumen del mes:**
