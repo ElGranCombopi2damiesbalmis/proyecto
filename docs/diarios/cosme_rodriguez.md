@@ -19,3 +19,4 @@
 | 27/10 | S5 | Comienzo de GitHub Projects | 2h | Creacion del Backlog del proyecto, los *issues*, sprint, etc. | Hemos estado pensado que poner y demás | Como crear el un backlog |
 | 30/10 | S6 | Hemos creado el nombre de la aplicación, y hemos acabado la creación del Github Project | 1h | No consegiamos que las tareas salieran en la tabla y solo aparecía en el backlog | Las hemos asignado al Sprint 1 | Hemos aprendido a crear tareas y asignarlas dentro de los Sprints |
 | 3/11 | S7 | Han realizado el boceto relacionando cada sección de este | 2h | N/A | N/A | N/A |
+| 6/11 | S8 | Hemos pasado el boceto de las clases en PlantUML a codigo en lenguaje C#, ademas de modificar el SCRUM para que los user storys y tasks aparezcan con los datos necesarios | 1h | No sabiamos que teniamos que hacer al principio | Utilizar los apuntes para corregir el SCRUM y preguntar al profesor | Hemos aprendido a pasar todo lo que estaba en el PlantUML a código |
