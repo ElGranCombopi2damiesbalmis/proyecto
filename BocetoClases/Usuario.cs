@@ -1,5 +1,6 @@
 public class Usuario
 {
+    public string Id { get; private set; }
     public string Nombre { get; set; }
     public string Correo { get; set; }
     public string Telefono { get; set; }
@@ -13,6 +14,7 @@ public class Usuario
 
     public Usuario(string nombre, string correo, string telefono, string calle, string fotoPerfil = null)
     {
+        Id = Guid.NewGuid();
         Nombre = nombre;
         Correo = correo;
         Telefono = telefono;
