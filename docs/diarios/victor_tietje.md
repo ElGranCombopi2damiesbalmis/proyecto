@@ -25,10 +25,11 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | 03/11/2025 | S7 | Diseño del boceto sobre papel para entendernos entre todos, saber que ideas tenemos y llegar a un diseño único de la app. Creación del plantUML con las clases, sus propiedades, y sus relaciones. Actualizar el SCRUM y preparar el próximo Sprint | 2h | No nos acordábamos muy bien de la sintaxis del UML | Desde la web de PlantUML y con proyectos del año anterior hemos conseguido refrescar la memoria y realizar el grafo | El proyecto va cogiendo forma, dándonos cuenta que realizar un proyecto desde cero es realmente complicado si no tienes experiencia, ya que incluso los cimientos sobre los que vamos a construir la app nos cuesta entenderlos y relacionarlos |
 | 06/22/2025 | S8 | Pasar las clases del PUML a código en el Visual Studio Code, pudiendo ver el cuerpo de las clases | 1h | No sabemos exactamente todavía que debemos hacer, si un código funcional, un boceto que no tenga más utilidad que servirnos de apoyo, etc. | Hemos optado por crear un código base, con todas las clases, sus propiedades, getters y setters, las cuales devuelvan simplemente un string para saber si la funcionalidad es correcta. No hemos ido más allá por ahora | La fase inicial para desarrollar una App me parece cada vez más confusa, no me queda del todo claro que hacer o por donde empezar |
+| 10/11/2025 | S9 | Realización del Sprint Review con Juanjo, explicándonos el feedback a evaluar. Reorganización de los Sprints y primeros pasos para migrar el código base a Java, teniendo en cuenta la necesidad de implementar DAO | 2h | En el Review seguimos siendo dos personas hoy también, y puede ser complicado avanzar en el proyecto si seguimos así. También tenemos dudas en como implementar las clases DAO, además todavía tenemos dudas de como diferencias a la hora de desarrollar el proyecto la parte visual de la funcional | Con ayuda de la IA hemos estado investigado como implementar todo lo anterior | La IA es una ayuda muy útil para saber que dirección tomar, pero no se puede tomar como referencia |
 
 **Resumen del mes:**
 
-- **Total de horas:** 13h
+- **Total de horas:** 15h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
