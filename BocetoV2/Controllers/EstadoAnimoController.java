@@ -1,23 +1,23 @@
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Map;
-import java.util.Optional;
+import java.util.TreeMap;
 
 public class EstadoAnimoController {
-    private final EstadoAnimoDAO estadoAnimoDAO;
 
-    public EstadoAnimoController(EstadoAnimoDAO estadoAnimoDAO) {
-        this.estadoAnimoDAO = estadoAnimoDAO;
+    public void registrarEstadoAnimo(EstadoAnimo estadoAnimo, LocalDate fecha, IconoEstadoAnimo icono) {
+        estadoAnimo.getRegistroAnimo().put(fecha, icono);
+        System.out.println("Estado de ánimo registrado para " + fecha + ": " + icono);
     }
 
-    public void registrarEstado(Date fecha, IconoEstadoAnimo icono) {
-        estadoAnimoDAO.registrar(fecha, icono);
+    public IconoEstadoAnimo obtenerEstadoAnimo(EstadoAnimo estadoAnimo, LocalDate fecha) {
+        return estadoAnimo.getRegistroAnimo().getOrDefault(fecha, IconoEstadoAnimo.NORMAL);
     }
 
-    public Optional<IconoEstadoAnimo> consultarEstadoPorFecha(Date fecha) {
-        return estadoAnimoDAO.obtenerPorFecha(fecha);
-    }
-
-    public Map<Date, IconoEstadoAnimo> obtenerHistorial() {
-        return estadoAnimoDAO.obtenerHistorial();
+    public void mostrarHistorial(EstadoAnimo estadoAnimo) {
+        System.out.println("=== HISTORIAL DE ESTADO DE ÁNIMO ===");
+        Map<LocalDate, IconoEstadoAnimo> ordenado = new TreeMap<>(estadoAnimo.getRegistroAnimo());
+        for (Map.Entry<LocalDate, IconoEstadoAnimo> entry : ordenado.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 }
