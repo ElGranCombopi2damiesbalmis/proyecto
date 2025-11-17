@@ -22,6 +22,7 @@
 | 06/11 | S9 | Empieza el sprint 2, hemos hecho las clases del diegrama en C# y gestionando nuestro GitHub Project. | 1h |
 | 10/11 | S10 | Sprint retrospective, modificación en el Marckdown del proyecto y comienzo de traspasar las clases de C# a Java y sus respectivos controles y daos. | 2h | Tube que cuadrar las fechas del proyecto al modificar los pasos a seguir y no hay fechas uniformes. |
 | 13/10 | S11 | Hemos estdo investigando como hacer la arquitectura del proyecto(imlementar dao y dao mock a las clases) | 1h |
+| 17/11 | S12 | Hemos terminado el UserStory "Migrar el código a Java" el proximo dia empezamos con los bocetos de las ventanas en Figma | 2h |
 |Pendiente|
 
 **Resumen del mes:**

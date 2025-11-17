@@ -1,43 +1,38 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class TareaDAO {
-    private static final List<Tarea> tareas = new ArrayList<>();
-    private static TareaDAO instance;
+public class TareaDao {
+    protected List<Tarea> listaTareas;
 
-    public static TareaDAO getInstance() {
-        if (instance == null) {
-            instance = new TareaDAO();
-            // Cargar tareas del usuario de prueba de UsuarioDAO (solo para simular)
-            Usuario usuarioJuan = UsuarioDAO.getInstance().obtenerTodos().stream()
-                                    .filter(u -> u.getNombre().equals("Juan Pérez"))
-                                    .findFirst().orElse(null);
-            if (usuarioJuan != null) {
-                tareas.addAll(usuarioJuan.getTareas());
+    public TareaDao() {
+        this.listaTareas = new ArrayList<>();
+    }
+
+    public void guardar(Tarea tarea) {
+        listaTareas.add(tarea);
+    }
+
+    public Tarea obtenerPorId(String id) {
+        return listaTareas.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<Tarea> obtenerTodas() {
+        return new ArrayList<>(listaTareas);
+    }
+
+    public void actualizar(Tarea tarea) {
+         for (int i = 0; i < listaTareas.size(); i++) {
+            if (listaTareas.get(i).getId().equals(tarea.getId())) {
+                listaTareas.set(i, tarea);
+                return;
             }
         }
-        return instance;
     }
 
-    // Métodos CRUD
-    public Optional<Tarea> obtenerPorId(String id) {
-        return tareas.stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst();
-    }
-    
-    public Tarea guardar(Tarea tarea) {
-        tareas.removeIf(t -> t.getId().equals(tarea.getId()));
-        tareas.add(tarea);
-        return tarea;
-    }
-    
-    public List<Tarea> obtenerTodas() {
-        return new ArrayList<>(tareas);
-    }
-    
     public void eliminar(String id) {
-        tareas.removeIf(t -> t.getId().equals(id));
+        listaTareas.removeIf(t -> t.getId().equals(id));
     }
 }
