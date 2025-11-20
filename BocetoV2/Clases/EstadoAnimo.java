@@ -1,35 +1,29 @@
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 
 public class EstadoAnimo {
-    // Almacena el estado de ánimo por fecha (sin hora)
-    private Map<Date, IconoEstadoAnimo> registroAnimo;
+    private Map<LocalDate, IconoEstadoAnimo> registroAnimo;
 
     public EstadoAnimo() {
         this.registroAnimo = new HashMap<>();
     }
 
-    /**
-     * Utilidad interna para limpiar la hora de un objeto Date.
-     * Esto no es una "lógica de negocio", sino una necesidad de la estructura del Map.
-     */
-    public static Date limpiarHora(Date fecha) {
-        long time = fecha.getTime();
-        long days = TimeUnit.MILLISECONDS.toHours(time) / 24;
-        return new Date(TimeUnit.DAYS.toMillis(days));
+    public Map<LocalDate, IconoEstadoAnimo> getRegistroAnimo() { return registroAnimo; }
+    public void setRegistroAnimo(Map<LocalDate, IconoEstadoAnimo> registroAnimo) { this.registroAnimo = registroAnimo; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EstadoAnimo that = (EstadoAnimo) o;
+        return Objects.equals(registroAnimo, that.registroAnimo);
     }
 
-    // Getters y Setters
-    public Map<Date, IconoEstadoAnimo> getRegistroAnimo() {
-        return registroAnimo;
-    }
+    @Override
+    public int hashCode() { return Objects.hash(registroAnimo); }
 
-    public void setRegistroAnimo(Map<Date, IconoEstadoAnimo> registroAnimo) {
-        this.registroAnimo = registroAnimo;
-    }
-
-    // Se eliminan los métodos registrarEstadoAnimo y obtenerEstadoAnimo
-    // ya que su lógica será manejada por el Controller a través del DAO.
+    @Override
+    public String toString() { return "EstadoAnimo{" + "registros=" + registroAnimo.size() + '}'; }
 }
