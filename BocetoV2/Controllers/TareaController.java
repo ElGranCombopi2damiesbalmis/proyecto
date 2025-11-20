@@ -1,50 +1,32 @@
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 public class TareaController {
-    private final TareaDAO tareaDAO;
+    private TareaDao tareaDao;
 
-    public TareaController(TareaDAO tareaDAO) {
-        this.tareaDAO = tareaDAO;
+    public TareaController(TareaDao tareaDao) {
+        this.tareaDao = tareaDao;
     }
 
-    public Tarea crearNuevaTarea(String titulo, String descripcion, Date fecha, EtiquetaTarea etiqueta) {
-        Tarea nuevaTarea = new Tarea(titulo, descripcion, fecha, etiqueta);
-        return tareaDAO.guardar(nuevaTarea);
-    }
-
-    public Optional<Tarea> obtenerTareaPorId(String id) {
-        return tareaDAO.obtenerPorId(id);
-    }
-
-    public List<Tarea> obtenerTodasLasTareas() {
-        return tareaDAO.obtenerTodas();
-    }
-
-    public boolean marcarTareaComoCompletada(String id) {
-        Optional<Tarea> tareaOpt = tareaDAO.obtenerPorId(id);
-        if (tareaOpt.isPresent()) {
-            Tarea tarea = tareaOpt.get();
-            tarea.marcarComoCompletada();
-            tareaDAO.guardar(tarea); // Persistir el cambio de estado
-            return true;
+    public void marcarComoCompletada(String idTarea) {
+        Tarea tarea = tareaDao.obtenerPorId(idTarea);
+        if (tarea != null) {
+            tarea.setCompletada(true);
+            tareaDao.actualizar(tarea);
+            System.out.println("Tarea '" + tarea.getTitulo() + "' marcada como completada");
         }
-        return false;
     }
 
-    public boolean editarTarea(String id, String titulo, String descripcion, Date fecha, EtiquetaTarea etiqueta) {
-        Optional<Tarea> tareaOpt = tareaDAO.obtenerPorId(id);
-        if (tareaOpt.isPresent()) {
-            Tarea tarea = tareaOpt.get();
-            tarea.editarTarea(titulo, descripcion, fecha, etiqueta);
-            tareaDAO.guardar(tarea); // Persistir los cambios
-            return true;
+    public void editarTarea(String id, String titulo, String descripcion, EtiquetaTarea etiqueta) {
+        Tarea tarea = tareaDao.obtenerPorId(id);
+        if (tarea != null) {
+            if (titulo != null) tarea.setTitulo(titulo);
+            if (descripcion != null) tarea.setDescripcion(descripcion);
+            if (etiqueta != null) tarea.setEtiqueta(etiqueta);
+            tareaDao.actualizar(tarea);
+            System.out.println("Tarea '" + tarea.getTitulo() + "' editada correctamente");
         }
-        return false;
     }
 
-    public void eliminarTarea(String id) {
-        tareaDAO.eliminar(id);
+    public void añadirTarea(Tarea tarea) {
+        tareaDao.guardar(tarea);
+        System.out.println("Tarea '" + tarea.getTitulo() + "' añadida al sistema");
     }
 }

@@ -20,6 +20,14 @@ Por último tenemos el **ODS** de *trabajo decente y crecimiento económico* ali
 
 Normalmente tenemos varias aplicaciones distintas para planificarnos, hacernos rutinas y analizar nuestros gastos, para eso con nuestro proyecto buscamos tenerlos en una única aplicación y así poder unificarlo todo en ella.
 
+## Descripción de la Solucion Propuesta
+
+Vamos a crear una aplicación que tenga un apartado centrado en la salud fisica y mental del usuario, uno dedicado a crear una planificacion mensual, semanal, etc. y por ultimo una sección aplicada a la economía del usuario.
+
+## Actores y Roles
+
+Nuestra intención es que el propio usuario registrado sea el administrador de la aplicación y asi se pueda organizar él mismo con la maxima privacidad posible.
+
 ## Riesgos y  mitigación
 
 | Riesgo | Mitigación |
@@ -75,10 +83,10 @@ Normalmente tenemos varias aplicaciones distintas para planificarnos, hacernos r
 
 | Sprint | Semanas | Fecha fin | Entregable clave |
 | --- | --- | --- | --- |
-| 1 | 13–26 oct 2025 | 26 oct | Arquitectura base y configuración inicial de Firebase |
-| 2 | 27 oct–9 nov 2025 | 9 nov | Módulo de tareas y gestión de estado de ánimo |
-| 3 | 10–23 nov 2025 | 23 nov| Módulo de finanzas y apartado de salud **(1º Evaluación)**|
-| 4 | 24 nov–7 dic 2025 | 7 dic | Integración de FCM y pruebas iniciales |
+| 1 | 27–3 oct 2025 | 3 nov | Arquitectura base y configuración inicial de las clases |
+| 2 | 4–17 nov 2025 | 17 nov | Creacion de controles, modelos Dao y pasar las clases a Java, y elaborar bocetos de la parte grafica de la aplicación en Figma |
+| 3 | 18–27 nov 2025 | 27 nov| Pulir el diseño final de la aplicación y mejorar funcionalidades de la misma **(1º Evaluación)**|
+| 4 | 28 nov–7 dic 2025 | 7 dic | Integración de FCM y pruebas iniciales |
 | 5 | 8–21 dic 2025 | 21 dic | Revisión de interfaz y documentación técnica |
 | 6 | 22 dic 2025–4 ene 2026 | 4 ene | Mantenimiento menor y actualización de dependencias |
 | 7 | 5–18 ene 2026 | 18 ene | Métricas de usuario y mejora de autenticación |
