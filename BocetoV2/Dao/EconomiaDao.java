@@ -12,7 +12,6 @@ public class EconomiaDao {
         listaEconomias.add(economia);
     }
 
-    // Asumimos gestión de una economía principal para el ejemplo
     public Economia obtenerPrincipal() {
         if (listaEconomias.isEmpty()) return null;
         return listaEconomias.get(0);
@@ -20,6 +19,5 @@ public class EconomiaDao {
 
     public void actualizarSaldo(Economia economia, double nuevoSaldo) {
         economia.setSaldo(nuevoSaldo);
-        // En base de datos real aquí se haría un update
     }
 }

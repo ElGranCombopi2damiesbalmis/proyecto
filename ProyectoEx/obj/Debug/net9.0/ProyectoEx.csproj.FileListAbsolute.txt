@@ -1,0 +1,15 @@
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ProyectoEx.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ProyectoEx.AssemblyInfoInputs.cache
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ProyectoEx.AssemblyInfo.cs
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ProyectoEx.csproj.CoreCompileInputs.cache
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ProyectoEx.sourcelink.json
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\bin\Debug\net9.0\ProyectoEx.exe
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\bin\Debug\net9.0\ProyectoEx.deps.json
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\bin\Debug\net9.0\ProyectoEx.runtimeconfig.json
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\bin\Debug\net9.0\ProyectoEx.dll
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\bin\Debug\net9.0\ProyectoEx.pdb
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ProyectoEx.dll
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\refint\ProyectoEx.dll
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ProyectoEx.pdb
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ProyectoEx.genruntimeconfig.cache
+C:\Users\alumnosemi\Desktop\Presencial\proyecto\ProyectoEx\obj\Debug\net9.0\ref\ProyectoEx.dll
