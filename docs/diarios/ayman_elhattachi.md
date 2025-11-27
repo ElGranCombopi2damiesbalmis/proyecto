@@ -38,6 +38,7 @@
 | 13/10 | S11 | Hemos estdo investigando como hacer la arquitectura del proyecto(imlementar dao y dao mock a las clases) | 1h |
 | 17/11 | S12 | Hemos terminado el UserStory "Migrar el código a Java" el proximo dia empezamos con los bocetos de las ventanas en Figma | 2h |
 | 20/11 | S13 | He tendio que alargar un par de dias más el Sprint 2, y he vuelto a reestructurar las fechas del proyecto y he contemplado las vacaciones del 23 febrero al 8 de enero. | 1h | Fechas no coinciden | Planificación de fechas actualizadas | 
+| 27/11 | S14 | Nos hemos reunido para planificar más a detalle las tareas del sprint 3. | 1h |
 |Pendiente|
 
 **Resumen del mes:**
