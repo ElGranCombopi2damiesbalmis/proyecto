@@ -1,23 +1,10 @@
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
-public class EconomiaDao {
-    protected List<Economia> listaEconomias;
-
-    public EconomiaDao() {
-        this.listaEconomias = new ArrayList<>();
-    }
-
-    public void guardar(Economia economia) {
-        listaEconomias.add(economia);
-    }
-
-    public Economia obtenerPrincipal() {
-        if (listaEconomias.isEmpty()) return null;
-        return listaEconomias.get(0);
-    }
-
-    public void actualizarSaldo(Economia economia, double nuevoSaldo) {
-        economia.setSaldo(nuevoSaldo);
-    }
+public interface EconomiaDao {
+    void guardarTransaccion(Transaccion transaccion);
+    List<Transaccion> obtenerTodasLasTransacciones();
+    List<Transaccion> obtenerTransaccionesPorTipo(TipoTransaccion tipo);
+    List<Transaccion> obtenerTransaccionesPorFecha(LocalDate fecha);
+    // Podrían agregarse métodos para editar o eliminar
 }
