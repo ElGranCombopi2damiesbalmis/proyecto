@@ -85,8 +85,8 @@ Nuestra intención es que el propio usuario registrado sea el administrador de l
 | --- | --- | --- | --- |
 | 1 | 27 oct–3 nov 2025 | 3 nov | Arquitectura base y configuración inicial de las clases |
 | 2 | 4–20 nov 2025 | 20 nov | Creacion de controles, modelos Dao y pasar las clases a Java, y elaborar bocetos de la parte grafica de la aplicación en Figma |
-| 3 | 21 nov–2 dic 2025 | 2 dic| Pulir el diseño final de la aplicación y mejorar funcionalidades de la misma **(1º Evaluación)**|
-| 4 | 3–11 dic 2025 | 11 dic | Integración de FCM y pruebas iniciales |
+| 3 | 27 nov–4 dic 2025 | 4 dic| Pulir el diseño final de la aplicación y mejorar funcionalidades de la misma **(1º Evaluación)**|
+| 4 | 5–11 dic 2025 | 11 dic | Integración de FCM y pruebas iniciales |
 | 5 | 12–21 dic 2025 | 21 dic | Revisión de interfaz y documentación técnica |
 | 6 | 8-20 ene 2026 | 20 ene | Mantenimiento menor y actualización de dependencias |
 | 7 | 21 ene-2 feb 2026 | 2 feb | Métricas de usuario y mejora de autenticación |
