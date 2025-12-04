@@ -31,6 +31,14 @@
 | 20/11/2025 | S12 | Crear el ejecutable y las clases corresponidientes en C# | 1h | El realizar los commits y mergear con mi rama los cambios ha generado muchos problemas, puesto que teníamos un conflicto con uno de los archivos "EconomiaDAO" que estaba duplicado | Hemos tenido que llamar a Juanjo para que nos solucione el problema | Nos ha dicho que este tipo de problemas suelen ocurrir, que el github a veces se vuelve loco. Es por eso que nos ha recomendado borrar el clone de la carpeta y volverlo a clonar como solución, además de decirnos que este tipo de conflictos nos ayudará en el futuro puesto que en la empresa suelen ocurrir |
 | 27/11/2025 | S13 | Reestructurar y organizar el sprint 3, creando un user story y sus respectivas tareas | 1h | Al no haber diseñado nunca una app desde cero hay user stories que, sobre la marcha, se nos van ocurriendo o nos vamos dando cuenta de que dirección tomar a la hora de diseñar los mismos | Entre todos hemos puesto en común nuestras ideas y diseñado el que creemos que debe ser el siguiente paso | Poco a poco va cogiendo forma el proyecto, aunque todavía estamos en una etapa muy temprana como para ver resultados, si que vemos que el SCRUM tiene bastante sentido |
 
+## Diciembre 2025
+
+| Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
+| --- | --- | --- | --- | --- | --- | --- |
+| 01/12/2025 | S14 | Sprint review grupal e individual | 1h | Tuvimos una charla de IPE que nos obligó a interrumpir la sesión, por lo que no pudimos hacer el sprint review | Aprovechamos la hora de PMDM del miércoles para la realización del mismo | Seguimos por buen camino, pero todavía nos falta soltura con el GitHub Projects |
+| 04/12/2025 | S15 | Migración de código a Kotlin | 1h | Íbamos a ponernos a realizar el diseño en Figma pero finalmente hemos empezado a migrar todo nuestro código a Kotlin | Al preguntarle a Juanjo sobre nuestro código Java nos ha dicho que era mejor que utilizásemos el lenguaje Kotlin | Hemos utilizado la IA para que nos ayude a migrar todo el código |
+
+
 **Resumen del mes:**
 
 - **Total de horas:** 19h
