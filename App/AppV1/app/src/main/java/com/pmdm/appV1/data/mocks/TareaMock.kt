@@ -1,9 +1,10 @@
-package com.pmdm.appV1.models
+package com.pmdm.appV1.data.mocks
 
+import com.pmdm.appV1.models.EtiquetaTarea
 import java.time.LocalDateTime
 import java.util.UUID
 
-data class Tarea(
+data class TareaMock(
     val id: String = UUID.randomUUID().toString(),
     var titulo: String = "",
     var descripcion: String = "",

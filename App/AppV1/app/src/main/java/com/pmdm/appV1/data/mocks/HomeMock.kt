@@ -1,6 +1,6 @@
-package com.pmdm.appV1.models
+package com.pmdm.appV1.data.mocks
 
-data class Home(
+data class HomeMock(
     var fraseBienvenida: String = "Hola",
     var notificacionesPendientes: Int = 0
 )
