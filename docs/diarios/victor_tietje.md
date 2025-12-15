@@ -37,11 +37,12 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | 01/12/2025 | S14 | Sprint review grupal e individual | 1h | Tuvimos una charla de IPE que nos obligó a interrumpir la sesión, por lo que no pudimos hacer el sprint review | Aprovechamos la hora de PMDM del miércoles para la realización del mismo | Seguimos por buen camino, pero todavía nos falta soltura con el GitHub Projects |
 | 04/12/2025 | S15 | Migración de código a Kotlin | 1h | Íbamos a ponernos a realizar el diseño en Figma pero finalmente hemos empezado a migrar todo nuestro código a Kotlin | Al preguntarle a Juanjo sobre nuestro código Java nos ha dicho que era mejor que utilizásemos el lenguaje Kotlin | Hemos utilizado la IA para que nos ayude a migrar todo el código |
+| 15/12/2025 | S16 | 2h | Continuación de la migración a Kotlin  y comienzo de diseño UI | No es un problema como tal pero lleva tiempo realizar toda esta migración de código | Seguimos trabajando en pasar todo el código java que teníamos a kotlin y probarlo en Android Studio, tanto con la IA como nosotros mismos, pero de manera paralela hemos empezado a diseñar junto a la IA como queremos que se vea la aplicación | La IA no es mágica y no puede migrar todo el código tal y como queremos en diez minutos |
 
 
 **Resumen del mes:**
 
-- **Total de horas:** 19h
+- **Total de horas:** 21h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
