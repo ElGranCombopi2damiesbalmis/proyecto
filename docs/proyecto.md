@@ -86,10 +86,10 @@ Nuestra intención es que el propio usuario registrado sea el administrador de l
 | 1 | 27–3 oct 2025 | 3 nov | Arquitectura base y configuración inicial de las clases |
 | 2 | 4–17 nov 2025 | 17 nov | Creacion de controles, modelos Dao y pasar las clases a Java, y elaborar bocetos de la parte grafica de la aplicación en Figma |
 | 3 | 18–27 nov 2025 | 27 nov| Pulir el diseño final de la aplicación y mejorar funcionalidades de la misma **(1º Evaluación)**|
-| 4 | 28 nov–7 dic 2025 | 7 dic | Integración de FCM y pruebas iniciales |
-| 5 | 8–21 dic 2025 | 21 dic | Revisión de interfaz y documentación técnica |
-| 6 | 22 dic 2025–4 ene 2026 | 4 ene | Mantenimiento menor y actualización de dependencias |
-| 7 | 5–18 ene 2026 | 18 ene | Métricas de usuario y mejora de autenticación |
+| 4 | 28 nov–7 dic 2025 | 7 dic | Corrección de errores y reorganizar la planificación futura en base a lo ya realizado |
+| 5 | 8–21 dic 2025 | 21 dic | Migración del código a Kotlin, prueba de funcionalidad y diseño de interfaz gráfica con ayuda de Stich y Lovable |
+| 6 | 22 dic 2025–4 ene 2026 | 4 ene | Mantenimiento y solución de errores |
+| 7 | 5–18 ene 2026 | 18 ene | Prueba de funcionalidad de la app y vincular el diseño de la interfaz con el backend |
 | 8 | 19 ene–1 feb 2026 | 1 feb | Pruebas de usabilidad y optimización de pantallas |
 | 9 | 2–15 feb 2026 | 15 feb | Panel de estadísticas y monitoreo de rendimiento |
 | 10 | 16 feb–1 mar 2026 | 1 mar | Pruebas de estabilidad e integración general **(2ª Evaluación)**|
