@@ -57,6 +57,7 @@
 | 01/12 | S15 | Sprint review | 1h | 
 | 04/12 | S16 | Reestrcuturación del proyecto pasandolo todo a kotlin. | 1h |
 | 15/12 | S17 | Finalización del traspaso de java a kotlin. | 2h | Se nos ha complicado mucho traspasarlo ya que la IA hacia lo que veia mas comveniente y no como lo queriamos nosotros. |
+| 18/12 | S18 | Daily Scrum, hemos pensado las tareas del siguiente sprint, y hemos retocado el documento del proyecto. | 1h |
 |Pendiente|
 
 **Resumen del mes:**
