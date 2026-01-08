@@ -40,10 +40,15 @@
 | 15/12/2025 | S16 | Continuación de la migración a Kotlin  y comienzo de diseño UI | 2h | No es un problema como tal pero lleva tiempo realizar toda esta migración de código | Seguimos trabajando en pasar todo el código java que teníamos a kotlin y probarlo en Android Studio, tanto con la IA como nosotros mismos, pero de manera paralela hemos empezado a diseñar junto a la IA como queremos que se vea la aplicación | La IA no es mágica y no puede migrar todo el código tal y como queremos en diez minutos |
 | 18/12/2025 | S17 | Revisión del sprint anterior, actualización del SCRUM y planificación para las vacaciones | 1h | Ningún problema | Trabajo realizado con normalidad | Creemos que vamos por buen camino, pero tenemos dudas de como planificar el trabajo que tenemos que realizar para cuando volvamos de vacaciones |
 
+## Enero 2026
+
+| Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
+| --- | --- | --- | --- | --- | --- | --- |
+| 08/01/2026 | S15 | Recopilación del trabajo hecho hasta ahora y planificación del próximo Sprint | 1h | Ningún problema | Hemos trabajado con normalidad | Entramos en la última etapa del curso antes de las prácticas justo ahora que tenemos que realizar la parte quizás más importante del proyecto, por lo que se nos a a juntar una gran cantidad de trabajo y debemos de organizarnos bien |
 
 **Resumen del mes:**
 
-- **Total de horas:** 22h
+- **Total de horas:** 23h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
