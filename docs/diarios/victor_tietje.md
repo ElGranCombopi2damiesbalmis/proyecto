@@ -29,10 +29,11 @@
 | 13/11/2025 | S10 | Prueba de implementación de las clases DaoMock | 1h | Seguimos sin entender bien el funcionamiento de las clases Dao y DaoMock | Hemos tenido que acudir a Juanjo y a la IA para que nos aclare las dudas | Aun con esas seguimos con dudas. La verdad es que es difícil de entender cuando todavía no tenemos toda la información, dado que las BD y las APIs las trabajaremos a final de curso, pero poco a poco lo haremos |
 | 17/11/2025 | S11 | Finalizar las clases java con su respectivos DAO y MOCK | 1h | Ha sido algo difícil el identificar con que datos y que métodos teníamos que realizar | Con ayuda de la IA hemos podido organizar los archivos | Hemos trabajado menos de lo habitual puesto que teníamos examen ese mismo dia y hemos utilizado horas para estudiar |
 | 20/11/2025 | S12 | Crear el ejecutable y las clases corresponidientes en C# | 1h | El realizar los commits y mergear con mi rama los cambios ha generado muchos problemas, puesto que teníamos un conflicto con uno de los archivos "EconomiaDAO" que estaba duplicado | Hemos tenido que llamar a Juanjo para que nos solucione el problema | Nos ha dicho que este tipo de problemas suelen ocurrir, que el github a veces se vuelve loco. Es por eso que nos ha recomendado borrar el clone de la carpeta y volverlo a clonar como solución, además de decirnos que este tipo de conflictos nos ayudará en el futuro puesto que en la empresa suelen ocurrir |
+| 27/11/2025 | S13 | Reestructurar y organizar el sprint 3, creando un user story y sus respectivas tareas | 1h | Al no haber diseñado nunca una app desde cero hay user stories que, sobre la marcha, se nos van ocurriendo o nos vamos dando cuenta de que dirección tomar a la hora de diseñar los mismos | Entre todos hemos puesto en común nuestras ideas y diseñado el que creemos que debe ser el siguiente paso | Poco a poco va cogiendo forma el proyecto, aunque todavía estamos en una etapa muy temprana como para ver resultados, si que vemos que el SCRUM tiene bastante sentido |
 
 **Resumen del mes:**
 
-- **Total de horas:** 18h
+- **Total de horas:** 19h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
