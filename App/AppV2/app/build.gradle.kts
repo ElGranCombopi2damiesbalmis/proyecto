@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.pmdm.ies.balmis.components)
     implementation(libs.pmdm.ies.balmis.utilities)
 
+    implementation("androidx.compose.material:material-icons-extended:1.7.5")
+
 //    implementation(libs.dagger.hilt.android)
 //    implementation(libs.androidx.hilt.navigation.compose)
 //    ksp(libs.dagger.hilt.android.compiler)
