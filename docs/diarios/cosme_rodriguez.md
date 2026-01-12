@@ -34,4 +34,9 @@
 
 | --- | --- | --- | --- | --- | --- | --- |
 | 1/12 | S14 | Hicimos el sprint review | 2h | Nos llamaron para que asistieramos a una charla de IPE | Hicimos el sprint review el dia siguiente | Hemos aprendido que tenemos que mejorar, seguir haciendo y dejar de hacer |
-| 4/12 | S15 | Hemos empezado a pasar lo que teniamos hecho en java a kotlin | 1h | Tenemos muchos archivos que migrar | Hacerlos con calma | Hemos aprendido a pasar los archivos hechos en java a kotlin |
+| 4/12/25 | S15 | Hemos empezado a pasar lo que teniamos hecho en java a kotlin | 1h | Tenemos muchos archivos que migrar | Hacerlos con calma | Hemos aprendido a pasar los archivos hechos en java a kotlin |
+
+## Enero 2026
+
+| --- | --- | --- | --- | --- | --- | --- |
+| 8/01 | S15 | NOs hemos organizado el Sprint 4 y hemos empezado a desarrollar las ventanas en Kotlin | 1h | N/A | N/A | N/A |
