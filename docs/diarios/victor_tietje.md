@@ -44,11 +44,12 @@
 
 | Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
 | --- | --- | --- | --- | --- | --- | --- |
-| 08/01/2026 | S15 | Recopilación del trabajo hecho hasta ahora y planificación del próximo Sprint | 1h | Ningún problema | Hemos trabajado con normalidad | Entramos en la última etapa del curso antes de las prácticas justo ahora que tenemos que realizar la parte quizás más importante del proyecto, por lo que se nos a a juntar una gran cantidad de trabajo y debemos de organizarnos bien |
+| 08/01/2026 | S18 | Recopilación del trabajo hecho hasta ahora y planificación del próximo Sprint | 1h | Ningún problema | Hemos trabajado con normalidad | Entramos en la última etapa del curso antes de las prácticas justo ahora que tenemos que realizar la parte quizás más importante del proyecto, por lo que se nos a a juntar una gran cantidad de trabajo y debemos de organizarnos bien |
+| 12/01/2026 | S19 | Ajustes del Android Studio en el usuario alumnosemi | 2h | Ha habido algunos problemas en cuanto a las credenciales, el uso del Gradle y el uso de Github para poder trabajar con el proyecto | Al final borrando las credenciales y haciendo determinados commits de prueba hemos dado con el problema, volviendo a introducir las mismas y actualizando todo | Un pequeño error como este se te puede hacer bola y acabar perdiendo las dos horas de clase, algo que no me puedo permitir debido a la cantidad de trabajo que hay, por lo que tendré que trabajar desde casa para compensar |
 
 **Resumen del mes:**
 
-- **Total de horas:** 23h
+- **Total de horas:** 25h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
