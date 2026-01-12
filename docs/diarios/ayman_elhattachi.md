@@ -8,6 +8,7 @@
 * [📅 Octubre 2025](#octubre-2025)
 * [📅 Noviembre 2025](#noviembre-2025)
 * [📅 Diciembre 2025](#diciembre-2025)
+* [📅 Enero 2026](#enero-2026)
 
 ## Octubre 2025
 
@@ -43,7 +44,7 @@
 |Pendiente|
 
 **Resumen del mes:**
-* **Total de horas:** xh
+* **Total de horas:** 10h
 * **Principales logros:** 
 *  **Área de mejora:** 
 *  **Próximos objetivos:** 
@@ -56,12 +57,23 @@
 |---|---|---|---|---|---|---|
 | 01/12 | S15 | Sprint review | 1h | 
 | 04/12 | S16 | Reestrcuturación del proyecto pasandolo todo a kotlin. | 1h |
+| 15/12 | S17 | Finalización del traspaso de java a kotlin. | 2h | Se nos ha complicado mucho traspasarlo ya que la IA hacia lo que veia mas comveniente y no como lo queriamos nosotros. |
+| 18/12 | S18 | Daily Scrum, hemos pensado las tareas del siguiente sprint, y hemos retocado el documento del proyecto. | 1h |
 |Pendiente|
 
 **Resumen del mes:**
-* **Total de horas:** xh
+* **Total de horas:** 5h
 * **Principales logros:** 
 *  **Área de mejora:** 
 *  **Próximos objetivos:** 
+
+[🔝 Volver al índice](#índice-de-meses)
+
+## Enero 2026
+
+| Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
+|---|---|---|---|---|---|---|
+| 08/01 | S19 | Hemos planificado el sprint 4, añadimos el UserStory con sus tareas y nos las hemos repartido. | 1h | 
+|Pendiente|
 
 [🔝 Volver al índice](#índice-de-meses)
