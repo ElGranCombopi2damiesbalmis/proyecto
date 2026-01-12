@@ -5,10 +5,12 @@
 
 ## Índice de Meses
 
-* [📅 Octubre 2025](#octubre-2025)
-* [📅 Noviembre 2025](#noviembre-2025)
-* [📅 Diciembre 2025](#diciembre-2025)
-* [📅 Enero 2026](#enero-2026)
+- [Diario de Trabajo Individual](#diario-de-trabajo-individual)
+  - [Índice de Meses](#índice-de-meses)
+  - [Octubre 2025](#octubre-2025)
+  - [Noviembre 2025](#noviembre-2025)
+  - [Diciembre 2025](#diciembre-2025)
+  - [Enero 2026](#enero-2026)
 
 ## Octubre 2025
 
@@ -74,6 +76,7 @@
 | Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
 |---|---|---|---|---|---|---|
 | 08/01 | S19 | Hemos planificado el sprint 4, añadimos el UserStory con sus tareas y nos las hemos repartido. | 1h | 
+| 12/01 | S20 | He creado las 4 ventanas de la parte de Ajustes de la App. | 2h | Hemos tenido bastantes complicaciones todos los integrantes del proyecto con git. | Nos hemos ayudado entre nosotros para solucionar los problemas con git. |
 |Pendiente|
 
 [🔝 Volver al índice](#índice-de-meses)
