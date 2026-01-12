@@ -7,6 +7,8 @@
 
 * [📅 Octubre 2025](#octubre-2025)
 * [📅 Noviembre 2025](#noviembre-2025)
+* [📅 Diciembre 2025](#diciembre-2025)
+* [📅 Enero 2026](#enero-2026)
 
 ## Octubre 2025
 
@@ -38,12 +40,40 @@
 | 13/10 | S11 | Hemos estdo investigando como hacer la arquitectura del proyecto(imlementar dao y dao mock a las clases) | 1h |
 | 17/11 | S12 | Hemos terminado el UserStory "Migrar el código a Java" el proximo dia empezamos con los bocetos de las ventanas en Figma | 2h |
 | 20/11 | S13 | He tendio que alargar un par de dias más el Sprint 2, y he vuelto a reestructurar las fechas del proyecto y he contemplado las vacaciones del 23 febrero al 8 de enero. | 1h | Fechas no coinciden | Planificación de fechas actualizadas | 
+| 27/11 | S14 | Nos hemos reunido para planificar más a detalle las tareas del sprint 3. | 1h |
 |Pendiente|
 
 **Resumen del mes:**
-* **Total de horas:** xh
+* **Total de horas:** 10h
 * **Principales logros:** 
 *  **Área de mejora:** 
 *  **Próximos objetivos:** 
+
+[🔝 Volver al índice](#índice-de-meses)
+
+## Diciembre 2025
+
+| Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
+|---|---|---|---|---|---|---|
+| 01/12 | S15 | Sprint review | 1h | 
+| 04/12 | S16 | Reestrcuturación del proyecto pasandolo todo a kotlin. | 1h |
+| 15/12 | S17 | Finalización del traspaso de java a kotlin. | 2h | Se nos ha complicado mucho traspasarlo ya que la IA hacia lo que veia mas comveniente y no como lo queriamos nosotros. |
+| 18/12 | S18 | Daily Scrum, hemos pensado las tareas del siguiente sprint, y hemos retocado el documento del proyecto. | 1h |
+|Pendiente|
+
+**Resumen del mes:**
+* **Total de horas:** 5h
+* **Principales logros:** 
+*  **Área de mejora:** 
+*  **Próximos objetivos:** 
+
+[🔝 Volver al índice](#índice-de-meses)
+
+## Enero 2026
+
+| Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
+|---|---|---|---|---|---|---|
+| 08/01 | S19 | Hemos planificado el sprint 4, añadimos el UserStory con sus tareas y nos las hemos repartido. | 1h | 
+|Pendiente|
 
 [🔝 Volver al índice](#índice-de-meses)
