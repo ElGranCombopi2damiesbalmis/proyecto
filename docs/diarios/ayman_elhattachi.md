@@ -77,6 +77,7 @@
 |---|---|---|---|---|---|---|
 | 08/01 | S19 | Hemos planificado el sprint 4, añadimos el UserStory con sus tareas y nos las hemos repartido. | 1h | 
 | 12/01 | S20 | He creado las 4 ventanas de la parte de Ajustes de la App. | 2h | Hemos tenido bastantes complicaciones todos los integrantes del proyecto con git. | Nos hemos ayudado entre nosotros para solucionar los problemas con git. |
+| 15/01 | S21 | He estado ayudando a victor a realizar su parte de las vistas ya que le daba errores con el codigo. | 1h | Errores con el codigo. | Nos hemos ayudado a solucionar los errores. |
 |Pendiente|
 
 [🔝 Volver al índice](#índice-de-meses)
