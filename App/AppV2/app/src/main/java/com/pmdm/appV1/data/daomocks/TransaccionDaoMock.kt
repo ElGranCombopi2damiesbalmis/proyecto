@@ -1,29 +1,44 @@
-package com.pmdm.appV1.data.daomocks
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.LocalTaxi
+import androidx.compose.material.icons.filled.AttachMoney
+import com.pmdm.appV1.data.mocks.TipoTransaccion
+import com.pmdm.appV1.data.mocks.Transaccion
 
-import com.pmdm.appV1.data.mocks.TransaccionMock
-import com.pmdm.appV1.models.TipoTransaccion
-import java.time.LocalDateTime
-
-class TransaccionDaoMock {
-    // Simulamos la tabla de Transacciones
-    val transacciones = mutableListOf(
-        TransaccionMock(
-            descripcion = "Salario",
-            cantidad = 2000.0,
-            fecha = LocalDateTime.now().minusDays(5),
-            tipo = TipoTransaccion.INGRESO
+fun TransaccionDaoMock(): List<Transaccion> {
+    return listOf(
+        Transaccion(
+            nombre = "McDonalds",
+            fecha = "Hoy, 14:00",
+            categoria = "Comida",
+            cantidad = 15.00,
+            tipo = TipoTransaccion.GASTO,
+            icon = Icons.Default.Restaurant
         ),
-        TransaccionMock(
-            descripcion = "Supermercado",
-            cantidad = 150.0,
-            fecha = LocalDateTime.now().minusDays(2),
-            tipo = TipoTransaccion.GASTO
+        Transaccion(
+            nombre = "Gold's Gym",
+            fecha = "Ayer",
+            categoria = "Salud",
+            cantidad = 45.00,
+            tipo = TipoTransaccion.GASTO,
+            icon = Icons.Default.FitnessCenter
         ),
-        TransaccionMock(
-            descripcion = "Netflix",
-            cantidad = 15.0,
-            fecha = LocalDateTime.now().minusDays(1),
-            tipo = TipoTransaccion.GASTO
+        Transaccion(
+            nombre = "Uber Trip",
+            fecha = "2 Oct",
+            categoria = "Transporte",
+            cantidad = 12.50,
+            tipo = TipoTransaccion.GASTO,
+            icon = Icons.Default.LocalTaxi
+        ),
+        Transaccion(
+            nombre = "Reembolso",
+            fecha = "1 Oct",
+            categoria = "Varios",
+            cantidad = 32.00,
+            tipo = TipoTransaccion.INGRESO,
+            icon = Icons.Default.AttachMoney
         )
     )
 }

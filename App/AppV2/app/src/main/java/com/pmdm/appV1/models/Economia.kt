@@ -1,6 +1,6 @@
-package com.pmdm.appV1.models
+import com.pmdm.appV1.data.daomocks.EconomiaDaoMock
 
-class Economia(private val economiaDao: EconomiaDao) {
+class Economia(private val economiaDao: EconomiaDaoMock) {
     var saldo: Double = 0.0
         private set
 
