@@ -1,7 +1,7 @@
-package com.pmdm.appV1.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV1.data.mocks.LoginMock
-import com.pmdm.appV1.models.Login
+import com.pmdm.planify.data.mocks.LoginMock
+import com.pmdm.planify.models.Login
 
 fun LoginMock.toLoginUser() = Login(
     email = this.email,

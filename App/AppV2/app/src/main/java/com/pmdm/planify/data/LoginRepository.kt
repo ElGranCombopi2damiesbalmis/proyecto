@@ -1,8 +1,8 @@
-package com.pmdm.appV1.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV1.data.daomocks.LoginDaoMock
-import com.pmdm.appV1.data.mocks.LoginMock
-import com.pmdm.appV1.models.Login
+import com.pmdm.planify.data.daomocks.LoginDaoMock
+import com.pmdm.planify.data.mocks.LoginMock
+import com.pmdm.planify.models.Login
 import java.util.UUID
 
 class LoginRepository {

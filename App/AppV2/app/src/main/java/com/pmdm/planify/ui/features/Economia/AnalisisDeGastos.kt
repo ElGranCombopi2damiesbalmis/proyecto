@@ -14,13 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pmdm.appV1.models.TipoTransaccion
-import com.pmdm.appV1.models.Transaccion
+import com.pmdm.planify.models.TipoTransaccion
+import com.pmdm.planify.models.Transaccion
 
 // Colores personalizados basados en tu HTML
 val PrimaryYellow = Color(0xFFFACC15)
@@ -240,7 +239,7 @@ fun GastosScreenPreview() {
     // Aplicamos un tema básico para la previsualización
     MaterialTheme {
         // Un contenedor con fondo blanco para que coincida con tu captura
-        Box(modifier = androidx.compose.ui.Modifier.background(Color.White)) {
+        Box(modifier = Modifier.background(Color.White)) {
             GastosScreen()
         }
     }
