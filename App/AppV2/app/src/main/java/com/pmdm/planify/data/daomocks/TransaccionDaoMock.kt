@@ -1,7 +1,7 @@
-package com.pmdm.appV1.data.daomocks
+package com.pmdm.planify.data.daomocks
 
-import com.pmdm.appV1.data.mocks.TransaccionMock
-import com.pmdm.appV1.models.TipoTransaccion
+import com.pmdm.planify.data.mocks.TransaccionMock
+import com.pmdm.planify.models.TipoTransaccion
 import java.time.LocalDateTime
 import java.time.Month
 

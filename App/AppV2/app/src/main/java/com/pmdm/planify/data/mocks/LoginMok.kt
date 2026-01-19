@@ -1,4 +1,4 @@
-package com.pmdm.appV1.data.mocks
+package com.pmdm.planify.data.mocks
 
 data class LoginMock(
     val email: String,

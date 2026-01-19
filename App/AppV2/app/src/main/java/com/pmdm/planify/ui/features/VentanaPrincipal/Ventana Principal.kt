@@ -1,5 +1,6 @@
-package com.pmdm.appV1.ui.features.VentanaPrincipal
+package com.pmdm.planify.ui.features.VentanaPrincipal
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -363,7 +364,7 @@ fun WorkoutSection() {
                 Surface(
                     color = Color.Black.copy(alpha = 0.4f),
                     shape = RoundedCornerShape(50),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
+                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),

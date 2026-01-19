@@ -1,15 +1,13 @@
 package com.pmdm.planify.data.daomocks
 
-<<<<<<< HEAD:App/AppV2/app/src/main/java/com/pmdm/appV1/data/daomocks/EconomiaDaoMock.kt
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import com.pmdm.appV1.data.mocks.EconomiaMock
-import com.pmdm.appV1.models.TipoTransaccion
-import com.pmdm.appV1.models.Transaccion
-import java.time.LocalDateTime
-=======
 import com.pmdm.planify.data.mocks.EconomiaMock
->>>>>>> ayman:App/AppV2/app/src/main/java/com/pmdm/planify/data/daomocks/EconomiaDaoMock.kt
+import com.pmdm.planify.models.TipoTransaccion
+import com.pmdm.planify.models.Transaccion
+import java.time.LocalDateTime
+
 
 class EconomiaDaoMock {
     // Inicializamos con datos de prueba para verlos en la UI

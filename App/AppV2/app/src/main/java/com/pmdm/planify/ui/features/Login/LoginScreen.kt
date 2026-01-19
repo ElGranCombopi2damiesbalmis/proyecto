@@ -1,6 +1,6 @@
-package com.pmdm.appV1.ui
+package com.pmdm.planify.ui
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pmdm.appV1.data.LoginRepository
-import com.pmdm.appV1.R
+import com.pmdm.planify.data.LoginRepository
+import com.pmdm.planify.R
 
 // Colores basados en tu diseño
 val PrimaryYellow = Color(0xFFFACC15)
@@ -174,7 +174,7 @@ fun SocialButton(
         onClick = { /* Acción */ },
         modifier = modifier.height(52.dp),
         shape = RoundedCornerShape(12.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE2E8F0)),
+        border = BorderStroke(1.dp, Color(0xFFE2E8F0)),
         colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.White)
     ) {
         Row(
