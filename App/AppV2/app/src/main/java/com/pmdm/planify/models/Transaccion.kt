@@ -1,12 +1,17 @@
 package com.pmdm.planify.models
 
+import androidx.compose.ui.graphics.vector.ImageVector
 import java.time.LocalDateTime
 import java.util.UUID
 
+enum class TipoTransaccion { INGRESO, GASTO }
+
 data class Transaccion(
-    val id: String = UUID.randomUUID().toString(),
-    var descripcion: String = "",
-    var cantidad: Double = 0.0,
-    var fecha: LocalDateTime = LocalDateTime.now(),
-    var tipo: TipoTransaccion = TipoTransaccion.GASTO
+    val id: String = java.util.UUID.randomUUID().toString(),
+    val nombre: String,
+    val fecha: String, // O LocalDate
+    val categoria: String,
+    val cantidad: Double,
+    val tipo: TipoTransaccion,
+    val icon: ImageVector
 )
