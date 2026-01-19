@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.daomocks.HomeDaoMock
-import com.pmdm.appV2.models.Home
+import com.pmdm.planify.data.daomocks.HomeDaoMock
+import com.pmdm.planify.models.Home
 
 class HomeRepository {
     private val dao = HomeDaoMock()

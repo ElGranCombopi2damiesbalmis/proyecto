@@ -1,4 +1,4 @@
-package com.pmdm.appV2.ui.features.Ajustes
+package com.pmdm.planify.ui.features.Ajustes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

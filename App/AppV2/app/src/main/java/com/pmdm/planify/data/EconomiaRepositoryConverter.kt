@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.mocks.EconomiaMock
-import com.pmdm.appV2.models.Economia
+import com.pmdm.planify.data.mocks.EconomiaMock
+import com.pmdm.planify.models.Economia
 
 fun Economia.toEconomiaMock() = EconomiaMock(
     saldo = saldo,

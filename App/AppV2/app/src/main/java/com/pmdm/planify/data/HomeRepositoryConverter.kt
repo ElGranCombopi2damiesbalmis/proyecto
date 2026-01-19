@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.mocks.HomeMock
-import com.pmdm.appV2.models.Home
+import com.pmdm.planify.data.mocks.HomeMock
+import com.pmdm.planify.models.Home
 
 // --- De Modelo a Mock ---
 fun Home.toHomeMock() = HomeMock(

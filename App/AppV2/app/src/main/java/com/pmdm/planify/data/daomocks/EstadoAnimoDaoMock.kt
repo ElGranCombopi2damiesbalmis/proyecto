@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data.daomocks
+package com.pmdm.planify.data.daomocks
 
-import com.pmdm.appV2.data.mocks.EstadoAnimoMock
-import com.pmdm.appV2.models.IconoEstadoAnimo
+import com.pmdm.planify.data.mocks.EstadoAnimoMock
+import com.pmdm.planify.models.IconoEstadoAnimo
 import java.time.LocalDate
 
 class EstadoAnimoDaoMock {

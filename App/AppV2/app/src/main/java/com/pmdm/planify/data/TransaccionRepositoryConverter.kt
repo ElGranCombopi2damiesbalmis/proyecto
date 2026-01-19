@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.mocks.TransaccionMock
-import com.pmdm.appV2.models.Transaccion
+import com.pmdm.planify.data.mocks.TransaccionMock
+import com.pmdm.planify.models.Transaccion
 
 fun Transaccion.toTransaccionMock() = TransaccionMock(
     id = id,

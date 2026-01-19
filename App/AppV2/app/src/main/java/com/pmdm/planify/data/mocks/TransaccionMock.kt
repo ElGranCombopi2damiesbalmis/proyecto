@@ -1,6 +1,6 @@
-package com.pmdm.appV2.data.mocks
+package com.pmdm.planify.data.mocks
 
-import com.pmdm.appV2.models.TipoTransaccion
+import com.pmdm.planify.models.TipoTransaccion
 import java.time.LocalDateTime
 import java.util.UUID
 

@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.mocks.EstadoAnimoMock
-import com.pmdm.appV2.models.EstadoAnimo
+import com.pmdm.planify.data.mocks.EstadoAnimoMock
+import com.pmdm.planify.models.EstadoAnimo
 
 fun EstadoAnimo.toEstadoAnimoMock() = EstadoAnimoMock(
     registroAnimo = registroAnimo // Map<LocalDate, IconoEstadoAnimo> se puede pasar directo si es mutable

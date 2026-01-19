@@ -1,4 +1,4 @@
-package com.pmdm.appV2.models
+package com.pmdm.planify.models
 enum class EtiquetaTarea {
     TRABAJO,
     PERSONAL,

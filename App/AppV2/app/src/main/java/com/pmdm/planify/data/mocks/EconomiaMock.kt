@@ -1,6 +1,6 @@
-package com.pmdm.appV2.data.mocks
+package com.pmdm.planify.data.mocks
 
-import com.pmdm.appV2.models.Transaccion
+import com.pmdm.planify.models.Transaccion
 
 data class EconomiaMock(
     var saldo: Double = 0.0,

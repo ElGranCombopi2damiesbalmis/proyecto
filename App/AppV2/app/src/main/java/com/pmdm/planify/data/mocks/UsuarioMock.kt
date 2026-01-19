@@ -1,6 +1,6 @@
-package com.pmdm.appV2.data.mocks
+package com.pmdm.planify.data.mocks
 
-import com.pmdm.appV2.models.*
+import com.pmdm.planify.models.*
 import java.util.UUID
 
 data class UsuarioMock(

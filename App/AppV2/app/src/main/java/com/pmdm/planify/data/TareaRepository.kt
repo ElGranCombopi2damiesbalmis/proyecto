@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.daomocks.TareaDaoMock
-import com.pmdm.appV2.models.Tarea
+import com.pmdm.planify.data.daomocks.TareaDaoMock
+import com.pmdm.planify.models.Tarea
 
 class TareaRepository {
     private val dao = TareaDaoMock()

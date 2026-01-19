@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.mocks.TareaMock
-import com.pmdm.appV2.models.Tarea
+import com.pmdm.planify.data.mocks.TareaMock
+import com.pmdm.planify.models.Tarea
 
 // --- De Modelo a Mock ---
 fun Tarea.toTareaMock() = TareaMock(

@@ -1,4 +1,4 @@
-package com.pmdm.appV2.models
+package com.pmdm.planify.models
 
 data class Home(
     var fraseBienvenida: String = "Hola",

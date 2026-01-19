@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.daomocks.UsuarioDaoMock
-import com.pmdm.appV2.models.Usuario
+import com.pmdm.planify.data.daomocks.UsuarioDaoMock
+import com.pmdm.planify.models.Usuario
 
 class UsuarioRepository {
     // Instancia del DAO simulado (simula la conexión a DB)

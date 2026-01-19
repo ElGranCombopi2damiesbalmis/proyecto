@@ -1,4 +1,4 @@
-package com.pmdm.appV2
+package com.pmdm.planify
 
 import org.junit.Test
 

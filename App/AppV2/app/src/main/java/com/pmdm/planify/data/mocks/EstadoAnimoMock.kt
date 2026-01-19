@@ -1,6 +1,6 @@
-package com.pmdm.appV2.data.mocks
+package com.pmdm.planify.data.mocks
 
-import com.pmdm.appV2.models.IconoEstadoAnimo
+import com.pmdm.planify.models.IconoEstadoAnimo
 import java.time.LocalDate
 
 data class EstadoAnimoMock(

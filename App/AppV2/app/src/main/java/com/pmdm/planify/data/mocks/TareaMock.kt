@@ -1,6 +1,6 @@
-package com.pmdm.appV2.data.mocks
+package com.pmdm.planify.data.mocks
 
-import com.pmdm.appV2.models.EtiquetaTarea
+import com.pmdm.planify.models.EtiquetaTarea
 import java.time.LocalDateTime
 import java.util.UUID
 

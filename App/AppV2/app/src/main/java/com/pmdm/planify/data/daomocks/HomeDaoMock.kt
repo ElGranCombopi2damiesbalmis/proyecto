@@ -1,6 +1,6 @@
-package com.pmdm.appV2.data.daomocks
+package com.pmdm.planify.data.daomocks
 
-import com.pmdm.appV2.data.mocks.HomeMock
+import com.pmdm.planify.data.mocks.HomeMock
 
 class HomeDaoMock {
     // Simulamos la tabla de configuración Home

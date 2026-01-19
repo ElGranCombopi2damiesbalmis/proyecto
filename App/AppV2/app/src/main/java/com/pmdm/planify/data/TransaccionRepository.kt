@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.daomocks.TransaccionDaoMock
-import com.pmdm.appV2.models.Transaccion
+import com.pmdm.planify.data.daomocks.TransaccionDaoMock
+import com.pmdm.planify.models.Transaccion
 
 class TransaccionRepository {
     private val dao = TransaccionDaoMock()

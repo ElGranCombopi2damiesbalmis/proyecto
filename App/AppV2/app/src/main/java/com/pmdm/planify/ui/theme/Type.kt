@@ -1,4 +1,4 @@
-package com.pmdm.appV2.ui.theme
+package com.pmdm.planify.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,6 +1,6 @@
-package com.pmdm.appV2.data.daomocks
+package com.pmdm.planify.data.daomocks
 
-import com.pmdm.appV2.data.mocks.UsuarioMock
+import com.pmdm.planify.data.mocks.UsuarioMock
 
 class UsuarioDaoMock {
     // Simulamos la tabla de usuarios con un solo registro

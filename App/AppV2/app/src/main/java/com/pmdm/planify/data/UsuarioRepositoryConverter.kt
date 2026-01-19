@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.mocks.UsuarioMock
-import com.pmdm.appV2.models.Usuario
+import com.pmdm.planify.data.mocks.UsuarioMock
+import com.pmdm.planify.models.Usuario
 
 // --- De Modelo a Mock ---
 fun Usuario.toUsuarioMock() = UsuarioMock(

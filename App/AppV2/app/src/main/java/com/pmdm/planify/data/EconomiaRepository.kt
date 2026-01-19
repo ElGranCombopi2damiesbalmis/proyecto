@@ -1,7 +1,7 @@
-package com.pmdm.appV2.data
+package com.pmdm.planify.data
 
-import com.pmdm.appV2.data.daomocks.EconomiaDaoMock
-import com.pmdm.appV2.models.Economia
+import com.pmdm.planify.data.daomocks.EconomiaDaoMock
+import com.pmdm.planify.models.Economia
 
 class EconomiaRepository {
     private val dao = EconomiaDaoMock()

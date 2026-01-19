@@ -1,4 +1,4 @@
-package com.pmdm.appV2
+package com.pmdm.planify
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

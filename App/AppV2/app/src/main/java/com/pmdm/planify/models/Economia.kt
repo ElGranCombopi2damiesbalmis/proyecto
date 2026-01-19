@@ -1,4 +1,4 @@
-package com.pmdm.appV2.models
+package com.pmdm.planify.models
 
 data class Economia(
     var saldo: Double = 0.0,
