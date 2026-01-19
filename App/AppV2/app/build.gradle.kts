@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.pmdm.appV1"
+    namespace = "com.pmdm.planify"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.pmdm.appV1"
+        applicationId = "com.pmdm.appV2"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
