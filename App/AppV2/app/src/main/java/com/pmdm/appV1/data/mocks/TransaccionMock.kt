@@ -1,16 +1,13 @@
 package com.pmdm.appV1.data.mocks
 
-import androidx.compose.ui.graphics.vector.ImageVector
+import com.pmdm.appV1.models.TipoTransaccion
+import java.time.LocalDateTime
 import java.util.UUID
 
-enum class TipoTransaccion { INGRESO, GASTO }
-
-data class Transaccion(
+data class TransaccionMock(
     val id: String = UUID.randomUUID().toString(),
-    val nombre: String,
-    val fecha: String, // O LocalDate
-    val categoria: String,
-    val cantidad: Double,
-    val tipo: com.pmdm.appV1.data.mocks.TipoTransaccion,
-    val icon: ImageVector
+    var descripcion: String = "",
+    var cantidad: Double = 0.0,
+    var fecha: LocalDateTime?, // Cambiado a String para coincidir con el Modelo
+    var tipo: TipoTransaccion = TipoTransaccion.GASTO
 )

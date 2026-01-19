@@ -1,44 +1,36 @@
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Restaurant
-import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material.icons.filled.LocalTaxi
-import androidx.compose.material.icons.filled.AttachMoney
-import com.pmdm.appV1.data.mocks.TipoTransaccion
-import com.pmdm.appV1.data.mocks.Transaccion
+package com.pmdm.appV1.data.daomocks
 
-fun TransaccionDaoMock(): List<Transaccion> {
-    return listOf(
-        Transaccion(
-            nombre = "McDonalds",
-            fecha = "Hoy, 14:00",
-            categoria = "Comida",
-            cantidad = 15.00,
-            tipo = TipoTransaccion.GASTO,
-            icon = Icons.Default.Restaurant
+import com.pmdm.appV1.data.mocks.TransaccionMock
+import com.pmdm.appV1.models.TipoTransaccion
+import java.time.LocalDateTime
+import java.time.Month
+
+class TransaccionDaoMock {
+    // Lista mutable para que los métodos del repositorio (insert/delete) funcionen
+    val transacciones = mutableListOf(
+        TransaccionMock(
+            descripcion = "McDonalds",
+            fecha = LocalDateTime.now().withHour(14).withMinute(0).withSecond(0),
+            cantidad = 15.0,
+            tipo = TipoTransaccion.GASTO
         ),
-        Transaccion(
-            nombre = "Gold's Gym",
-            fecha = "Ayer",
-            categoria = "Salud",
-            cantidad = 45.00,
-            tipo = TipoTransaccion.GASTO,
-            icon = Icons.Default.FitnessCenter
+        TransaccionMock(
+            descripcion = "Gold's Gym",
+            fecha = LocalDateTime.now().minusDays(1),
+            cantidad = 45.0,
+            tipo = TipoTransaccion.GASTO
         ),
-        Transaccion(
-            nombre = "Uber Trip",
-            fecha = "2 Oct",
-            categoria = "Transporte",
-            cantidad = 12.50,
-            tipo = TipoTransaccion.GASTO,
-            icon = Icons.Default.LocalTaxi
+        TransaccionMock(
+            descripcion = "Uber Trip",
+            fecha = LocalDateTime.now().withMonth(Month.OCTOBER.value).withDayOfMonth(5),
+            cantidad = 12.5,
+            tipo = TipoTransaccion.GASTO
         ),
-        Transaccion(
-            nombre = "Reembolso",
-            fecha = "1 Oct",
-            categoria = "Varios",
-            cantidad = 32.00,
-            tipo = TipoTransaccion.INGRESO,
-            icon = Icons.Default.AttachMoney
+        TransaccionMock(
+            descripcion = "Reembolso",
+            fecha = LocalDateTime.now().withMonth(Month.OCTOBER.value).withDayOfMonth(1),
+            cantidad = 32.0,
+            tipo = TipoTransaccion.INGRESO
         )
     )
 }
