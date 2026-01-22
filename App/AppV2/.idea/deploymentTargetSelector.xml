@@ -5,6 +5,15 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+<<<<<<< HEAD
+      <SelectionState runConfigName="TaskManagerPreview">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="DashboardPreview">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+=======
+>>>>>>> a02175be32f10d9858dbd8cae2d019c2653ff286
     </selectionStates>
   </component>
 </project>
