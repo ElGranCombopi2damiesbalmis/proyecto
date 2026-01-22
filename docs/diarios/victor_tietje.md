@@ -7,6 +7,8 @@
 
 - 📅 Octubre 2025
 - 📅 Noviembre 2025
+- 📅 Diciembre 2025
+- 📅 Enero 2026
 
 ## Octubre 2025
 
@@ -48,10 +50,11 @@
 | 12/01/2026 | S19 | Ajustes del Android Studio en el usuario alumnosemi | 2h | Ha habido algunos problemas en cuanto a las credenciales, el uso del Gradle y el uso de Github para poder trabajar con el proyecto | Al final borrando las credenciales y haciendo determinados commits de prueba hemos dado con el problema, volviendo a introducir las mismas y actualizando todo | Un pequeño error como este se te puede hacer bola y acabar perdiendo las dos horas de clase, algo que no me puedo permitir debido a la cantidad de trabajo que hay, por lo que tendré que trabajar desde casa para compensar |
 | 15/01/2026 | S20 | Empezar a picar el código de las ventanas modelo Economía en Kotlin - Android Studio | 1h | Trabajando con la IS es más rápido pero perdemos tiempo en enlazar el código que nos ayuda a picar con el que ya tenemos | Con paciencia tratamos de unificar la sintaxis y trabajar sobre las clases que ya tenemos | La IA ayuda mucho pero no es mágica, no hace todo clicando un botón, hay que saber utilizarla |
 | 19/01/2026 | S21 | Hemos finalizado el diseño en Kotlin de las ventanas y las he linkeado con sus Mocks | 2h | Me salían varios errores a la hora de utilizar los datos de los Mocks para hacer el diseño de la ventana | He cambiado varias funciones para hacer que coincidan en sintaxis y en funcionalidad| Aun queda trabajo por hacer, pero tiene muy buena pinta |
+| 22/01/2026 | S22 | Sprint review, reorganización de las carpetas y archivos y planificación del Sprint 5 | 1h | Con ayuda del report que nos ha generado Juanjo hemos hecho la retrospectiva grupal, reorganizado las diferentes carpetas y puesto en común cual será el siguiente paso | Simplemente trabajar juntos y dialogar para ver que es lo que más nos conviene | Nos queda la parte más importante para probar la funcionalidad en si de la App, pero estamos muy cerca |
 
 **Resumen del mes:**
 
-- **Total de horas:** 28h
+- **Total de horas:** 29h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
