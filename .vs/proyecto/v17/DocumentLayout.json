@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\alumnosemi\\Desktop\\Presencial\\proyecto\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{89EB2B4F-0F86-674E-C379-4EAD54A6EF20}|ProyectoEx\\ProyectoEx.csproj|c:\\users\\alumnosemi\\desktop\\presencial\\proyecto\\proyectoex\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89EB2B4F-0F86-674E-C379-4EAD54A6EF20}|ProyectoEx\\ProyectoEx.csproj|solutionrelative:proyectoex\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\alumnosemi\\Desktop\\Presencial\\proyecto\\ProyectoEx\\Program.cs",
+              "RelativeDocumentMoniker": "ProyectoEx\\Program.cs",
+              "ToolTip": "C:\\Users\\alumnosemi\\Desktop\\Presencial\\proyecto\\ProyectoEx\\Program.cs",
+              "RelativeToolTip": "ProyectoEx\\Program.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-22T07:17:46.179Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
