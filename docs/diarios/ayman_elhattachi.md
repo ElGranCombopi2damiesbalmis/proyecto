@@ -79,6 +79,7 @@
 | 12/01 | S20 | He creado las 4 ventanas de la parte de Ajustes de la App. | 2h | Hemos tenido bastantes complicaciones todos los integrantes del proyecto con git. | Nos hemos ayudado entre nosotros para solucionar los problemas con git. |
 | 15/01 | S21 | He estado ayudando a victor a realizar su parte de las vistas ya que le daba errores con el codigo. | 1h | Errores con el codigo. | Nos hemos ayudado a solucionar los errores. |
 | 19/01 | S22 | He terminado mi parte de vistas de la app | 2h | Hemos tenido conflictos ya que hemos renombrado carpetas y archivos. |
+| 22/01 | S23 | Hemos hecho el Sprint Review del Sprint 4, también hemos planificado y creado las tareas del Sprint 5, hemos creado el V3 de la App (Todo esto en el ordenador de Victor). | 1h |
 |Pendiente|
 
 [🔝 Volver al índice](#índice-de-meses)
