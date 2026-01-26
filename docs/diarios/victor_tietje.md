@@ -51,10 +51,11 @@
 | 15/01/2026 | S20 | Empezar a picar el código de las ventanas modelo Economía en Kotlin - Android Studio | 1h | Trabajando con la IS es más rápido pero perdemos tiempo en enlazar el código que nos ayuda a picar con el que ya tenemos | Con paciencia tratamos de unificar la sintaxis y trabajar sobre las clases que ya tenemos | La IA ayuda mucho pero no es mágica, no hace todo clicando un botón, hay que saber utilizarla |
 | 19/01/2026 | S21 | Hemos finalizado el diseño en Kotlin de las ventanas y las he linkeado con sus Mocks | 2h | Me salían varios errores a la hora de utilizar los datos de los Mocks para hacer el diseño de la ventana | He cambiado varias funciones para hacer que coincidan en sintaxis y en funcionalidad| Aun queda trabajo por hacer, pero tiene muy buena pinta |
 | 22/01/2026 | S22 | Sprint review, reorganización de las carpetas y archivos y planificación del Sprint 5 | 1h | Con ayuda del report que nos ha generado Juanjo hemos hecho la retrospectiva grupal, reorganizado las diferentes carpetas y puesto en común cual será el siguiente paso | Simplemente trabajar juntos y dialogar para ver que es lo que más nos conviene | Nos queda la parte más importante para probar la funcionalidad en si de la App, pero estamos muy cerca |
+| 26/01/2026 | S23 | Vincular los datos del login-user y corregir errores del manifest y gradle para poder arrancar la app | 2h | Conversión de las contraseñas a HashCode y dificultades para encontrar el error concreto que impedía abrir la app | Con ayuda de la IA he averiguado como realizar esa conversión de la contraseña y guardar únicamente el HashCode en los DaoMock, y con paciencia y probando (y ayuda de Sergio) he conseguido encontrar el error en el arranque de la App; un conflicto con el nombre del tema aplicado | Hoy hemos sido dos personas trabajando y al final se nota en el ritmo de trabajo |
 
 **Resumen del mes:**
 
-- **Total de horas:** 29h
+- **Total de horas:** 31h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**

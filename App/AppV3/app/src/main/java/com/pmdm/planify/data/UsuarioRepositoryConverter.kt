@@ -5,14 +5,17 @@ import com.pmdm.planify.models.Usuario
 
 // --- De Modelo a Mock ---
 fun Usuario.toUsuarioMock() = UsuarioMock(
+<<<<<<< HEAD
     //id = id,
+=======
+    // El modelo Usuario no tiene ID en su constructor principal según tu archivo,
+    // pero si UsuarioMock lo requiere, lo manejamos así:
+>>>>>>> main
     nombre = nombre,
-    correo = correo,
+    correo = email, // MAPEAMOS: email (Modelo) -> correo (Mock)
     telefono = telefono,
     calle = calle,
     fotoPerfil = fotoPerfil,
-    // Como en tu estructura actual UsuarioMock usa los mismos modelos internos (Tarea, Economia...),
-    // pasamos las referencias directamente.
     tareas = tareas,
     economia = economia,
     estadoAnimo = estadoAnimo,
@@ -21,9 +24,12 @@ fun Usuario.toUsuarioMock() = UsuarioMock(
 
 // --- De Mock a Modelo ---
 fun UsuarioMock.toUsuario() = Usuario(
+<<<<<<< HEAD
     //id = id,
+=======
+>>>>>>> main
     nombre = nombre,
-    correo = correo,
+    email = correo, // MAPEAMOS: correo (Mock) -> email (Modelo)
     telefono = telefono,
     calle = calle,
     fotoPerfil = fotoPerfil,
@@ -31,4 +37,7 @@ fun UsuarioMock.toUsuario() = Usuario(
     economia = economia,
     estadoAnimo = estadoAnimo,
     home = home
-)
+).apply {
+    // Si necesitas mantener el mismo ID exacto entre ambos:
+    // this.id = id
+}

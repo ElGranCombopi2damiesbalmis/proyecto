@@ -12,7 +12,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.pmdm.appV2"
+        applicationId = "com.pmdm.appV3"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
