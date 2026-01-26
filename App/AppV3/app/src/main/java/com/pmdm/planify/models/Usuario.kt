@@ -3,9 +3,9 @@ package com.pmdm.planify.models
 import java.util.UUID
 
 data class Usuario(
-    val id: String = UUID.randomUUID().toString(),
     var nombre: String = "",
     var correo: String = "",
+    var password: String = "",
     var telefono: String = "",
     var calle: String = "",
     var fotoPerfil: String? = null,
