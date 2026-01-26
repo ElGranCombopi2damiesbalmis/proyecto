@@ -5,7 +5,7 @@ import com.pmdm.planify.models.Usuario
 
 // --- De Modelo a Mock ---
 fun Usuario.toUsuarioMock() = UsuarioMock(
-    id = id,
+    //id = id,
     nombre = nombre,
     correo = correo,
     telefono = telefono,
@@ -21,7 +21,7 @@ fun Usuario.toUsuarioMock() = UsuarioMock(
 
 // --- De Mock a Modelo ---
 fun UsuarioMock.toUsuario() = Usuario(
-    id = id,
+    //id = id,
     nombre = nombre,
     correo = correo,
     telefono = telefono,
