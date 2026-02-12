@@ -53,9 +53,15 @@
 | 22/01/2026 | S22 | Sprint review, reorganización de las carpetas y archivos y planificación del Sprint 5 | 1h | Con ayuda del report que nos ha generado Juanjo hemos hecho la retrospectiva grupal, reorganizado las diferentes carpetas y puesto en común cual será el siguiente paso | Simplemente trabajar juntos y dialogar para ver que es lo que más nos conviene | Nos queda la parte más importante para probar la funcionalidad en si de la App, pero estamos muy cerca |
 | 26/01/2026 | S23 | Vincular los datos del login-user y corregir errores del manifest y gradle para poder arrancar la app | 2h | Conversión de las contraseñas a HashCode y dificultades para encontrar el error concreto que impedía abrir la app | Con ayuda de la IA he averiguado como realizar esa conversión de la contraseña y guardar únicamente el HashCode en los DaoMock, y con paciencia y probando (y ayuda de Sergio) he conseguido encontrar el error en el arranque de la App; un conflicto con el nombre del tema aplicado | Hoy hemos sido dos personas trabajando y al final se nota en el ritmo de trabajo |
 
+## Febrero 2026
+| Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
+| --- | --- | --- | --- | --- | --- | --- |
+| 12/02/2026 | S19 | Realización del Sprint Review del Sprint 5 posterior a examenes | 1h | Ningún problema | Sabiendo que estamos en época de examenes y no estámos centrados en el proyecto el Sprint Review ha tenido un objetivo claro, que es retomar el trabajo sobre el proyecto donde lo dejamos | Estas dos semanas han sido dificiles en cuanto a organizarse debido a la gran cantidad de trabajo que tenemos, pero a partir de la próxima semana retomaremos el ritmo de trabajo |
+
+
 **Resumen del mes:**
 
-- **Total de horas:** 31h
+- **Total de horas:** 32h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
