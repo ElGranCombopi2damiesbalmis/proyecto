@@ -9,6 +9,7 @@
 - 📅 Noviembre 2025
 - 📅 Diciembre 2025
 - 📅 Enero 2026
+- 📅 Febrero 2026
 
 ## Octubre 2025
 
