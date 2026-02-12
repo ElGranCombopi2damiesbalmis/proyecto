@@ -11,6 +11,7 @@
   - [Noviembre 2025](#noviembre-2025)
   - [Diciembre 2025](#diciembre-2025)
   - [Enero 2026](#enero-2026)
+  - [Febrero 2026](#febrero-2026)
 
 ## Octubre 2025
 
@@ -45,11 +46,11 @@
 | 27/11 | S14 | Nos hemos reunido para planificar más a detalle las tareas del sprint 3. | 1h |
 |Pendiente|
 
-**Resumen del mes:**
+**Resumen del mes:** Definicion de Clases y propiedades.
 * **Total de horas:** 10h
-* **Principales logros:** 
-*  **Área de mejora:** 
-*  **Próximos objetivos:** 
+* **Principales logros:** Definicion detallada de documentacion del proyecto y de Clases en Java.
+*  **Área de mejora:** Mas comunicación.
+*  **Próximos objetivos:** Migrar el codigo a Kotlin.
 
 [🔝 Volver al índice](#índice-de-meses)
 
@@ -63,11 +64,11 @@
 | 18/12 | S18 | Daily Scrum, hemos pensado las tareas del siguiente sprint, y hemos retocado el documento del proyecto. | 1h |
 |Pendiente|
 
-**Resumen del mes:**
+**Resumen del mes:** Migracion de codigo a Kotlin.
 * **Total de horas:** 5h
-* **Principales logros:** 
-*  **Área de mejora:** 
-*  **Próximos objetivos:** 
+* **Principales logros:** Coordinacion y inicio del desarrollo de la App en kotlin.
+*  **Área de mejora:** Tener encuenta el trabajo de los compañeros para que haya sintonia en el desarrollo.
+*  **Próximos objetivos:** Realizar la parte grafica de la App.
 
 [🔝 Volver al índice](#índice-de-meses)
 
@@ -83,5 +84,26 @@
 | 26/01 | S24 | He añadido el modelo, mock, daoMock, repository, repositoryConverter de RutinasDeGymnasio y tambien e modificado este misma para linkarla con sus archivos. | 2h | Hemos tenido problemas con el proyecto de como hacer que todo se fusione. |
 | 12/02 | S25 | Hemos creado el Sprint 6 que le hemos pasado todo lo que tenermos pendiente del Sprint 5 debido al alto volumen de examenes hemos atrastrado tareas, tambien hemos hecho el reeview del Sprint 5. | 1h | Volumen de trabajo pendiente. | Dar prioridad al proyecto respecto a otras asignaturas, cuando terminemos esta etapa de examenes. | 
 |Pendiente|
+
+**Resumen del mes:** Realizacion de la parte grafica de la App.
+* **Total de horas:** 10h
+* **Principales logros:** Diseño de ventanas, y coordinacion.
+*  **Área de mejora:** Mejorar documentación diariamente.
+*  **Próximos objetivos:** Mejorar navegacion entre ventanas.
+
+[🔝 Volver al índice](#índice-de-meses)
+
+## Febrero 2026
+
+| Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
+|---|---|---|---|---|---|---|
+| 12/02 | S25 | Hemos creado el Sprint 6 que le hemos pasado todo lo que tenermos pendiente del Sprint 5 debido al alto volumen de examenes hemos atrastrado tareas, tambien hemos hecho el reeview del Sprint 5. | 1h | Volumen de trabajo pendiente. | Dar prioridad al proyecto respecto a otras asignaturas, cuando terminemos esta etapa de examenes. | 
+|Pendiente|
+
+**Resumen del mes:**
+* **Total de horas:** 1h
+* **Principales logros:** 
+*  **Área de mejora:** 
+*  **Próximos objetivos:** 
 
 [🔝 Volver al índice](#índice-de-meses)
