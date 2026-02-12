@@ -23,7 +23,7 @@ fun Usuario.toUsuarioMock() = UsuarioMock(
 )
 
 // --- De Mock a Modelo ---
-fun UsuarioMock.toUsuario() = Usuario(
+fun UsuarioMock.toUsuario(): Usuario = Usuario(
 <<<<<<< HEAD
     //id = id,
 =======

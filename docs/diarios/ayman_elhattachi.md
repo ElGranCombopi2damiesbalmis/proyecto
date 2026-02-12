@@ -81,6 +81,7 @@
 | 19/01 | S22 | He terminado mi parte de vistas de la app | 2h | Hemos tenido conflictos ya que hemos renombrado carpetas y archivos. |
 | 22/01 | S23 | Hemos hecho el Sprint Review del Sprint 4, también hemos planificado y creado las tareas del Sprint 5, hemos creado el V3 de la App (Todo esto en el ordenador de Victor). | 1h |
 | 26/01 | S24 | He añadido el modelo, mock, daoMock, repository, repositoryConverter de RutinasDeGymnasio y tambien e modificado este misma para linkarla con sus archivos. | 2h | Hemos tenido problemas con el proyecto de como hacer que todo se fusione. |
+| 12/02 | S25 | Hemos creado el Sprint 6 que le hemos pasado todo lo que tenermos pendiente del Sprint 5 debido al alto volumen de examenes hemos atrastrado tareas, tambien hemos hecho el reeview del Sprint 5. | 1h | Volumen de trabajo pendiente. | Dar prioridad al proyecto respecto a otras asignaturas, cuando terminemos esta etapa de examenes. | 
 |Pendiente|
 
 [🔝 Volver al índice](#índice-de-meses)

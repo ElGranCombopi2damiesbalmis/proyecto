@@ -24,8 +24,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PlanifyTheme {
-
-                RutinasGimnasioScreen()
+                LoginScreen(onLoginSuccess = { })
+                //RutinasGimnasioScreen()
             }
         }
     }
