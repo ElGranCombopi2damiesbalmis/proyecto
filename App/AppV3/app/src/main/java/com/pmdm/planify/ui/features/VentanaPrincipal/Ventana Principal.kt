@@ -1,10 +1,7 @@
 package com.pmdm.planify.ui.features.VentanaPrincipal
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,102 +21,92 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pmdm.planify.ui.features.PlanifyViewModel
+import com.pmdm.planify.ui.navegation.EconomiaRoute
+import com.pmdm.planify.ui.navegation.EstadoAnimoRoute
+import com.pmdm.planify.ui.navegation.GymRoute
+import com.pmdm.planify.ui.navegation.HomeRoute
+import com.pmdm.planify.ui.navegation.SettingsRoute
+import com.pmdm.planify.ui.navegation.TareaRoute
 
-// --- 1. Definición de Colores (Extraídos del HTML) ---
+// --- Colores extraídos de tu diseño ---
 val PrimaryLime = Color(0xFFE2E722)
 val OnPrimary = Color(0xFF1C1C0D)
-val PrimaryContainer = Color(0xFFF2F590) // Amarillo suave para el fondo de ánimo
-val SurfaceBackground = Color(0xFFFFFBFE)
-val SurfaceContainer = Color(0xFFF3F4F6) // Gris muy claro para las cards
-val TextPrimary = Color(0xFF1C1B1F)
-val TextSecondary = Color(0xFF757575)
+val PrimaryContainer = Color(0xFFF2F5A0)
+val SurfaceBackground = Color(0xFFFFFFFF)
+val SurfaceContainer = Color(0xFFF3F4F6)
+val TextPrimary = Color(0xFF111827)
+val TextSecondary = Color(0xFF6B7280)
+val MoodAngry = Color(0xFFEF4444)
+val MoodSad = Color(0xFF3B82F6)
+val MoodFine = Color(0xFF10B981)
 
-// Colores específicos para emociones
-val MoodAngry = Color(0xFFEF4444) // Red-500
-val MoodSad = Color(0xFFFB923C)   // Orange-400
-val MoodFine = Color(0xFFEAB308)  // Yellow-500
-val MoodGreat = Color(0xFFE2E722) // Primary
-
-// --- 2. Componente Principal ---
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(vm: PlanifyViewModel) {
+    val usuario = vm.usuarioState
+    val tareas = vm.listaTareas.take(2) // Tomamos solo las 2 primeras para el resumen
+    val saldo = vm.economiaState?.saldo ?: 0.0
+
     Scaffold(
-        containerColor = SurfaceBackground,
-        bottomBar = { DashboardBottomBar() }
-    ) { paddingValues ->
-        LazyColumn(
+        containerColor = Color(0xFFFAFAFA),
+        bottomBar = { PlanifyBottomBar(HomeRoute, vm.navigateTo) }
+    ) { padding ->
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp)
         ) {
-            // Header
-            item { HeaderSection() }
+            // 1. Header Real
+            HeaderSection(nombre = usuario?.nombre ?: "Usuario", onProfileClick = { vm.navigateTo(
+                SettingsRoute
+            ) })
 
-            // Sección: ¿Cómo te sientes?
-            item { MoodSection() }
+            // 2. Estado de Ánimo
+            MoodSection()
 
-            // Sección: Mis Tareas
-            item { TasksSection() }
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Sección: Rutina de Hoy (Imagen grande)
-            item { WorkoutSection() }
+            // 3. Tareas (Resumen)
+            TasksSection(tareas = tareas, onVerTodo = { vm.navigateTo(TareaRoute) })
 
-            // Sección: Finanzas
-            item { FinanceSection() }
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Espacio final para scroll
-            item { Spacer(modifier = Modifier.height(20.dp)) }
+            // 4. Workout (Gym)
+            WorkoutSection(onClick = { vm.navigateTo(GymRoute) })
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // 5. Finanzas Real
+            FinanceSection(saldoTotal = saldo, onClick = { vm.navigateTo(EconomiaRoute) })
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
 
-// --- 3. Secciones ---
-
 @Composable
-fun HeaderSection() {
+fun HeaderSection(nombre: String, onProfileClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 24.dp, bottom = 8.dp),
-        horizontalArrangement = Arrangement.End,
+            .padding(top = 24.dp, bottom = 24.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(horizontalAlignment = Alignment.End) {
-            Text(
-                text = "Hola, de nuevo",
-                style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
-            )
-            Text(
-                text = "Andrea",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = TextPrimary
-            )
+        Column {
+            Text("Hola, de nuevo", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+            Text(nombre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = TextPrimary)
         }
-        Spacer(modifier = Modifier.width(12.dp))
-        Box {
-            // Avatar Placeholder
-            Surface(
-                modifier = Modifier.size(48.dp),
-                shape = CircleShape,
-                color = Color.Gray
-            ) {
-                // Aquí iría tu Image(painter = ...)
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(Icons.Default.Person, contentDescription = null, tint = Color.White)
-                }
+        Surface(
+            modifier = Modifier.size(48.dp).clickable { onProfileClick() },
+            shape = CircleShape,
+            color = Color.LightGray
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(Icons.Default.Person, contentDescription = null, tint = Color.White)
             }
-            // Punto de estado verde
-            Box(
-                modifier = Modifier
-                    .size(14.dp)
-                    .background(Color(0xFF22C55E), CircleShape) // Green-500
-                    .border(2.dp, SurfaceBackground, CircleShape)
-                    .align(Alignment.BottomEnd)
-            )
         }
     }
 }
@@ -129,21 +116,11 @@ fun MoodSection() {
     Card(
         colors = CardDefaults.cardColors(containerColor = PrimaryContainer.copy(alpha = 0.4f)),
         shape = RoundedCornerShape(28.dp),
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(0.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
-            Text(
-                text = "¿Cómo te sientes hoy?",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = TextPrimary,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+            Text("¿Cómo te sientes hoy?", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(bottom = 16.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 MoodItem(Icons.Outlined.SentimentVeryDissatisfied, "Enfadado", MoodAngry, false)
                 MoodItem(Icons.Outlined.SentimentDissatisfied, "Triste", MoodSad, false)
                 MoodItem(Icons.Outlined.SentimentSatisfied, "Bien", MoodFine, false)
@@ -162,88 +139,37 @@ fun MoodItem(icon: ImageVector, label: String, color: Color, isSelected: Boolean
             color = if (isSelected) PrimaryLime else SurfaceBackground,
             shadowElevation = 2.dp
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = label,
-                    tint = color,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
+            Icon(icon, label, tint = color, modifier = Modifier.padding(12.dp))
         }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            fontSize = 11.sp,
-            color = TextSecondary,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
-        )
+        Text(label, fontSize = 11.sp, color = TextSecondary, modifier = Modifier.padding(top = 4.dp))
     }
 }
 
 @Composable
-fun TasksSection() {
+fun TasksSection(tareas: List<com.pmdm.planify.models.Tarea>, onVerTodo: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceContainer),
         shape = RoundedCornerShape(28.dp),
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(0.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
-            // Header Card
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Mis Tareas",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Medium
-                )
-                Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = PrimaryLime,
-                        contentColor = OnPrimary
-                    ),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
-                    modifier = Modifier.height(32.dp)
-                ) {
-                    Text("Ver Todo", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
+                Text("Mis Tareas", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Medium)
+                TextButton(onClick = onVerTodo) { Text("Ver Todo", color = OnPrimary, fontWeight = FontWeight.Bold) }
+            }
+
+            // Calendario Strip Simple
+            Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), Arrangement.SpaceBetween) {
+                listOf("L", "M", "X", "J", "V", "S", "D").forEachIndexed { i, d ->
+                    CalendarDayItem(d, (12 + i).toString(), i == 2)
                 }
             }
 
-            // Calendar Strip
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                CalendarDayItem("Dom", "12", false)
-                CalendarDayItem("Lun", "13", false)
-                CalendarDayItem("Mar", "14", true) // Selected
-                CalendarDayItem("Mié", "15", false)
-                CalendarDayItem("Jue", "16", false)
-                CalendarDayItem("Vie", "17", false)
-                CalendarDayItem("Sab", "18", false)
+            // Lista de tareas real
+            tareas.forEach { tarea ->
+                TaskItem(tarea.titulo, tarea.descripcion, Icons.Rounded.Videocam, tarea.completada)
+                Spacer(Modifier.height(8.dp))
             }
-
-            // Tasks List
-            TaskItem(
-                title = "Reunión con equipo",
-                subtitle = "10:00 AM • Zoom",
-                icon = Icons.Rounded.Videocam,
-                isCompleted = false
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            TaskItem(
-                title = "Comprar víveres",
-                subtitle = "Lista completada",
-                icon = Icons.Default.Check, // Check inside circle logic handled inside
-                isCompleted = true
-            )
         }
     }
 }
@@ -251,19 +177,12 @@ fun TasksSection() {
 @Composable
 fun CalendarDayItem(day: String, date: String, isSelected: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = day, fontSize = 11.sp, color = TextSecondary)
-        Spacer(modifier = Modifier.height(4.dp))
+        Text(day, fontSize = 11.sp, color = TextSecondary)
         Box(
-            modifier = Modifier
-                .size(36.dp)
-                .background(if (isSelected) PrimaryLime else Color.Transparent, CircleShape),
+            modifier = Modifier.size(36.dp).background(if (isSelected) PrimaryLime else Color.Transparent, CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = date,
-                fontWeight = FontWeight.Bold,
-                color = if (isSelected) OnPrimary else TextSecondary
-            )
+            Text(date, fontWeight = FontWeight.Bold, color = if (isSelected) OnPrimary else TextSecondary)
         }
     }
 }
@@ -271,139 +190,40 @@ fun CalendarDayItem(day: String, date: String, isSelected: Boolean) {
 @Composable
 fun TaskItem(title: String, subtitle: String, icon: ImageVector, isCompleted: Boolean) {
     Surface(
-        color = if (isCompleted) SurfaceBackground.copy(alpha = 0.5f) else SurfaceBackground,
+        color = SurfaceBackground,
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Checkbox/Status Icon
-            if (isCompleted) {
-                Box(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .background(PrimaryLime, CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(Icons.Default.Check, contentDescription = null, tint = OnPrimary, modifier = Modifier.size(16.dp))
-                }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .border(2.dp, Color.LightGray, CircleShape)
-                )
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    fontWeight = FontWeight.SemiBold,
-                    textDecoration = if (isCompleted) TextDecoration.LineThrough else null,
-                    color = if(isCompleted) TextSecondary else TextPrimary
-                )
-                Text(
-                    text = subtitle,
-                    fontSize = 12.sp,
-                    color = TextSecondary
-                )
-            }
-
-            if (!isCompleted) {
-                Surface(
-                    color = SurfaceContainer,
-                    shape = CircleShape,
-                    modifier = Modifier.size(32.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(icon, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(20.dp))
-                    }
-                }
+        Row(Modifier.padding(16.dp), Alignment.CenterVertically) {
+            Icon(
+                if (isCompleted) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
+                null,
+                tint = if (isCompleted) PrimaryLime else Color.LightGray
+            )
+            Spacer(Modifier.width(12.dp))
+            Column {
+                Text(title, fontWeight = FontWeight.SemiBold, textDecoration = if (isCompleted) TextDecoration.LineThrough else null)
+                Text(subtitle, fontSize = 12.sp, color = TextSecondary)
             }
         }
     }
 }
 
 @Composable
-fun WorkoutSection() {
+fun WorkoutSection(onClick: () -> Unit) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(250.dp)
-            .clip(RoundedCornerShape(28.dp))
-            .background(Color.DarkGray) // Placeholder color if image fails
+        modifier = Modifier.fillMaxWidth().height(200.dp).clip(RoundedCornerShape(28.dp))
+            .background(Color.DarkGray).clickable { onClick() }
     ) {
-        // Placeholder background - replace with actual Image
-        // Image(painter = painterResource(id = R.drawable.gym_bg), ...)
-        Box(modifier = Modifier.fillMaxSize().background(Color.DarkGray))
-
-        // Gradient Overlay
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.8f))
-                    )
-                )
-        )
-
-        // Content
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            // Top Tag
-            Row {
-                Surface(
-                    color = Color.Black.copy(alpha = 0.4f),
-                    shape = RoundedCornerShape(50),
-                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(Icons.Default.FitnessCenter, contentDescription = null, tint = PrimaryLime, modifier = Modifier.size(16.dp))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("Rutina de Hoy", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                    }
-                }
+        Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(0.7f)))))
+        Column(Modifier.fillMaxSize().padding(20.dp), Arrangement.SpaceBetween) {
+            Surface(color = Color.Black.copy(0.3f), shape = CircleShape) {
+                Text("Rutina de Hoy", color = PrimaryLime, modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp), fontSize = 12.sp)
             }
-
-            // Bottom Info
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text("DÍA 4", color = PrimaryLime, fontWeight = FontWeight.Bold, fontSize = 12.sp)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        "Pierna y\nGlúteos",
-                        color = Color.White,
-                        fontSize = 32.sp,
-                        lineHeight = 36.sp,
-                        fontWeight = FontWeight.Normal // Font display style
-                    )
-                }
-
-                // Play Button
-                Surface(
-                    color = PrimaryLime,
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.size(56.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(Icons.Filled.PlayArrow, contentDescription = "Start", tint = OnPrimary, modifier = Modifier.size(32.dp))
-                    }
+            Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.Bottom) {
+                Text("Pierna y\nGlúteos", color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold, lineHeight = 30.sp)
+                Surface(color = PrimaryLime, shape = RoundedCornerShape(12.dp)) {
+                    Icon(Icons.Filled.PlayArrow, null, Modifier.padding(8.dp), tint = OnPrimary)
                 }
             }
         }
@@ -411,128 +231,76 @@ fun WorkoutSection() {
 }
 
 @Composable
-fun FinanceSection() {
+fun FinanceSection(saldoTotal: Double, onClick: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceContainer),
         shape = RoundedCornerShape(28.dp),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().clickable { onClick() }
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Surface(
-                        color = PrimaryContainer, // Yellow-ish
-                        shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.size(48.dp)
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Icon(Icons.Outlined.AccountBalanceWallet, contentDescription = null, tint = OnPrimary)
-                        }
+            Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
+                Row {
+                    Surface(color = PrimaryLime, shape = RoundedCornerShape(12.dp), modifier = Modifier.size(48.dp)) {
+                        Icon(Icons.Outlined.AccountBalanceWallet, null, Modifier.padding(12.dp))
                     }
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(Modifier.width(12.dp))
                     Column {
-                        Text("Finanzas", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                        Text("Este mes", color = TextSecondary, fontSize = 12.sp)
+                        Text("Finanzas", fontWeight = FontWeight.Bold)
+                        Text("Saldo actual", color = TextSecondary, fontSize = 12.sp)
                     }
                 }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("Total gastado", color = TextSecondary, fontSize = 12.sp)
-                    Text("$845.00", fontWeight = FontWeight.Normal, fontSize = 24.sp)
-                }
+                Text("$${saldoTotal}", fontWeight = FontWeight.Bold, fontSize = 20.sp)
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Bar Chart Visualization
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
-            ) {
-                // Bar values mimic the height % in HTML
-                FinanceBar(0.4f, false)
-                FinanceBar(0.65f, false)
-                FinanceBar(0.3f, false, color = PrimaryLime.copy(alpha = 0.3f))
-                FinanceBar(0.85f, false)
-                FinanceBar(0.55f, true) // "Today"
-                FinanceBar(0.2f, false, isFaded = true)
-                FinanceBar(0.2f, false, isFaded = true)
+            Spacer(Modifier.height(20.dp))
+            Row(Modifier.fillMaxWidth().height(60.dp), Arrangement.SpaceEvenly, Alignment.Bottom) {
+                FinanceBar(0.4f, false); FinanceBar(0.7f, false); FinanceBar(0.9f, true); FinanceBar(0.5f, false)
             }
         }
     }
 }
 
 @Composable
-fun FinanceBar(fillFraction: Float, isToday: Boolean, color: Color = Color.White, isFaded: Boolean = false) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxHeight().width(36.dp), // Width distribuiton
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        if (isToday) {
-            Surface(
-                color = OnPrimary,
-                shape = RoundedCornerShape(4.dp),
-                modifier = Modifier.padding(bottom = 6.dp)
-            ) {
-                Text(
-                    "Hoy",
-                    color = Color.White,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                )
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(fillFraction)
-                .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                .background(if (isToday) PrimaryLime else color.copy(alpha = if(isFaded) 0.5f else 1f))
-        )
-    }
-}
-
-
-@Composable
-fun DashboardBottomBar() {
+fun PlanifyBottomBar(
+    currentRoute: String,
+    onNavigate: (String) -> Unit
+) {
     NavigationBar(
         containerColor = SurfaceContainer,
-        contentColor = TextSecondary,
         tonalElevation = 0.dp
     ) {
+        // Lista de (Etiqueta, Icono, Ruta)
         val items = listOf(
-            Triple("Inicio", Icons.Filled.Home, true),
-            Triple("Tareas", Icons.Filled.CalendarMonth, false),
-            Triple("Gym", Icons.Filled.FitnessCenter, false),
-            Triple("Gastos", Icons.Filled.Payments, false),
-            Triple("Ánimo", Icons.Filled.SentimentSatisfied, false)
+            Triple("Inicio", Icons.Filled.Home, HomeRoute),
+            Triple("Tareas", Icons.Filled.CalendarMonth, TareaRoute),
+            Triple("Gym", Icons.Filled.FitnessCenter, GymRoute),
+            Triple("Gastos", Icons.Filled.Payments, GastosRoute),
+            Triple("Ánimo", Icons.Filled.SentimentSatisfied, EstadoAnimoRoute)
         )
 
-        items.forEach { (label, icon, isSelected) ->
+        items.forEach { (label, icon, route) ->
+            val isSelected = currentRoute == route
+
             NavigationBarItem(
                 selected = isSelected,
-                onClick = { },
+                onClick = { if (!isSelected) onNavigate(route) },
                 icon = { Icon(icon, contentDescription = label) },
                 label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = OnPrimary,
                     selectedTextColor = TextPrimary,
-                    indicatorColor = PrimaryContainer,
-                    unselectedIconColor = TextSecondary,
-                    unselectedTextColor = TextSecondary
+                    indicatorColor = PrimaryLime,
+                    unselectedIconColor = TextSecondary.copy(alpha = 0.6f),
+                    unselectedTextColor = TextSecondary.copy(alpha = 0.6f)
                 )
             )
         }
     }
+}
+
+@Composable
+fun FinanceBar(height: Float, isToday: Boolean) {
+    Box(Modifier.fillMaxHeight(height).width(40.dp).clip(RoundedCornerShape(8.dp))
+        .background(if (isToday) PrimaryLime else Color.White))
 }
 
 @Preview(showBackground = true, heightDp = 1000)
