@@ -4,14 +4,36 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Payments
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SentimentSatisfied
+import androidx.compose.material.icons.filled.SentimentVerySatisfied
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
+import androidx.compose.material.icons.outlined.SentimentDissatisfied
+import androidx.compose.material.icons.outlined.SentimentSatisfied
+import androidx.compose.material.icons.outlined.SentimentVeryDissatisfied
 import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material3.*
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +46,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pmdm.planify.data.daomocks.HomeDaoMock
+import com.pmdm.planify.data.mocks.HomeMock
+import kotlin.collections.forEach
 
 // --- 1. Definición de Colores (Extraídos del HTML) ---
 val PrimaryLime = Color(0xFFE2E722)
@@ -40,9 +65,13 @@ val MoodSad = Color(0xFFFB923C)   // Orange-400
 val MoodFine = Color(0xFFEAB308)  // Yellow-500
 val MoodGreat = Color(0xFFE2E722) // Primary
 
-// --- 2. Componente Principal ---
+// --- 2. Componente Principal Actualizado ---
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    homeDao: HomeDaoMock = HomeDaoMock()
+) {
+    val datosHome = homeDao.home
+
     Scaffold(
         containerColor = SurfaceBackground,
         bottomBar = { DashboardBottomBar() }
@@ -54,69 +83,68 @@ fun DashboardScreen() {
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Header
-            item { HeaderSection() }
-
-            // Sección: ¿Cómo te sientes?
+            // ERROR CORREGIDO: Solo usa "item { ... }"
+            item { HeaderSection(datosHome) }
             item { MoodSection() }
-
-            // Sección: Mis Tareas
             item { TasksSection() }
-
-            // Sección: Rutina de Hoy (Imagen grande)
             item { WorkoutSection() }
-
-            // Sección: Finanzas
             item { FinanceSection() }
 
-            // Espacio final para scroll
             item { Spacer(modifier = Modifier.height(20.dp)) }
         }
     }
 }
 
-// --- 3. Secciones ---
+// --- 3. Secciones Modificadas ---
 
 @Composable
-fun HeaderSection() {
+fun HeaderSection(datos: HomeMock) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 24.dp, bottom = 8.dp),
-        horizontalArrangement = Arrangement.End,
+        horizontalArrangement = Arrangement.End, // Mantiene la alineación a la derecha
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(horizontalAlignment = Alignment.End) {
+            // Usamos la frase que viene del Mock ("Hola, Juan Pérez")
+            // Podemos dividirla o mostrarla según tu diseño
             Text(
-                text = "Hola, de nuevo",
+                text = "Bienvenido de nuevo",
                 style = MaterialTheme.typography.bodySmall,
                 color = TextSecondary
             )
             Text(
-                text = "Andrea",
+                text = datos.fraseBienvenida, // Aquí se mostrará "Hola, Juan Pérez"
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary
             )
+            // Ejemplo de uso de notificaciones si quisieras mostrarlas:
+            if (datos.notificacionesPendientes > 0) {
+                Text(
+                    text = "Tienes ${datos.notificacionesPendientes} notificaciones",
+                    fontSize = 10.sp,
+                    color = MoodAngry // Usando el rojo que definiste
+                )
+            }
         }
         Spacer(modifier = Modifier.width(12.dp))
         Box {
-            // Avatar Placeholder
             Surface(
                 modifier = Modifier.size(48.dp),
                 shape = CircleShape,
                 color = Color.Gray
             ) {
-                // Aquí iría tu Image(painter = ...)
                 Box(contentAlignment = Alignment.Center) {
                     Icon(Icons.Default.Person, contentDescription = null, tint = Color.White)
                 }
             }
-            // Punto de estado verde
+            // Punto de estado
             Box(
                 modifier = Modifier
                     .size(14.dp)
-                    .background(Color(0xFF22C55E), CircleShape) // Green-500
+                    .background(Color(0xFF22C55E), CircleShape)
                     .border(2.dp, SurfaceBackground, CircleShape)
                     .align(Alignment.BottomEnd)
             )
@@ -128,7 +156,7 @@ fun HeaderSection() {
 fun MoodSection() {
     Card(
         colors = CardDefaults.cardColors(containerColor = PrimaryContainer.copy(alpha = 0.4f)),
-        shape = RoundedCornerShape(28.dp),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
@@ -185,7 +213,7 @@ fun MoodItem(icon: ImageVector, label: String, color: Color, isSelected: Boolean
 fun TasksSection() {
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceContainer),
-        shape = RoundedCornerShape(28.dp),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
@@ -272,7 +300,7 @@ fun CalendarDayItem(day: String, date: String, isSelected: Boolean) {
 fun TaskItem(title: String, subtitle: String, icon: ImageVector, isCompleted: Boolean) {
     Surface(
         color = if (isCompleted) SurfaceBackground.copy(alpha = 0.5f) else SurfaceBackground,
-        shape = RoundedCornerShape(16.dp),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -287,7 +315,12 @@ fun TaskItem(title: String, subtitle: String, icon: ImageVector, isCompleted: Bo
                         .background(PrimaryLime, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Default.Check, contentDescription = null, tint = OnPrimary, modifier = Modifier.size(16.dp))
+                    Icon(
+                        Icons.Default.Check,
+                        contentDescription = null,
+                        tint = OnPrimary,
+                        modifier = Modifier.size(16.dp)
+                    )
                 }
             } else {
                 Box(
@@ -304,7 +337,7 @@ fun TaskItem(title: String, subtitle: String, icon: ImageVector, isCompleted: Bo
                     text = title,
                     fontWeight = FontWeight.SemiBold,
                     textDecoration = if (isCompleted) TextDecoration.LineThrough else null,
-                    color = if(isCompleted) TextSecondary else TextPrimary
+                    color = if (isCompleted) TextSecondary else TextPrimary
                 )
                 Text(
                     text = subtitle,
@@ -320,7 +353,12 @@ fun TaskItem(title: String, subtitle: String, icon: ImageVector, isCompleted: Bo
                     modifier = Modifier.size(32.dp)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
-                        Icon(icon, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(20.dp))
+                        Icon(
+                            icon,
+                            contentDescription = null,
+                            tint = Color.Gray,
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
             }
@@ -334,7 +372,7 @@ fun WorkoutSection() {
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp)
-            .clip(RoundedCornerShape(28.dp))
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(28.dp))
             .background(Color.DarkGray) // Placeholder color if image fails
     ) {
         // Placeholder background - replace with actual Image
@@ -363,16 +401,26 @@ fun WorkoutSection() {
             Row {
                 Surface(
                     color = Color.Black.copy(alpha = 0.4f),
-                    shape = RoundedCornerShape(50),
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(50),
                     border = BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Default.FitnessCenter, contentDescription = null, tint = PrimaryLime, modifier = Modifier.size(16.dp))
+                        Icon(
+                            Icons.Default.FitnessCenter,
+                            contentDescription = null,
+                            tint = PrimaryLime,
+                            modifier = Modifier.size(16.dp)
+                        )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Rutina de Hoy", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                        Text(
+                            "Rutina de Hoy",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }
@@ -384,7 +432,12 @@ fun WorkoutSection() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("DÍA 4", color = PrimaryLime, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    Text(
+                        "DÍA 4",
+                        color = PrimaryLime,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         "Pierna y\nGlúteos",
@@ -398,11 +451,16 @@ fun WorkoutSection() {
                 // Play Button
                 Surface(
                     color = PrimaryLime,
-                    shape = RoundedCornerShape(16.dp),
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
                     modifier = Modifier.size(56.dp)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
-                        Icon(Icons.Filled.PlayArrow, contentDescription = "Start", tint = OnPrimary, modifier = Modifier.size(32.dp))
+                        Icon(
+                            Icons.Filled.PlayArrow,
+                            contentDescription = "Start",
+                            tint = OnPrimary,
+                            modifier = Modifier.size(32.dp)
+                        )
                     }
                 }
             }
@@ -414,7 +472,7 @@ fun WorkoutSection() {
 fun FinanceSection() {
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceContainer),
-        shape = RoundedCornerShape(28.dp),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
@@ -426,11 +484,15 @@ fun FinanceSection() {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Surface(
                         color = PrimaryContainer, // Yellow-ish
-                        shape = RoundedCornerShape(12.dp),
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
                         modifier = Modifier.size(48.dp)
                     ) {
                         Box(contentAlignment = Alignment.Center) {
-                            Icon(Icons.Outlined.AccountBalanceWallet, contentDescription = null, tint = OnPrimary)
+                            Icon(
+                                Icons.Outlined.AccountBalanceWallet,
+                                contentDescription = null,
+                                tint = OnPrimary
+                            )
                         }
                     }
                     Spacer(modifier = Modifier.width(12.dp))
@@ -478,7 +540,7 @@ fun FinanceBar(fillFraction: Float, isToday: Boolean, color: Color = Color.White
         if (isToday) {
             Surface(
                 color = OnPrimary,
-                shape = RoundedCornerShape(4.dp),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(4.dp),
                 modifier = Modifier.padding(bottom = 6.dp)
             ) {
                 Text(
@@ -496,7 +558,7 @@ fun FinanceBar(fillFraction: Float, isToday: Boolean, color: Color = Color.White
                 .fillMaxWidth()
                 .fillMaxHeight(fillFraction)
                 .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                .background(if (isToday) PrimaryLime else color.copy(alpha = if(isFaded) 0.5f else 1f))
+                .background(if (isToday) PrimaryLime else color.copy(alpha = if (isFaded) 0.5f else 1f))
         )
     }
 }
