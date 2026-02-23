@@ -57,12 +57,13 @@
 ## Febrero 2026
 | Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
 | --- | --- | --- | --- | --- | --- | --- |
-| 12/02/2026 | S19 | Realización del Sprint Review del Sprint 5 posterior a examenes | 1h | Ningún problema | Sabiendo que estamos en época de examenes y no estámos centrados en el proyecto el Sprint Review ha tenido un objetivo claro, que es retomar el trabajo sobre el proyecto donde lo dejamos | Estas dos semanas han sido dificiles en cuanto a organizarse debido a la gran cantidad de trabajo que tenemos, pero a partir de la próxima semana retomaremos el ritmo de trabajo |
+| 12/02/2026 | S24 | Realización del Sprint Review del Sprint 5 posterior a examenes | 1h | Ningún problema | Sabiendo que estamos en época de examenes y no estámos centrados en el proyecto el Sprint Review ha tenido un objetivo claro, que es retomar el trabajo sobre el proyecto donde lo dejamos | Estas dos semanas han sido dificiles en cuanto a organizarse debido a la gran cantidad de trabajo que tenemos, pero a partir de la próxima semana retomaremos el ritmo de trabajo |
+| 23/02/2026 | S25 | Creación de la navegación e implementación del ViewModel | 2h | Todavía quedan archivos por pulir en lo que a los Screen se refiere, por lo que no he podido avanzar todo lo que he querido | Trabajar poco a poco intentando solucionar los errores archivo por archivo | Errores pequeños pueden suponer un problema bastante complejo de solucionar y llevar bastante rato, por lo que es importante saber identificar dichos errores de cara al futuro |
 
 
 **Resumen del mes:**
 
-- **Total de horas:** 32h
+- **Total de horas:** 35h
 - **Principales logros:**
 - **Área de mejora:**
 - **Próximos objetivos:**
