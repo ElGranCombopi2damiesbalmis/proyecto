@@ -60,10 +60,23 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | 12/02/2026 | S24 | Realización del Sprint Review del Sprint 5 posterior a examenes | 1h | Ningún problema | Sabiendo que estamos en época de examenes y no estámos centrados en el proyecto el Sprint Review ha tenido un objetivo claro, que es retomar el trabajo sobre el proyecto donde lo dejamos | Estas dos semanas han sido dificiles en cuanto a organizarse debido a la gran cantidad de trabajo que tenemos, pero a partir de la próxima semana retomaremos el ritmo de trabajo |
 | 23/02/2026 | S25 | Creación de la navegación e implementación del ViewModel | 2h | Todavía quedan archivos por pulir en lo que a los Screen se refiere, por lo que no he podido avanzar todo lo que he querido | Trabajar poco a poco intentando solucionar los errores archivo por archivo | Errores pequeños pueden suponer un problema bastante complejo de solucionar y llevar bastante rato, por lo que es importante saber identificar dichos errores de cara al futuro |
+| 26/02/2026 | S26 | Solución de errores por conflictos en Github | 1h | Es difícil saber que hacer cuando todavía no estamos acostumbrados a ver errores llenándose la pantalla de colores | He tenido que hacer varios commits pero al final lo he solucionado. También he tenido que llamar a Juanjo para que me explique que borrar y que no cuando aparecen en pantalla las diferentes versiones de un mismo archivo | Ahora con estos pequeños errores es fácil, pero está bien ir cogiendo soltura con el Github para cuando en la empresa tengamos diez páginas de errores saber solucionarlo rápido |
 
 **Resumen del mes:**
 
-- **Total de horas:** 35h
+- **Total de horas:** 36h
 - **Principales logros:**
+  - Aprendizaje de metodologías ágiles, metodologías SCRUM y Github projects
+  - Diseño de arquitectura base, estructura lógica y esquema UML
+  - Implementación del patrón DAO
+  - Migración de tecnologías y modernización de código
+  - Seguridad y lógica, implementación de un sistema seguro mediante Hashing
+  - Construcción de interfaces dinámicas y gestión de estados con ViewModel
+  - Gestión de errores y resolución de conflictos mediante Github
 - **Área de mejora:**
+  - Profundización de la lógica vinculada con la interfaz
+  - Unificar la nomenclatura entre archivos
 - **Próximos objetivos:**
+  - Implementar una navegación robusta
+  - Realizar las secciones funcionales
+  - Preparar la migración a Room
