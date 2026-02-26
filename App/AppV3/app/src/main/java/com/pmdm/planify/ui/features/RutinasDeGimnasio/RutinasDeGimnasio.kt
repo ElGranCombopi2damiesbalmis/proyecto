@@ -17,26 +17,31 @@ import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material.icons.filled.Image // Icono para el placeholder
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Mood
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// --- PALETA DE COLORES EXACTA (Extraída del CSS) ---
+// Importaciones de tu capa de datos (Asegúrate de que los paquetes coincidan)
+import com.pmdm.planify.data.RutinaRepository
+import com.pmdm.planify.models.Rutina
+import com.pmdm.planify.models.TipoEtiquetaRutina
+
+// --- Colores del Tema (Extraídos del Design System) ---
 private val MdSysColorPrimary = Color(0xFF725C00)
 private val MdSysColorOnPrimary = Color(0xFFFFFFFF)
 private val MdSysColorPrimaryContainer = Color(0xFFFFDF90)
@@ -45,20 +50,27 @@ private val MdSysColorSecondaryContainer = Color(0xFFF5E1BB)
 private val MdSysColorOnSecondaryContainer = Color(0xFF241A04)
 private val MdSysColorSurface = Color(0xFFFFFBFF)
 private val MdSysColorOnSurface = Color(0xFF1E1B16)
-private val MdSysColorSurfaceVariant = Color(0xFFEBE2CF)
 private val MdSysColorOnSurfaceVariant = Color(0xFF4C4739)
 private val MdSysColorOutline = Color(0xFF7D7767)
-private val MdSysColorSurfaceContainer = Color(0xFFF7F1E2)      // Fondo Stats
-private val MdSysColorSurfaceContainerHigh = Color(0xFFEFEBDC)  // Fondo Cards
-
-// Colores de Badges
-private val BadgeOrangeBg = Color(0xFFF97316) // orange-500
-private val BadgeGreenBg = Color(0xFF16A34A)  // green-600
+private val MdSysColorSurfaceContainer = Color(0xFFF7F1E2)
+private val MdSysColorSurfaceContainerHigh = Color(0xFFEFEBDC)
+private val BadgeOrangeBg = Color(0xFFF97316)
+private val BadgeGreenBg = Color(0xFF16A34A)
 
 @Composable
 fun RutinasGimnasioScreen(
     onBackClick: () -> Unit = {}
 ) {
+    // 1. Instanciamos el Repositorio (Capa de Datos)
+    val repository = remember { RutinaRepository() }
+
+    // 2. Obtenemos las rutinas (Conexión Modelo -> Vista)
+    // Al ser síncrono, lo obtenemos directamente.
+    val rutinas = remember { repository.getRutinas() }
+
+    // 3. Handler para abrir enlaces (YouTube)
+    val uriHandler = LocalUriHandler.current
+
     Scaffold(
         containerColor = MdSysColorSurface,
         topBar = {
@@ -90,7 +102,7 @@ fun RutinasGimnasioScreen(
                         )
                     )
                 }
-                IconButton(onClick = { /* Menú */ }, modifier = Modifier.size(24.dp)) {
+                IconButton(onClick = { /* Acción Menú */ }, modifier = Modifier.size(24.dp)) {
                     Icon(
                         imageVector = Icons.Default.MoreVert,
                         contentDescription = "Más",
@@ -107,11 +119,11 @@ fun RutinasGimnasioScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentPadding = PaddingValues(bottom = 100.dp),
+            contentPadding = PaddingValues(bottom = 100.dp), // Espacio para el BottomNav
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
 
-            // 1. STATS ROW (Scroll Horizontal)
+            // --- SECCIÓN 1: ESTADÍSTICAS ---
             item {
                 Row(
                     modifier = Modifier
@@ -121,29 +133,17 @@ fun RutinasGimnasioScreen(
                         .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    StatCard(
-                        icon = Icons.Default.FitnessCenter,
-                        label = "Sesiones",
-                        value = "4"
-                    )
-                    StatCard(
-                        icon = Icons.Default.Schedule,
-                        label = "Tiempo",
-                        value = "3h 20m"
-                    )
-                    StatCard(
-                        icon = Icons.Default.LocalFireDepartment,
-                        label = "Racha",
-                        value = "12 días"
-                    )
+                    StatCard(Icons.Default.FitnessCenter, "Sesiones", "4")
+                    StatCard(Icons.Default.Schedule, "Tiempo", "3h 20m")
+                    StatCard(Icons.Default.LocalFireDepartment, "Racha", "12 días")
                 }
             }
 
-            // 2. BUTTON: INICIAR NUEVA RUTINA
+            // --- SECCIÓN 2: BOTÓN NUEVA RUTINA ---
             item {
                 Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                     Button(
-                        onClick = { /* Acción */ },
+                        onClick = { /* Acción futura */ },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),
@@ -167,7 +167,7 @@ fun RutinasGimnasioScreen(
                 }
             }
 
-            // 3. SECCIÓN: MIS RUTINAS
+            // --- SECCIÓN 3: TÍTULO MIS RUTINAS ---
             item {
                 Row(
                     modifier = Modifier
@@ -196,61 +196,38 @@ fun RutinasGimnasioScreen(
                 }
             }
 
-            // 4. LISTA DE TARJETAS
-            items(getGymRoutines()) { routine ->
-                GymRoutineCard(routine)
+            // --- SECCIÓN 4: LISTA DE TARJETAS (Datos del Repo) ---
+            items(rutinas) { rutina ->
+                GymRoutineCard(
+                    rutina = rutina,
+                    onStartClick = {
+                        // Acción: Abrir el video de YouTube vinculado en el Mock
+                        if (rutina.videoUrl.isNotEmpty()) {
+                            uriHandler.openUri(rutina.videoUrl)
+                        }
+                    }
+                )
             }
         }
     }
 }
 
 // ---------------------------------------------------------
-// COMPONENTES UI REUTILIZABLES
+// COMPONENTES UI
 // ---------------------------------------------------------
 
 @Composable
-fun StatCard(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    label: String,
-    value: String
+fun GymRoutineCard(
+    rutina: Rutina,
+    onStartClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .width(140.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(MdSysColorSurfaceContainer)
-            .border(1.dp, MdSysColorOutline.copy(alpha = 0.05f), RoundedCornerShape(16.dp))
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = MdSysColorPrimary,
-                modifier = Modifier.size(20.dp)
-            )
-            Text(
-                text = label,
-                style = MaterialTheme.typography.bodySmall.copy(
-                    fontWeight = FontWeight.Medium,
-                    color = MdSysColorOnSurfaceVariant
-                )
-            )
-        }
-        Text(
-            text = value,
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontWeight = FontWeight.Normal,
-                fontSize = 28.sp,
-                color = MdSysColorOnSurface
-            )
-        )
+    // Mapeo de colores según el tipo de etiqueta del modelo
+    val badgeColor = when (rutina.tipoEtiqueta) {
+        TipoEtiquetaRutina.INTENSO -> BadgeOrangeBg
+        TipoEtiquetaRutina.RAPIDO -> BadgeGreenBg
+        else -> Color.Transparent
     }
-}
 
-@Composable
-fun GymRoutineCard(routine: GymRoutineData) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -261,19 +238,18 @@ fun GymRoutineCard(routine: GymRoutineData) {
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column {
-            // IMAGEN DE FONDO (Placeholder Nativo)
+            // -- IMAGEN DE FONDO --
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(176.dp)
             ) {
-                // 1. Fondo de color simulando imagen
+                // Placeholder (En un caso real usarías AsyncImage(model = rutina.imagenUrl))
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.DarkGray) // Color base oscuro
+                        .background(Color.DarkGray)
                 ) {
-                    // Icono central para indicar que aquí iría la foto
                     Icon(
                         imageVector = Icons.Default.Image,
                         contentDescription = null,
@@ -284,7 +260,7 @@ fun GymRoutineCard(routine: GymRoutineData) {
                     )
                 }
 
-                // 2. Gradiente para legibilidad del texto
+                // Gradiente para mejorar lectura del texto
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -296,18 +272,18 @@ fun GymRoutineCard(routine: GymRoutineData) {
                         )
                 )
 
-                // 3. Contenido sobre la imagen
+                // Texto sobre la imagen (Nombre y Badge)
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(16.dp)
                 ) {
-                    if (routine.badgeText != null) {
-                        ContainerBadge(text = routine.badgeText, color = routine.badgeColor)
+                    if (rutina.tipoEtiqueta != TipoEtiquetaRutina.NINGUNA && rutina.etiquetaTexto != null) {
+                        ContainerBadge(text = rutina.etiquetaTexto!!, color = badgeColor)
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                     Text(
-                        text = routine.title,
+                        text = rutina.nombre,
                         style = MaterialTheme.typography.headlineSmall.copy(
                             color = Color.White,
                             fontWeight = FontWeight.Normal
@@ -316,13 +292,13 @@ fun GymRoutineCard(routine: GymRoutineData) {
                 }
             }
 
-            // CONTENIDO DEL BODY
+            // -- CONTENIDO INFERIOR --
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = routine.details,
+                    text = rutina.detalles,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = MdSysColorOnSurfaceVariant
                     )
@@ -332,45 +308,54 @@ fun GymRoutineCard(routine: GymRoutineData) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    // Botón Iniciar
+                    // Botón Iniciar / Ver Video
                     Button(
-                        onClick = { /* Start */ },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(40.dp),
+                        onClick = onStartClick,
+                        modifier = Modifier.weight(1f).height(40.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MdSysColorPrimary,
                             contentColor = MdSysColorOnPrimary
                         ),
                         contentPadding = PaddingValues(horizontal = 24.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.PlayArrow,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
+                        Icon(Icons.Default.PlayArrow, null, modifier = Modifier.size(18.dp))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = "Iniciar")
+                        Text(text = "Ver Video")
                     }
 
                     // Botón Editar
                     OutlinedButton(
-                        onClick = { /* Edit */ },
+                        onClick = { },
                         modifier = Modifier.size(40.dp),
                         shape = CircleShape,
                         border = androidx.compose.foundation.BorderStroke(1.dp, MdSysColorOutline.copy(alpha = 0.3f)),
                         contentPadding = PaddingValues(0.dp),
                         colors = ButtonDefaults.outlinedButtonColors(contentColor = MdSysColorPrimary)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = "Editar",
-                            modifier = Modifier.size(18.dp)
-                        )
+                        Icon(Icons.Default.Edit, "Editar", modifier = Modifier.size(18.dp))
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun StatCard(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, value: String) {
+    Column(
+        modifier = Modifier
+            .width(140.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(MdSysColorSurfaceContainer)
+            .border(1.dp, MdSysColorOutline.copy(alpha = 0.05f), RoundedCornerShape(16.dp))
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Icon(icon, null, tint = MdSysColorPrimary, modifier = Modifier.size(20.dp))
+            Text(label, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium, color = MdSysColorOnSurfaceVariant))
+        }
+        Text(value, style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal, fontSize = 28.sp, color = MdSysColorOnSurface))
     }
 }
 
@@ -382,67 +367,31 @@ fun ContainerBadge(text: String, color: Color) {
             .background(color.copy(alpha = 0.9f))
             .padding(horizontal = 8.dp, vertical = 2.dp)
     ) {
-        Text(
-            text = text.uppercase(),
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                letterSpacing = 1.sp
-            )
-        )
+        Text(text.uppercase(), style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White, letterSpacing = 1.sp))
     }
 }
 
 @Composable
 fun GymBottomNavBar() {
-    Surface(
-        color = MdSysColorSurfaceContainer.copy(alpha = 0.95f),
-        shadowElevation = 4.dp,
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    Surface(color = MdSysColorSurfaceContainer.copy(alpha = 0.95f), shadowElevation = 4.dp, modifier = Modifier.fillMaxWidth()) {
         Column {
             Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(MdSysColorOutline.copy(alpha = 0.05f)))
-
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp)
-                    .height(56.dp),
+                modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp).height(56.dp),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                NavBarItem(icon = Icons.Default.CheckCircle, label = "Tareas", isSelected = false)
-
-                // Item Seleccionado (Gimnasio)
+                NavBarItem(Icons.Default.CheckCircle, "Tareas", false)
+                // Item Activo
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(
-                        modifier = Modifier
-                            .width(64.dp)
-                            .height(32.dp)
-                            .clip(RoundedCornerShape(100))
-                            .background(MdSysColorSecondaryContainer),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.FitnessCenter,
-                            contentDescription = null,
-                            tint = MdSysColorOnSecondaryContainer
-                        )
+                    Box(modifier = Modifier.width(64.dp).height(32.dp).clip(RoundedCornerShape(100)).background(MdSysColorSecondaryContainer), contentAlignment = Alignment.Center) {
+                        Icon(Icons.Default.FitnessCenter, null, tint = MdSysColorOnSecondaryContainer)
                     }
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Gimnasio",
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = MdSysColorOnSurface,
-                            fontSize = 12.sp
-                        )
-                    )
+                    Text("Gimnasio", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = MdSysColorOnSurface, fontSize = 12.sp))
                 }
-
-                NavBarItem(icon = Icons.Default.AttachMoney, label = "Gastos", isSelected = false)
-                NavBarItem(icon = Icons.Default.Mood, label = "Ánimo", isSelected = false)
+                NavBarItem(Icons.Default.AttachMoney, "Gastos", false)
+                NavBarItem(Icons.Default.Mood, "Ánimo", false)
             }
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
@@ -451,66 +400,21 @@ fun GymBottomNavBar() {
 
 @Composable
 fun NavBarItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, isSelected: Boolean) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.width(64.dp).clickable(onClick = {})
-    ) {
-        Box(
-            modifier = Modifier.height(32.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = MdSysColorOnSurfaceVariant
-            )
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(64.dp).clickable(onClick = {})) {
+        Box(modifier = Modifier.height(32.dp), contentAlignment = Alignment.Center) {
+            Icon(icon, null, tint = MdSysColorOnSurfaceVariant)
         }
         Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontWeight = FontWeight.Medium,
-                color = MdSysColorOnSurfaceVariant,
-                fontSize = 12.sp
-            )
-        )
+        Text(label, style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium, color = MdSysColorOnSurfaceVariant, fontSize = 12.sp))
     }
 }
 
-// --- DATA MODEL ---
-
-data class GymRoutineData(
-    val title: String,
-    val details: String,
-    // val imageUrl: String, // Comentado para no causar confusión, usamos placeholder
-    val badgeText: String? = null,
-    val badgeColor: Color = Color.Transparent
-)
-
-fun getGymRoutines(): List<GymRoutineData> {
-    return listOf(
-        GymRoutineData(
-            title = "Día de Pierna",
-            details = "45 min • 6 Ejercicios • Enfocado en fuerza",
-            badgeText = "Intenso",
-            badgeColor = BadgeOrangeBg
-        ),
-        GymRoutineData(
-            title = "Torso y Brazos",
-            details = "50 min • 8 Ejercicios • Hipertrofia",
-            badgeText = null
-        ),
-        GymRoutineData(
-            title = "Cardio HIIT",
-            details = "25 min • 4 Ejercicios • Resistencia",
-            badgeText = "Rápido",
-            badgeColor = BadgeGreenBg
-        )
-    )
-}
-
-@Preview(showBackground = true)
+// ---------------------------------------------------------
+// PREVIEW
+// ---------------------------------------------------------
+@Preview(showBackground = true, heightDp = 1000)
 @Composable
-fun RutinasGimnasioPreview() {
+fun RutinasGimnasioScreenPreview() {
+    // Al previsualizar, se usarán los datos por defecto del DAO Mock
     RutinasGimnasioScreen()
 }

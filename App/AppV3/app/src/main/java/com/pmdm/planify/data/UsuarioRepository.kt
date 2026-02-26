@@ -16,7 +16,7 @@ class UsuarioRepository {
 
     fun update(usuario: Usuario) {
         val mock = usuario.toUsuarioMock()
-        val index = UsuarioDaoMock.listaUsuarios.indexOfFirst { it.correo == mock.correo }
+        val index = UsuarioDaoMock.listaUsuarios.indexOfFirst { it.correo == mock }
 
         if (index != -1) {
             UsuarioDaoMock.listaUsuarios[index] = mock
