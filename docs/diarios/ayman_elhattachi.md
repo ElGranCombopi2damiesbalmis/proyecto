@@ -98,6 +98,7 @@
 | Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
 |---|---|---|---|---|---|---|
 | 12/02 | S25 | Hemos creado el Sprint 6 que le hemos pasado todo lo que tenermos pendiente del Sprint 5 debido al alto volumen de examenes hemos atrastrado tareas, tambien hemos hecho el reeview del Sprint 5. | 1h | Volumen de trabajo pendiente. | Dar prioridad al proyecto respecto a otras asignaturas, cuando terminemos esta etapa de examenes. | 
+| 27/02 | S26 | He realizado las horas que no pude asistir del dia 23 y 26 (recuperadas 3h), he solucionado los errores relacionados con dependerncias, he mejorado la base de la implementacion de la navagacion de la app, he hecho comabias en viewModel y Event, he añadido las anotaciones de Hilt en los repositorios y creado el modulo "di" con al archivo apliaction. | 4h | Fallos en la integracion de la navegación y dependencias del proyecto. | He consultado a la IA para que me indique los posibles errores y he estado probando constantemente soluciones hasta que funcionase correctamente la App. | |
 |Pendiente|
 
 **Resumen del mes:**
