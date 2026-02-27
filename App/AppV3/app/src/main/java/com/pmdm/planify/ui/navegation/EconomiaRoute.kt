@@ -1,4 +1,6 @@
 package com.pmdm.planify.ui.navegation
 
-class EconomiaRoute {
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+object EconomiaRoute

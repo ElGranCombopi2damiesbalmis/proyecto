@@ -1,4 +1,6 @@
 package com.pmdm.planify.ui.navegation
 
-class GymRoute {
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+object GymRoute

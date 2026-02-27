@@ -1,4 +1,6 @@
 package com.pmdm.planify.ui.navegation
 
-class TareaRoute {
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+object TareaRoute

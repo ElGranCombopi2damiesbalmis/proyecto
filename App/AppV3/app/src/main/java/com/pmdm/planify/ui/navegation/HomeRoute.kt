@@ -1,4 +1,6 @@
 package com.pmdm.planify.ui.navegation
 
-class HomeRoute {
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+object HomeRoute

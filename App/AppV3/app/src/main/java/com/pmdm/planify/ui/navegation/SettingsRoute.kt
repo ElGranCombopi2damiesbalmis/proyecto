@@ -1,4 +1,6 @@
 package com.pmdm.planify.ui.navegation
 
-class SettingsRoute {
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+object SettingsRoute
