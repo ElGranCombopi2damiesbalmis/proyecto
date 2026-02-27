@@ -1,8 +1,8 @@
 package com.pmdm.planify.ui.features
 
 sealed class PlanifyEvent {
-    // Navegación y Login
-    object OnLoginClick : PlanifyEvent()
+    // Navegación y Login (Añadimos email y pass)
+    data class OnLoginClick(val email: String, val pass: String) : PlanifyEvent()
     object OnBack : PlanifyEvent()
 
     // Economía
@@ -14,8 +14,8 @@ sealed class PlanifyEvent {
     data class OnTareaClick(val id: Int) : PlanifyEvent()
     data class OnCambiarCheckTarea(val id: Int, val completada: Boolean) : PlanifyEvent()
 
-    // Estado de Ánimo
-    data class OnCambiarAnimo(val nuevoEstado: String) : PlanifyEvent()
+    // Estado de Ánimo (Ajustado al tipo correcto)
+    data class OnCambiarAnimo(val nuevoIcono: com.pmdm.planify.models.IconoEstadoAnimo) : PlanifyEvent()
 
     // Menú y Configuración
     object OnAbrirMenu : PlanifyEvent()
