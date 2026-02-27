@@ -2,8 +2,9 @@ package com.pmdm.planify.data
 
 import com.pmdm.planify.data.daomocks.TareaDaoMock
 import com.pmdm.planify.models.Tarea
+import javax.inject.Inject
 
-class TareaRepository {
+class TareaRepository @Inject constructor(){
     private val dao = TareaDaoMock()
 
     fun getAll(): MutableList<Tarea> = dao.tareas.map { it.toTarea() }.toMutableList()

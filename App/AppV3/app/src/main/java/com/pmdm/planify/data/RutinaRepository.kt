@@ -2,8 +2,9 @@ package com.pmdm.planify.data
 
 import com.pmdm.planify.data.daomocks.RutinaDaoMock
 import com.pmdm.planify.models.Rutina
+import javax.inject.Inject
 
-class RutinaRepository {
+class RutinaRepository @Inject constructor(){
 
     // Instancias directas
     private val rutinaDao = RutinaDaoMock()

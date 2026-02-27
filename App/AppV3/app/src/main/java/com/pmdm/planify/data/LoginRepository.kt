@@ -6,8 +6,9 @@ import com.pmdm.planify.data.mocks.LoginMock
 import com.pmdm.planify.data.mocks.UsuarioMock
 import com.pmdm.planify.models.Login
 import java.util.UUID
+import javax.inject.Inject
 
-class LoginRepository {
+class LoginRepository @Inject constructor(){
     private val loginDao = LoginDaoMock()
     private val usuarioDao = UsuarioDaoMock() // Conectamos con el DAO de usuarios
 

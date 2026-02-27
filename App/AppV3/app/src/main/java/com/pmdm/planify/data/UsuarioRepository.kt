@@ -2,8 +2,9 @@ package com.pmdm.planify.data
 
 import com.pmdm.planify.data.daomocks.UsuarioDaoMock
 import com.pmdm.planify.models.Usuario
+import javax.inject.Inject
 
-class UsuarioRepository {
+class UsuarioRepository @Inject constructor(){
     private val dao = UsuarioDaoMock()
 
     // Este método ahora es dinámico: devuelve el usuario que hizo login

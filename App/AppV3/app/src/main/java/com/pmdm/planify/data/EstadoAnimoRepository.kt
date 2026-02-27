@@ -4,8 +4,9 @@ import com.pmdm.planify.data.daomocks.EstadoAnimoDaoMock
 import com.pmdm.planify.models.EstadoAnimo
 import com.pmdm.planify.models.IconoEstadoAnimo
 import java.time.LocalDate
+import javax.inject.Inject
 
-class EstadoAnimoRepository {
+class EstadoAnimoRepository @Inject constructor(){
     private val dao = EstadoAnimoDaoMock()
 
     fun get(): EstadoAnimo = dao.estadoAnimo.toEstadoAnimo()
