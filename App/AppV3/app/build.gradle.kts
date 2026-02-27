@@ -4,7 +4,8 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.com.google.dagger)
-    id("kotlin-parcelize")
+    id("kotlinx-serialization")
+
 }
 
 android {
@@ -82,6 +83,7 @@ dependencies {
 //    implementation(platform(libs.com.squareup.okhttp3.okhttp.bom))
 //    implementation(libs.com.squareup.okhttp3.okhttp)
 //    implementation(libs.com.squareup.okhttp3.logging.interceptor)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
