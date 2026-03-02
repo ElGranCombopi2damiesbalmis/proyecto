@@ -65,11 +65,11 @@ fun NavHostPlanify() {
         }
 
         // --- ÁNIMO ---
-        composable<EstadoDeAnimoRoute> {
+        /*composable<EstadoDeAnimoRoute> {
             EstadoDeAnimoScreen(
                 onBackClick = { vm.onPlanifyEvent(PlanifyEvent.OnBack) }
             )
-        }
+        }*/
 
         // --- RUTAS DE AJUSTES ---
         composable<SettingsRoute> {
