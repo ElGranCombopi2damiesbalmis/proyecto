@@ -1,26 +1,17 @@
 package com.pmdm.planify.ui.navegation
 
-import GastosScreen
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pmdm.planify.ui.LoginScreen
-<<<<<<< HEAD
-import com.pmdm.planify.ui.features.AnalisisDeGastos.GastosScreen
 import com.pmdm.planify.ui.features.Economia.AnalisisDeGastosViewModel
-=======
 import com.pmdm.planify.ui.features.Ajustes.AjustesNotificacionesScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesPerfilScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesPrivacidadScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesVM
 import com.pmdm.planify.ui.features.Ajustes.EditarPerfilScreen
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
-import com.pmdm.planify.ui.features.EstadoDeAnimo.EstadoDeAnimoScreen
 import com.pmdm.planify.ui.features.Login.LoginViewModel
-import com.pmdm.planify.ui.features.PlanifyEvent
-import com.pmdm.planify.ui.features.PlanifyViewModel
 import com.pmdm.planify.ui.features.Tareas.TaskManagerScreen
 
 @Composable
@@ -35,11 +26,11 @@ fun NavHostPlanify() {
     vm.onNavigateToEstadoAnimo = { nc.navigate(EstadoDeAnimoRoute) }
     vm.onNavigateToSettings = { nc.navigate(SettingsRoute) }
     vm.onNavigateToTarea = { nc.navigate(TareaRoute) }
-<<<<<<< HEAD
     vm.onBack = { nc.popBackStack() }*/
-=======
-    vm.onBack = { nc.popBackStack() }
+
+
     val ajustesVm = hiltViewModel<AjustesVM>()
+    ajustesVm.onBack = { nc.popBackStack() }
 
     // Configuramos su navegación
     ajustesVm.onBack = { nc.popBackStack() }
@@ -49,14 +40,14 @@ fun NavHostPlanify() {
     ajustesVm.onNavigateToEditarPerfil = { nc.navigate(EditarPerfilRoute) }
     ajustesVm.onNavigateToNotificaciones = { nc.navigate(NotificacionesRoute) }
     ajustesVm.onNavigateToPrivacidad = { nc.navigate(PrivacidadRoute) }
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
+
 
     NavHost(
         navController = nc,
         startDestination = LoginRoute
     ) {
         // --- AUTH ---
-        loginDestination(
+        /*loginDestination(
             vm = loginVm,
             onNavigateToHome = {
                 nc.navigate(InicioRoute) {
@@ -67,7 +58,7 @@ fun NavHostPlanify() {
 
         inicioDestination(
             onNavigateToSettings = { nc.navigate(SettingsRoute) }
-        )
+        )*/
 
         tareasDestination()
 
@@ -75,17 +66,17 @@ fun NavHostPlanify() {
             onBack = { nc.popBackStack() }
         )
 
-        composable<EconomiaRoute> {
-<<<<<<< HEAD
+        /*composable<EconomiaRoute> {
+
             GastosScreen(
                 vm = gastosVm,
                 onNavigateToNuevaTransaccion = { nc.navigate(TransaccionRoute) },
                 onNavigateToSettings = { nc.navigate(SettingsRoute) },
                 // PASAMOS EL NAVCONTROLLER PARA LA BOTTOM BAR
                 navController = nc
-=======
-            GastosScreen() // Reemplaza por tu pantalla real si le cambiaste el nombre
-        }
+
+            /*GastosScreen() // Reemplaza por tu pantalla real si le cambiaste el nombre*/
+        }*/
 
         // --- TAREAS ---
         composable<TareaRoute> {
@@ -100,38 +91,13 @@ fun NavHostPlanify() {
             )
         }*/
 
-<<<<<<< HEAD
-        animoDestination()
 
-        // --- AJUSTES Y PERFIL ---
-        settingsDestination(
-            onBack = { nc.popBackStack() },
-            onNavigateToEditProfile = { nc.navigate(EditarPerfilRoute) },
-            onNavigateToNotifications = { nc.navigate(NotificacionesRoute) },
-            onNavigateToPrivacy = { nc.navigate(PrivacidadRoute) },
-            onLogout = {
-                nc.navigate(LoginRoute) {
-                    popUpTo(0) { inclusive = true }
-                }
-            }
-        )
+        animoDestination()
 
         transaccionDestination(
             onBack = { nc.popBackStack() }
         )
 
-        editarPerfilDestination(
-            onBack = { nc.popBackStack() }
-        )
-
-        notificacionesDestination(
-            onBack = { nc.popBackStack() }
-        )
-
-        privacidadDestination(
-            onBack = { nc.popBackStack() }
-        )
-=======
         // --- RUTAS DE AJUSTES ---
         composable<SettingsRoute> {
             AjustesPerfilScreen(vm = ajustesVm)
@@ -145,6 +111,5 @@ fun NavHostPlanify() {
         composable<PrivacidadRoute> {
             AjustesPrivacidadScreen(vm = ajustesVm)
         }
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
     }
 }

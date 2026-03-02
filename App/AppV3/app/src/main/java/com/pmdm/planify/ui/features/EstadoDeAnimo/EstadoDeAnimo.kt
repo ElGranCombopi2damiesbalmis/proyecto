@@ -10,19 +10,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-<<<<<<< HEAD
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.FitnessCenter     // Requiere Material Icons Extended
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Mood              // Requiere Material Icons Extended
-import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.filled.Payments          // Requiere Material Icons Extended
-import androidx.compose.material.icons.filled.SentimentSatisfied
-import androidx.compose.material.icons.filled.Share
-=======
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -296,43 +283,6 @@ fun RowScope.MoodBar(fraction: Float, color: Color, emoji: String) {
     }
 }
 
-<<<<<<< HEAD
-// ------------------------------------------
-// BOTTOM NAVIGATION CUSTOM
-// ------------------------------------------
-@Composable
-fun BottomNavBar() {
-    NavigationBar(
-        // Colores exactos de Ventana Principal
-        containerColor = Color(0xFFF4F4F5), // SurfaceContainer
-        contentColor = Color(0xFF64748B),    // TextSecondary
-        tonalElevation = 0.dp
-    ) {
-        // Los 5 ítems unificados de Planify
-        val items = listOf(
-            Triple("Tareas", Icons.Filled.CalendarMonth, false),
-            Triple("Gym", Icons.Filled.FitnessCenter, false),
-            Triple("Inicio", Icons.Filled.Home, false),
-            Triple("Gastos", Icons.Filled.Payments, false),
-            Triple("Ánimo", Icons.Filled.SentimentSatisfied, true)
-        )
-
-        items.forEach { (label, icon, isSelected) ->
-            NavigationBarItem(
-                selected = isSelected,
-                onClick = { /* Navegación */ },
-                icon = { Icon(icon, contentDescription = label) },
-                label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color(0xFF1C1C0D), // OnPrimary (Negro)
-                    selectedTextColor = Color(0xFF1C1C0D), // TextPrimary
-                    indicatorColor = Color(0xFFF2F5A9),    // PrimaryContainer (Amarillo)
-                    unselectedIconColor = Color(0xFF64748B),
-                    unselectedTextColor = Color(0xFF64748B)
-                )
-            )
-        }
-=======
 // Función para mapear el Enum de la base de datos a los emojis visuales del calendario
 fun getEmojiAndColor(mood: IconoEstadoAnimo): Pair<String, Color> {
     return when (mood) {
@@ -341,7 +291,6 @@ fun getEmojiAndColor(mood: IconoEstadoAnimo): Pair<String, Color> {
         IconoEstadoAnimo.NORMAL -> Pair("😐", MoodNormalBg)
         IconoEstadoAnimo.MAL -> Pair("😔", MoodSadBg)
         IconoEstadoAnimo.MUYMAL -> Pair("😡", MoodAngryBg)
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
     }
 }
 

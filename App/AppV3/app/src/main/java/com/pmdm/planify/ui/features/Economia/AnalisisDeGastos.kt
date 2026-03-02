@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.pmdm.planify.models.TipoTransaccion
 import com.pmdm.planify.models.Transaccion
 import com.pmdm.planify.ui.features.Economia.AnalisisDeGastosViewModel
@@ -37,7 +38,8 @@ val SuccessGreen = Color(0xFF16A34A)
 fun GastosScreen(
     vm: AnalisisDeGastosViewModel = hiltViewModel(),
     onNavigateToNuevaTransaccion: () -> Unit = {},
-    onNavigateToSettings: () -> Unit = {}
+    onNavigateToSettings: () -> Unit = {},
+    navController: NavHostController
 ) {
     Scaffold(
         bottomBar = { BottomNavigationBar() },
@@ -240,7 +242,12 @@ fun BottomNavigationBar() {
 fun GastosScreenPreview() {
     MaterialTheme {
         Box(modifier = Modifier.background(Color.White)) {
-            GastosScreen()
+            GastosScreen(
+                vm = TODO(),
+                onNavigateToNuevaTransaccion = TODO(),
+                onNavigateToSettings = TODO(),
+                navController = TODO()
+            )
         }
     }
 }
