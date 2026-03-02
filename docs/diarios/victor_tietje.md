@@ -10,6 +10,7 @@
 - 📅 Diciembre 2025
 - 📅 Enero 2026
 - 📅 Febrero 2026
+- 📅 Marzo 2026
 
 ## Octubre 2025
 
@@ -62,9 +63,15 @@
 | 23/02/2026 | S25 | Creación de la navegación e implementación del ViewModel | 2h | Todavía quedan archivos por pulir en lo que a los Screen se refiere, por lo que no he podido avanzar todo lo que he querido | Trabajar poco a poco intentando solucionar los errores archivo por archivo | Errores pequeños pueden suponer un problema bastante complejo de solucionar y llevar bastante rato, por lo que es importante saber identificar dichos errores de cara al futuro |
 | 26/02/2026 | S26 | Solución de errores por conflictos en Github | 1h | Es difícil saber que hacer cuando todavía no estamos acostumbrados a ver errores llenándose la pantalla de colores | He tenido que hacer varios commits pero al final lo he solucionado. También he tenido que llamar a Juanjo para que me explique que borrar y que no cuando aparecen en pantalla las diferentes versiones de un mismo archivo | Ahora con estos pequeños errores es fácil, pero está bien ir cogiendo soltura con el Github para cuando en la empresa tengamos diez páginas de errores saber solucionarlo rápido |
 
+## Marzo 2026
+
+| Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
+| --- | --- | --- | --- | --- | --- | --- |
+| 02/03/2026 | S25 | Creación de los ViewModel de Economía y Login, además de implementar progresivamente la navegación de las mismas | 2h | Mientras picaba código he visto que en el Repository o en el Screen me faltaban cosas | He tenido que ir poco a poco analizando los diferentes kt de las clases para implementarlo correctamente | Es un trabajo algo tedioso pero es la base funcional para cualquier aplicación |
+
 **Resumen del mes:**
 
-- **Total de horas:** 36h
+- **Total de horas:** 38h
 - **Principales logros:**
   - Aprendizaje de metodologías ágiles, metodologías SCRUM y Github projects
   - Diseño de arquitectura base, estructura lógica y esquema UML
