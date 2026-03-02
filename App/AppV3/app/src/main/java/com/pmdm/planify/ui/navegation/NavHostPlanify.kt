@@ -7,6 +7,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pmdm.planify.ui.LoginScreen
+import com.pmdm.planify.ui.features.Ajustes.AjustesNotificacionesScreen
+import com.pmdm.planify.ui.features.Ajustes.AjustesPerfilScreen
+import com.pmdm.planify.ui.features.Ajustes.AjustesPrivacidadScreen
+import com.pmdm.planify.ui.features.Ajustes.AjustesVM
+import com.pmdm.planify.ui.features.Ajustes.EditarPerfilScreen
 import com.pmdm.planify.ui.features.EstadoDeAnimo.EstadoDeAnimoScreen
 import com.pmdm.planify.ui.features.PlanifyEvent
 import com.pmdm.planify.ui.features.PlanifyViewModel
@@ -25,6 +30,16 @@ fun NavHostPlanify() {
     vm.onNavigateToSettings = { nc.navigate(SettingsRoute) }
     vm.onNavigateToTarea = { nc.navigate(TareaRoute) }
     vm.onBack = { nc.popBackStack() }
+    val ajustesVm = hiltViewModel<AjustesVM>()
+
+    // Configuramos su navegación
+    ajustesVm.onBack = { nc.popBackStack() }
+    ajustesVm.onNavigateToLogin = {
+        nc.navigate(LoginRoute) { popUpTo(0) } // Al cerrar sesión limpia la pila
+    }
+    ajustesVm.onNavigateToEditarPerfil = { nc.navigate(EditarPerfilRoute) }
+    ajustesVm.onNavigateToNotificaciones = { nc.navigate(NotificacionesRoute) }
+    ajustesVm.onNavigateToPrivacidad = { nc.navigate(PrivacidadRoute) }
 
     NavHost(
         navController = nc,
@@ -56,6 +71,18 @@ fun NavHostPlanify() {
             )
         }
 
-        // Agrega el resto de tus pantallas aquí (Gym, Settings, etc.) usando composable<TuRuta> {}
+        // --- RUTAS DE AJUSTES ---
+        composable<SettingsRoute> {
+            AjustesPerfilScreen(vm = ajustesVm)
+        }
+        composable<EditarPerfilRoute> {
+            EditarPerfilScreen(vm = ajustesVm)
+        }
+        composable<NotificacionesRoute> {
+            AjustesNotificacionesScreen(vm = ajustesVm)
+        }
+        composable<PrivacidadRoute> {
+            AjustesPrivacidadScreen(vm = ajustesVm)
+        }
     }
 }
