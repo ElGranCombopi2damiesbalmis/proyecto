@@ -6,6 +6,7 @@ import com.pmdm.planify.ui.features.Ajustes.AjustesPerfilScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
+<<<<<<< HEAD
 object SettingsRoute
 
 fun NavGraphBuilder.settingsDestination(
@@ -25,3 +26,15 @@ fun NavGraphBuilder.settingsDestination(
         )
     }
 }
+=======
+object SettingsRoute // Pantalla principal de Ajustes (Perfil)
+
+@Serializable
+object EditarPerfilRoute // Pantalla de Editar Perfil
+
+@Serializable
+object NotificacionesRoute // Pantalla de Notificaciones
+
+@Serializable
+object PrivacidadRoute // Pantalla de Privacidad
+>>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
