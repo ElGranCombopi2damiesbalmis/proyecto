@@ -14,15 +14,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Mood
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.SentimentSatisfied
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -373,27 +377,35 @@ fun ContainerBadge(text: String, color: Color) {
 
 @Composable
 fun GymBottomNavBar() {
-    Surface(color = MdSysColorSurfaceContainer.copy(alpha = 0.95f), shadowElevation = 4.dp, modifier = Modifier.fillMaxWidth()) {
-        Column {
-            Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(MdSysColorOutline.copy(alpha = 0.05f)))
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp).height(56.dp),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                NavBarItem(Icons.Default.CheckCircle, "Tareas", false)
-                // Item Activo
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(modifier = Modifier.width(64.dp).height(32.dp).clip(RoundedCornerShape(100)).background(MdSysColorSecondaryContainer), contentAlignment = Alignment.Center) {
-                        Icon(Icons.Default.FitnessCenter, null, tint = MdSysColorOnSecondaryContainer)
-                    }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text("Gimnasio", style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, color = MdSysColorOnSurface, fontSize = 12.sp))
-                }
-                NavBarItem(Icons.Default.AttachMoney, "Gastos", false)
-                NavBarItem(Icons.Default.Mood, "Ánimo", false)
-            }
-            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+    NavigationBar(
+        // Colores exactos de Ventana Principal
+        containerColor = Color(0xFFF4F4F5), // SurfaceContainer
+        contentColor = Color(0xFF64748B),    // TextSecondary
+        tonalElevation = 0.dp
+    ) {
+        // Los 5 ítems estándar de Planify
+        val items = listOf(
+            Triple("Tareas", Icons.Filled.CalendarMonth, false),
+            Triple("Gym", Icons.Filled.FitnessCenter, true),
+            Triple("Inicio", Icons.Filled.Home, false),
+            Triple("Gastos", Icons.Filled.Payments, false),
+            Triple("Ánimo", Icons.Filled.SentimentSatisfied, false)
+        )
+
+        items.forEach { (label, icon, isSelected) ->
+            NavigationBarItem(
+                selected = isSelected,
+                onClick = { /* Navegación */ },
+                icon = { Icon(icon, contentDescription = label) },
+                label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFF1C1C0D), // OnPrimary (Negro)
+                    selectedTextColor = Color(0xFF1C1C0D), // TextPrimary
+                    indicatorColor = Color(0xFFF2F5A9),    // PrimaryContainer (Amarillo)
+                    unselectedIconColor = Color(0xFF64748B),
+                    unselectedTextColor = Color(0xFF64748B)
+                )
+            )
         }
     }
 }

@@ -580,57 +580,35 @@ fun TaskCard(task: Task) {
 @Composable
 fun TaskBottomNavigation() {
     NavigationBar(
-        containerColor = OliveSecondaryContainer.copy(alpha = 0.3f), // O el surface container
-        contentColor = Color.Black,
+        // Usamos los colores exactos de Ventana Principal
+        containerColor = Color(0xFFF4F4F5), // SurfaceContainer
+        contentColor = Color(0xFF64748B),    // TextSecondary
         tonalElevation = 0.dp
     ) {
-        // Tareas (Seleccionado)
-        NavigationBarItem(
-            selected = true,
-            onClick = { },
-            icon = {
-                Icon(Icons.Filled.CheckCircle, contentDescription = null)
-            },
-            label = { Text("Tareas") },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = OliveOnSecondaryContainer,
-                selectedTextColor = OliveOnSecondaryContainer,
-                indicatorColor = OliveSecondaryContainer
-            )
+        // Definimos los 5 ítems exactos de la Ventana Principal
+        val items = listOf(
+            Triple("Tareas", Icons.Filled.CalendarMonth, true),
+            Triple("Gym", Icons.Filled.FitnessCenter, false),
+            Triple("Inicio", Icons.Filled.Home, false),
+            Triple("Gastos", Icons.Filled.Payments, false),
+            Triple("Ánimo", Icons.Filled.SentimentSatisfied, false)
         )
-        // Gym
-        NavigationBarItem(
-            selected = false,
-            onClick = { },
-            icon = { Icon(Icons.Outlined.FitnessCenter, contentDescription = null) },
-            label = { Text("Gym") },
-            colors = NavigationBarItemDefaults.colors(
-                unselectedTextColor = Color.Gray,
-                unselectedIconColor = Color.Gray
+
+        items.forEach { (label, icon, isSelected) ->
+            NavigationBarItem(
+                selected = isSelected,
+                onClick = { /* Aquí irá la navegación más adelante */ },
+                icon = { Icon(icon, contentDescription = label) },
+                label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFF1C1C0D), // OnPrimary (Negro)
+                    selectedTextColor = Color(0xFF1C1C0D), // TextPrimary
+                    indicatorColor = Color(0xFFF2F5A9),    // PrimaryContainer (Amarillo suave)
+                    unselectedIconColor = Color(0xFF64748B),
+                    unselectedTextColor = Color(0xFF64748B)
+                )
             )
-        )
-        // Gastos
-        NavigationBarItem(
-            selected = false,
-            onClick = { },
-            icon = { Icon(Icons.Outlined.AccountBalanceWallet, contentDescription = null) },
-            label = { Text("Gastos") },
-            colors = NavigationBarItemDefaults.colors(
-                unselectedTextColor = Color.Gray,
-                unselectedIconColor = Color.Gray
-            )
-        )
-        // Ánimo
-        NavigationBarItem(
-            selected = false,
-            onClick = { },
-            icon = { Icon(Icons.Outlined.Mood, contentDescription = null) },
-            label = { Text("Ánimo") },
-            colors = NavigationBarItemDefaults.colors(
-                unselectedTextColor = Color.Gray,
-                unselectedIconColor = Color.Gray
-            )
-        )
+        }
     }
 }
 

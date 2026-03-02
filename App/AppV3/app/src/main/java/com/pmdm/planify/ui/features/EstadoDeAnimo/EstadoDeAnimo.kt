@@ -14,11 +14,14 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.FitnessCenter     // Requiere Material Icons Extended
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Mood              // Requiere Material Icons Extended
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Payments          // Requiere Material Icons Extended
+import androidx.compose.material.icons.filled.SentimentSatisfied
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -461,70 +464,35 @@ fun RowScope.MoodBar(fraction: Float, color: Color, emoji: String) {
 @Composable
 fun BottomNavBar() {
     NavigationBar(
-        containerColor = Color.White.copy(alpha = 0.98f),
-        tonalElevation = 10.dp,
-        modifier = Modifier.height(80.dp)
+        // Colores exactos de Ventana Principal
+        containerColor = Color(0xFFF4F4F5), // SurfaceContainer
+        contentColor = Color(0xFF64748B),    // TextSecondary
+        tonalElevation = 0.dp
     ) {
-        // Item 1
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.CheckCircle, contentDescription = null, modifier = Modifier.size(24.dp)) },
-            label = { Text("Tareas", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
-            selected = false,
-            onClick = { },
-            colors = NavigationBarItemDefaults.colors(
-                unselectedIconColor = AppTextSecondary.copy(alpha = 0.4f),
-                unselectedTextColor = AppTextSecondary.copy(alpha = 0.4f),
-                indicatorColor = Color.Transparent
-            )
+        // Los 5 ítems unificados de Planify
+        val items = listOf(
+            Triple("Tareas", Icons.Filled.CalendarMonth, false),
+            Triple("Gym", Icons.Filled.FitnessCenter, false),
+            Triple("Inicio", Icons.Filled.Home, false),
+            Triple("Gastos", Icons.Filled.Payments, false),
+            Triple("Ánimo", Icons.Filled.SentimentSatisfied, true)
         )
-        // Item 2
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.FitnessCenter, contentDescription = null, modifier = Modifier.size(24.dp)) },
-            label = { Text("Gimnasio", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
-            selected = false,
-            onClick = { },
-            colors = NavigationBarItemDefaults.colors(
-                unselectedIconColor = AppTextSecondary.copy(alpha = 0.4f),
-                unselectedTextColor = AppTextSecondary.copy(alpha = 0.4f),
-                indicatorColor = Color.Transparent
+
+        items.forEach { (label, icon, isSelected) ->
+            NavigationBarItem(
+                selected = isSelected,
+                onClick = { /* Navegación */ },
+                icon = { Icon(icon, contentDescription = label) },
+                label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFF1C1C0D), // OnPrimary (Negro)
+                    selectedTextColor = Color(0xFF1C1C0D), // TextPrimary
+                    indicatorColor = Color(0xFFF2F5A9),    // PrimaryContainer (Amarillo)
+                    unselectedIconColor = Color(0xFF64748B),
+                    unselectedTextColor = Color(0xFF64748B)
+                )
             )
-        )
-        // Item 3 (Seleccionado)
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Mood, contentDescription = null, modifier = Modifier.size(24.dp)) },
-            label = { Text("Ánimo", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
-            selected = true,
-            onClick = { },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = AppTextPrimary, // Negro puro
-                selectedTextColor = AppTextPrimary,
-                indicatorColor = Color.Transparent // Sin burbuja de fondo
-            )
-        )
-        // Item 4
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Payments, contentDescription = null, modifier = Modifier.size(24.dp)) },
-            label = { Text("Gastos", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
-            selected = false,
-            onClick = { },
-            colors = NavigationBarItemDefaults.colors(
-                unselectedIconColor = AppTextSecondary.copy(alpha = 0.4f),
-                unselectedTextColor = AppTextSecondary.copy(alpha = 0.4f),
-                indicatorColor = Color.Transparent
-            )
-        )
-        // Item 5
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.MoreHoriz, contentDescription = null, modifier = Modifier.size(24.dp)) },
-            label = { Text("Más", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
-            selected = false,
-            onClick = { },
-            colors = NavigationBarItemDefaults.colors(
-                unselectedIconColor = AppTextSecondary.copy(alpha = 0.4f),
-                unselectedTextColor = AppTextSecondary.copy(alpha = 0.4f),
-                indicatorColor = Color.Transparent
-            )
-        )
+        }
     }
 }
 

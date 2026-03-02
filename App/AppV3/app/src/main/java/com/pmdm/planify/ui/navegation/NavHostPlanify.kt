@@ -7,7 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pmdm.planify.ui.LoginScreen
+import com.pmdm.planify.ui.features.AnalisisDeGastos.GastosScreen
+import com.pmdm.planify.ui.features.Economia.AnalisisDeGastosViewModel
 import com.pmdm.planify.ui.features.EstadoDeAnimo.EstadoDeAnimoScreen
+import com.pmdm.planify.ui.features.Login.LoginViewModel
 import com.pmdm.planify.ui.features.PlanifyEvent
 import com.pmdm.planify.ui.features.PlanifyViewModel
 import com.pmdm.planify.ui.features.Tareas.TaskManagerScreen
@@ -16,46 +19,79 @@ import com.pmdm.planify.ui.features.Tareas.TaskManagerScreen
 fun NavHostPlanify() {
     val nc = rememberNavController()
     // Instanciamos el ViewModel usando Hilt
-    val vm = hiltViewModel<PlanifyViewModel>()
+    val loginVm: LoginViewModel = hiltViewModel()
+    val gastosVm: AnalisisDeGastosViewModel = hiltViewModel()
 
-    // Mapeo de navegación del ViewModel -> NavController
-    vm.onNavigateToEconomia = { nc.navigate(EconomiaRoute) }
+    /*vm.onNavigateToEconomia = { nc.navigate(EconomiaRoute) }
     vm.onNavigateToTransaccion = { nc.navigate(TransaccionRoute) }
     vm.onNavigateToEstadoAnimo = { nc.navigate(EstadoDeAnimoRoute) }
     vm.onNavigateToSettings = { nc.navigate(SettingsRoute) }
     vm.onNavigateToTarea = { nc.navigate(TareaRoute) }
-    vm.onBack = { nc.popBackStack() }
+    vm.onBack = { nc.popBackStack() }*/
 
     NavHost(
         navController = nc,
         startDestination = LoginRoute
     ) {
-        // --- LOGIN ---
-        composable<LoginRoute> {
-            LoginScreen(
-                onLoginClick = { email, pass ->
-                    vm.onPlanifyEvent(PlanifyEvent.OnLoginClick(email, pass))
+        // --- AUTH ---
+        loginDestination(
+            vm = loginVm,
+            onNavigateToHome = {
+                nc.navigate(InicioRoute) {
+                    popUpTo(LoginRoute) { inclusive = true } // Limpia el historial
                 }
-            )
-        }
+            }
+        )
 
-        // --- ECONOMÍA ---
+        inicioDestination(
+            onNavigateToSettings = { nc.navigate(SettingsRoute) }
+        )
+
+        tareasDestination()
+
+        gymDestination(
+            onBack = { nc.popBackStack() }
+        )
+
         composable<EconomiaRoute> {
-            GastosScreen() // Reemplaza por tu pantalla real si le cambiaste el nombre
-        }
-
-        // --- TAREAS ---
-        composable<TareaRoute> {
-            TaskManagerScreen()
-        }
-
-        // --- ÁNIMO ---
-        composable<EstadoDeAnimoRoute> {
-            EstadoDeAnimoScreen(
-                onBackClick = { vm.onPlanifyEvent(PlanifyEvent.OnBack) }
+            GastosScreen(
+                vm = gastosVm,
+                onNavigateToNuevaTransaccion = { nc.navigate(TransaccionRoute) },
+                onNavigateToSettings = { nc.navigate(SettingsRoute) },
+                // PASAMOS EL NAVCONTROLLER PARA LA BOTTOM BAR
+                navController = nc
             )
         }
 
-        // Agrega el resto de tus pantallas aquí (Gym, Settings, etc.) usando composable<TuRuta> {}
+        animoDestination()
+
+        // --- AJUSTES Y PERFIL ---
+        settingsDestination(
+            onBack = { nc.popBackStack() },
+            onNavigateToEditProfile = { nc.navigate(EditarPerfilRoute) },
+            onNavigateToNotifications = { nc.navigate(NotificacionesRoute) },
+            onNavigateToPrivacy = { nc.navigate(PrivacidadRoute) },
+            onLogout = {
+                nc.navigate(LoginRoute) {
+                    popUpTo(0) { inclusive = true }
+                }
+            }
+        )
+
+        transaccionDestination(
+            onBack = { nc.popBackStack() }
+        )
+
+        editarPerfilDestination(
+            onBack = { nc.popBackStack() }
+        )
+
+        notificacionesDestination(
+            onBack = { nc.popBackStack() }
+        )
+
+        privacidadDestination(
+            onBack = { nc.popBackStack() }
+        )
     }
 }
