@@ -91,7 +91,7 @@ data class CalendarDay(
 // --- 3. Componente Principal Actualizado ---
 @Composable
 fun TaskManagerScreen(
-    // Inyectamos el DAO por parámetro (con un valor por defecto para facilitar las Previews)
+    // Inyectamos el DAO por parámetro (con un val or por defecto para facilitar las Previews)
     tareaDao: TareaDaoMock = TareaDaoMock()
 ) {
     // Obtenemos la lista de tareas del DAO
