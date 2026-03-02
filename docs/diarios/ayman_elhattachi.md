@@ -12,6 +12,7 @@
   - [Diciembre 2025](#diciembre-2025)
   - [Enero 2026](#enero-2026)
   - [Febrero 2026](#febrero-2026)
+  - [Marzo 2026](#marzo-2026)
 
 ## Octubre 2025
 
@@ -102,7 +103,22 @@
 |Pendiente|
 
 **Resumen del mes:**
-* **Total de horas:** 1h
+* **Total de horas:** 5h
+* **Principales logros:** Solucion de Conflictos
+*  **Área de mejora:** 
+*  **Próximos objetivos:** Linkar las vistas con los datos.
+
+[🔝 Volver al índice](#índice-de-meses)
+
+## Marzo 2026
+
+| Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
+|---|---|---|---|---|---|---|
+| 02/03 | S27 | He linkado el apartado de Rutinas de gimnasion, Ajustes, Estado de animo, y he creado sus respectivos ViewModels y Events. | 2h |  |  |
+|Pendiente|
+
+**Resumen del mes:**
+* **Total de horas:** 2h
 * **Principales logros:** 
 *  **Área de mejora:** 
 *  **Próximos objetivos:** 
