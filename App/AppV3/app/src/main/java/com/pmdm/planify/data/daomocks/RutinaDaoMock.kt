@@ -30,15 +30,26 @@ class RutinaDaoMock {
             videoUrl = "https://www.youtube.com/watch?v=ml6cT4AZdqI",
             etiquetaTexto = "Rápido",
             tipoEtiqueta = TipoEtiquetaRutina.RAPIDO
+        ),
+        RutinaMock(
+            nombre = "Día de Pecho",
+            detalles = "55 min • 7 Ejercicios • Enfoque en hipertrofia",
+            imagenUrl = "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600", // URL de ejemplo
+            videoUrl = "https://www.youtube.com/watch?v=rxEMKXW2Wqs", // Puedes cambiarla por un video real
+            etiquetaTexto = "Intenso",
+            tipoEtiqueta = TipoEtiquetaRutina.INTENSO
+        ),
+        RutinaMock(
+            nombre = "Espalda y Bíceps",
+            detalles = "60 min • 8 Ejercicios • Amplitud y grosor",
+            imagenUrl = "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600", // URL de ejemplo
+            videoUrl = "https://www.youtube.com/watch?v=VjA3E2lY9z8", // Puedes cambiarla por un video real
+            etiquetaTexto = "Fuerza",
+            tipoEtiqueta = TipoEtiquetaRutina.NINGUNA
         )
     )
 
     fun getRutinas(): List<RutinaMock> {
         return rutinas
-    }
-
-    // Ejemplo: Función para añadir datos a la lista interna
-    fun addRutina(rutina: RutinaMock) {
-        rutinas.add(rutina)
     }
 }
