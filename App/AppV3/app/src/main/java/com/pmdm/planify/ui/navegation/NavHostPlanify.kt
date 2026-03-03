@@ -12,7 +12,6 @@ import com.pmdm.planify.ui.features.Ajustes.AjustesPerfilScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesPrivacidadScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesVM
 import com.pmdm.planify.ui.features.Ajustes.EditarPerfilScreen
-import com.pmdm.planify.ui.features.EstadoDeAnimo.EstadoDeAnimoScreen
 import com.pmdm.planify.ui.features.Login.LoginViewModel
 import com.pmdm.planify.ui.features.PlanifyEvent
 import com.pmdm.planify.ui.features.PlanifyViewModel
@@ -57,12 +56,10 @@ fun NavHostPlanify() {
         )
 
         composable<EconomiaRoute> {
-
             GastosScreen(
                 vm = gastosVm,
                 onNavigateToNuevaTransaccion = { nc.navigate(TransaccionRoute) },
                 onNavigateToSettings = { nc.navigate(SettingsRoute) },
-                // PASAMOS EL NAVCONTROLLER PARA LA BOTTOM BAR
                 navController = nc
             )
 

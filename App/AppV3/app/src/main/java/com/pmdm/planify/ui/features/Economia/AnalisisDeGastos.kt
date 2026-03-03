@@ -22,12 +22,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.pmdm.planify.models.TipoTransaccion
 import com.pmdm.planify.models.Transaccion
+import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
 import com.pmdm.planify.ui.features.Economia.AnalisisDeGastosViewModel
 import java.time.format.DateTimeFormatter
 
-// Colores unificados con tu diseño
+// Colores unificados
 val PrimaryYellow = Color(0xFFFACC15)
 val SurfaceVariant = Color(0xFFF4F4F5)
 val SuccessGreen = Color(0xFF16A34A)
@@ -36,11 +39,12 @@ val SuccessGreen = Color(0xFF16A34A)
 @Composable
 fun GastosScreen(
     vm: AnalisisDeGastosViewModel = hiltViewModel(),
+    navController: NavHostController, // Ahora obligatorio para la BottomBar
     onNavigateToNuevaTransaccion: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {}
 ) {
     Scaffold(
-        bottomBar = { BottomNavigationBar() },
+        bottomBar = { PlanifyBottomBar(navController) }, // Invocamos la función global
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToNuevaTransaccion,
@@ -209,38 +213,13 @@ fun Bar(fraction: Float, label: String, isSelected: Boolean) {
     }
 }
 
-@Composable
-fun BottomNavigationBar() {
-    NavigationBar(containerColor = SurfaceVariant, tonalElevation = 0.dp) {
-        val items = listOf(
-            Triple("Inicio", Icons.Filled.Home, false),
-            Triple("Tareas", Icons.Filled.CalendarMonth, false),
-            Triple("Gym", Icons.Filled.FitnessCenter, false),
-            Triple("Gastos", Icons.Filled.Payments, true),
-            Triple("Ánimo", Icons.Filled.SentimentSatisfied, false)
-        )
-        items.forEach { (label, icon, isSelected) ->
-            NavigationBarItem(
-                selected = isSelected,
-                onClick = { },
-                icon = { Icon(icon, null) },
-                label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color(0xFF1C1C0D),
-                    indicatorColor = Color(0xFFF2F5A9),
-                    unselectedIconColor = Color(0xFF64748B)
-                )
-            )
-        }
-    }
-}
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GastosScreenPreview() {
+    val navController = rememberNavController()
     MaterialTheme {
         Box(modifier = Modifier.background(Color.White)) {
-            GastosScreen()
+            GastosScreen(navController = navController)
         }
     }
 }
