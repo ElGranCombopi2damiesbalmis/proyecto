@@ -68,10 +68,11 @@
 | Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
 | --- | --- | --- | --- | --- | --- | --- |
 | 02/03/2026 | S25 | Creación de los ViewModel de Economía y Login, además de implementar progresivamente la navegación de las mismas | 2h | Mientras picaba código he visto que en el Repository o en el Screen me faltaban cosas | He tenido que ir poco a poco analizando los diferentes kt de las clases para implementarlo correctamente | Es un trabajo algo tedioso pero es la base funcional para cualquier aplicación |
+| 03/03/2026 | S26 | Mejorando los ViewModel, la navegación y reorganizando componentes | 2h | Nos hemos dado cuenta de la gran cantidad de código que estábamos repitiendo | Hemos decidido crear una carpeta de componentes y trasladarlos todos ahi | Es mucho más funcional, pero el trabajo de reorganizar todo es muy laborioso |
 
 **Resumen del mes:**
 
-- **Total de horas:** 38h
+- **Total de horas:** 40h
 - **Principales logros:**
   - Aprendizaje de metodologías ágiles, metodologías SCRUM y Github projects
   - Diseño de arquitectura base, estructura lógica y esquema UML
