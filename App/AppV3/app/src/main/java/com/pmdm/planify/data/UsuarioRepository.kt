@@ -10,6 +10,12 @@ class UsuarioRepository @Inject constructor(){
     // Este método ahora es dinámico: devuelve el usuario que hizo login
     fun get(): Usuario = dao.usuario.toUsuario()
 
+    fun getUsuarioByEmail(email: String): Usuario? {
+        return UsuarioDaoMock.listaUsuarios
+            .find { it.correo.equals(email, ignoreCase = true) }
+            ?.toUsuario()
+    }
+
     // Permite al sistema de Login establecer quién es el usuario actual
     fun establecerSesion(email: String) {
         UsuarioDaoMock.emailSesionActiva = email
