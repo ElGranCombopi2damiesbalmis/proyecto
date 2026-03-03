@@ -8,8 +8,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 object TareaRoute
 
-fun NavGraphBuilder.tareasDestination() {
-    composable<TareaRoute> {
-        TaskManagerScreen()
-    }
+sealed class Routes(val route: String) {
+    object Principal : Routes("principal")
+    object Tareas : Routes("tareas")
+    // Aquí añadirías el resto: Gastos, Gym, etc.
 }
