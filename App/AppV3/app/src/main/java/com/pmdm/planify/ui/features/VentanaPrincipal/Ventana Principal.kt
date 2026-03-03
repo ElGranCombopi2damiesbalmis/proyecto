@@ -13,6 +13,8 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,13 +43,14 @@ val MoodGreat = Color(0xFFE2E722)
 
 // --- 2. Componente Principal ---
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel() // Si usas Hilt: hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(
         containerColor = SurfaceBackground,
-        bottomBar = {
-            // AQUÍ LE PASAMOS "Inicio" PARA QUE SE MARQUE EN AMARILLO
-            DashboardBottomBar(itemSeleccionado = "Inicio")
-        }
+        bottomBar = { DashboardBottomBar(itemSeleccionado = "Inicio") }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -56,7 +59,7 @@ fun DashboardScreen() {
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item { HeaderSection() }
+            item { HeaderSection(uiState.fraseBienvenida) }
             item { MoodSection() }
             item { TasksSection() }
             item { WorkoutSection() }
@@ -69,7 +72,7 @@ fun DashboardScreen() {
 // --- 3. Secciones ---
 
 @Composable
-fun HeaderSection() {
+fun HeaderSection(fraseBienvenida: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -276,19 +279,11 @@ fun DashboardBottomBar(itemSeleccionado: String) {
         tonalElevation = 0.dp
     ) {
         val items = listOf(
-<<<<<<< HEAD
-            Triple("Tareas", Icons.Filled.CalendarMonth, false),
-            Triple("Gym", Icons.Filled.FitnessCenter, false),
-            Triple("Inicio", Icons.Filled.Home, true),
-            Triple("Gastos", Icons.Filled.Payments, false),
-            Triple("Ánimo", Icons.Filled.SentimentSatisfied, false)
-=======
             Triple("Inicio", Icons.Filled.Home, itemSeleccionado == "Inicio"),
             Triple("Tareas", Icons.Filled.CalendarMonth, itemSeleccionado == "Tareas"),
             Triple("Gym", Icons.Filled.FitnessCenter, itemSeleccionado == "Gym"),
             Triple("Gastos", Icons.Filled.Payments, itemSeleccionado == "Gastos"),
             Triple("Ánimo", Icons.Filled.SentimentSatisfied, itemSeleccionado == "Ánimo")
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
         )
 
         items.forEach { (label, icon, isSelected) ->
