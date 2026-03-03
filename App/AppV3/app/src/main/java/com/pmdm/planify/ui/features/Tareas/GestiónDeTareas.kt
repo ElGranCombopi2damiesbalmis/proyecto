@@ -50,6 +50,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import java.time.format.DateTimeFormatter
 import com.pmdm.planify.data.daomocks.TareaDaoMock
 import com.pmdm.planify.data.mocks.TareaMock
@@ -57,6 +58,9 @@ import kotlin.collections.count
 import kotlin.collections.forEach
 import kotlin.text.isNotEmpty
 import kotlin.to
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.pmdm.planify.models.EtiquetaTarea
 
 // --- 1. Definición de Colores (Extraídos de tu HTML) ---
@@ -99,13 +103,9 @@ data class TareaUiState(
 // --- 3. Componente Principal Actualizado ---
 @Composable
 fun TaskManagerScreen(
-<<<<<<< HEAD
-    // Inyectamos el DAO por parámetro (con un val or por defecto para facilitar las Previews)
-    tareaDao: TareaDaoMock = TareaDaoMock()
-=======
     // Si usas Hilt: viewModel: TareaViewModel = hiltViewModel()
+    navController: NavHostController,
     viewModel: TareaViewModel = viewModel()
->>>>>>> main
 ) {
     // Obtenemos la lista de tareas del DAO
     // Nota: En una app real, esto vendría de un ViewModel usando un Flow o State
@@ -585,13 +585,5 @@ fun TaskBottomNavigation() {
                 )
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TaskManagerPreview() {
-    MaterialTheme {
-        TaskManagerScreen()
     }
 }

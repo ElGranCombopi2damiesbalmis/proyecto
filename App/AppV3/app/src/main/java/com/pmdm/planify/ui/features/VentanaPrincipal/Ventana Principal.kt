@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pmdm.planify.ui.navegation.Routes
 
 // --- 1. Definición de Colores ---
 val PrimaryLime = Color(0xFFE2E722)
@@ -279,8 +280,8 @@ fun DashboardBottomBar(itemSeleccionado: String) {
         tonalElevation = 0.dp
     ) {
         val items = listOf(
-            Triple("Inicio", Icons.Filled.Home, itemSeleccionado == "Inicio"),
-            Triple("Tareas", Icons.Filled.CalendarMonth, itemSeleccionado == "Tareas"),
+            Triple("Inicio", Icons.Filled.Home, Routes.Principal.route),
+            Triple("Tareas", Icons.Filled.CalendarMonth, Routes.Tareas.route),
             Triple("Gym", Icons.Filled.FitnessCenter, itemSeleccionado == "Gym"),
             Triple("Gastos", Icons.Filled.Payments, itemSeleccionado == "Gastos"),
             Triple("Ánimo", Icons.Filled.SentimentSatisfied, itemSeleccionado == "Ánimo")
@@ -289,16 +290,18 @@ fun DashboardBottomBar(itemSeleccionado: String) {
         items.forEach { (label, icon, isSelected) ->
             NavigationBarItem(
                 selected = isSelected,
-                onClick = { /* TODO: Conectar con NavController */ },
+                onClick = {
+                    if (!isSelected) {
+                        navController.navigate(route) {
+                            // Evita acumular pantallas en el "backstack"
+                            popUpTo(navController.graph.startDestinationId) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                },
                 icon = { Icon(icon, contentDescription = label) },
-                label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = OnPrimary,
-                    selectedTextColor = TextPrimary,
-                    indicatorColor = PrimaryContainer,
-                    unselectedIconColor = TextSecondary,
-                    unselectedTextColor = TextSecondary
-                )
+                label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) }
             )
         }
     }
