@@ -1,5 +1,5 @@
 package com.pmdm.planify.ui.features.EstadoDeAnimo
-
+/*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -354,4 +354,4 @@ fun EstadoDeAnimoPreview() {
             historial = emptyMap() // Pasamos un mapa vacío, se rellenará con los datos dummy del calendario
         )
     }
-}
+}*/

@@ -39,7 +39,6 @@ fun NavHostPlanify() {
         navController = nc,
         startDestination = LoginRoute
     ) {
-        // --- AUTH ---
         loginDestination(
             vm = loginVm,
             onNavigateToHome = {
@@ -49,9 +48,7 @@ fun NavHostPlanify() {
             }
         )
 
-        inicioDestination(
-            onNavigateToSettings = { nc.navigate(SettingsRoute) }
-        )
+        inicioDestination()
 
         tareasDestination()
 
@@ -67,6 +64,7 @@ fun NavHostPlanify() {
                 onNavigateToSettings = { nc.navigate(SettingsRoute) },
                 // PASAMOS EL NAVCONTROLLER PARA LA BOTTOM BAR
                 navController = nc
+            )
 
         }
 

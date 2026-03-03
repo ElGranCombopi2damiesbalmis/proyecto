@@ -279,9 +279,9 @@ fun DashboardBottomBar(itemSeleccionado: String) {
         tonalElevation = 0.dp
     ) {
         val items = listOf(
-            Triple("Inicio", Icons.Filled.Home, itemSeleccionado == "Inicio"),
             Triple("Tareas", Icons.Filled.CalendarMonth, itemSeleccionado == "Tareas"),
             Triple("Gym", Icons.Filled.FitnessCenter, itemSeleccionado == "Gym"),
+            Triple("Inicio", Icons.Filled.Home, itemSeleccionado == "Inicio"),
             Triple("Gastos", Icons.Filled.Payments, itemSeleccionado == "Gastos"),
             Triple("Ánimo", Icons.Filled.SentimentSatisfied, itemSeleccionado == "Ánimo")
         )

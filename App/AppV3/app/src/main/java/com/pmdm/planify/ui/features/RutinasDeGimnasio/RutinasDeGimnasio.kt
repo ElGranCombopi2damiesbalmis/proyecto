@@ -2,6 +2,7 @@ package com.pmdm.planify.ui.features.RutinasDeGimnasio
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,25 +10,19 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-<<<<<<< HEAD
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Edit
-=======
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.LocalFireDepartment
-<<<<<<< HEAD
 import androidx.compose.material.icons.filled.Mood
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Payments
-=======
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.SentimentSatisfied
@@ -38,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -105,7 +101,9 @@ fun RutinasGimnasioContent(
             // HEADER
             item {
                 Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    HeaderSection()
+                    HeaderSection(
+                        fraseBienvenida = "¡Bienvenido!"
+                    )
                 }
             }
 
@@ -202,7 +200,7 @@ fun GymRoutineCard(rutina: Rutina, onStartClick: () -> Unit) {
 }
 
 @Composable
-fun StatCard(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, value: String) {
+fun StatCard(icon: ImageVector, label: String, value: String) {
     Column(
         modifier = Modifier.width(140.dp).clip(RoundedCornerShape(16.dp)).background(MdSysColorSurfaceContainer).border(1.dp, MdSysColorOutline.copy(alpha = 0.05f), RoundedCornerShape(16.dp)).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -222,7 +220,6 @@ fun ContainerBadge(text: String, color: Color) {
     }
 }
 
-<<<<<<< HEAD
 @Composable
 fun GymBottomNavBar() {
     NavigationBar(
@@ -259,7 +256,7 @@ fun GymBottomNavBar() {
 }
 
 @Composable
-fun NavBarItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, isSelected: Boolean) {
+fun NavBarItem(icon: ImageVector, label: String, isSelected: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(64.dp).clickable(onClick = {})) {
         Box(modifier = Modifier.height(32.dp), contentAlignment = Alignment.Center) {
             Icon(icon, null, tint = MdSysColorOnSurfaceVariant)
@@ -272,11 +269,7 @@ fun NavBarItem(icon: androidx.compose.ui.graphics.vector.ImageVector, label: Str
 // ---------------------------------------------------------
 // PREVIEW
 // ---------------------------------------------------------
-@Preview(showBackground = true, heightDp = 1000)
-=======
-// PREVIEW CON MÁS DATOS FALSOS
 @Preview(showBackground = true, heightDp = 1500)
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
 @Composable
 fun RutinasGimnasioScreenPreview() {
     val rutinasFalsas = listOf(

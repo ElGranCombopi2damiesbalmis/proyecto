@@ -95,7 +95,7 @@ data class TareaUiState(
     val filtroSeleccionado: String = "Todos"
 )
 
-// --- 3. Componente Principal ---
+/*// --- 3. Componente Principal ---
 // --- 3. Componente Principal Actualizado ---
 @Composable
 fun TaskManagerScreen(
@@ -154,7 +154,7 @@ fun TaskManagerScreen(
             }
         }
     }
-}
+}*/
 
 // --- Componente TaskCard Actualizado ---
 @Composable
@@ -588,10 +588,10 @@ fun TaskBottomNavigation() {
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun TaskManagerPreview() {
     MaterialTheme {
         TaskManagerScreen()
     }
-}
+}*/

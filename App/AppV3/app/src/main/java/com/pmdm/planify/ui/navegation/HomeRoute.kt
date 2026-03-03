@@ -10,6 +10,6 @@ object HomeRoute
 
 fun NavGraphBuilder.inicioDestination() {
     composable<HomeRoute> {
-        DashboardScreen() // Nombre de la función en Ventana Principal.kt
+        DashboardScreen()
     }
 }
