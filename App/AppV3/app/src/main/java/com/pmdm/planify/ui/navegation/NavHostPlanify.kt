@@ -69,7 +69,7 @@ fun NavHostPlanify() {
         }
 
         composable<TareaRoute> {
-            TaskManagerScreen()
+            TaskManagerScreen(navController = nc)
         }
 
         animoDestination()
