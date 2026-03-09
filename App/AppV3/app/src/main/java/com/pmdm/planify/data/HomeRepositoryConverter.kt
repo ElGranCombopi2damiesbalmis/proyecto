@@ -11,6 +11,7 @@ fun Home.toHomeMock() = HomeMock(
 
 // --- De Mock a Modelo ---
 fun HomeMock.toHome() = Home(
+    nombreUsuario = "",          // El nombre viene del UsuarioRepository, no del HomeMock
     fraseBienvenida = fraseBienvenida,
     notificacionesPendientes = notificacionesPendientes
 )

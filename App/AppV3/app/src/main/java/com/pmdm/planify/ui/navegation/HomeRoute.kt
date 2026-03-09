@@ -8,8 +8,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 object HomeRoute
 
-fun NavGraphBuilder.inicioDestination() {
+/*fun NavGraphBuilder.inicioDestination() {
     composable<HomeRoute> {
-        DashboardScreen()
+        DashboardScreen(
+            navController = TODO(),
+            viewModel = TODO()
+        )
     }
-}
+}*/

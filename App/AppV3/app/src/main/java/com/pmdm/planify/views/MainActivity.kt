@@ -22,10 +22,10 @@ class MainActivity : ComponentActivity() {
             PlanifyTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     // Llamamos directamente al NavHost para iniciar el sistema de rutas
-                    //NavHostPlanify()
-                        EstadoDeAnimoContent(
+                    NavHostPlanify()
+                        /*EstadoDeAnimoContent(
                             historial = emptyMap() // Pasamos un mapa vacío, se rellenará con los datos dummy del calendario
-                        )
+                        )*/
                 }
             }
         }

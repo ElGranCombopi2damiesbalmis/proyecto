@@ -8,10 +8,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 object EstadoDeAnimoRoute
 
-fun NavGraphBuilder.animoDestination() {
+/*fun NavGraphBuilder.animoDestination() {
     composable<EstadoDeAnimoRoute> {
         EstadoDeAnimoScreen(
             vm = TODO()
         )
     }
-}
+}*/
