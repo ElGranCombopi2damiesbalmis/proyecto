@@ -8,8 +8,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 object TareaRoute
 
-sealed class Routes(val route: String) {
-    object Principal : Routes("principal")
-    object Tareas : Routes("tareas")
-    // Aquí añadirías el resto: Gastos, Gym, etc.
+sealed class Rutas(val ruta: String) {
+    object Inicio : Rutas("inicio")
+    object Tarea : Rutas("tareas")
+    object Gym : Rutas("gym")
+    object Gastos : Rutas("gastos")
+    object Animo : Rutas("animo")
 }

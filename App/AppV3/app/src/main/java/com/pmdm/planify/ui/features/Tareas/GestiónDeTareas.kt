@@ -34,6 +34,7 @@ import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
 import com.pmdm.planify.ui.features.Componentes.PlanifyHeader
 import java.time.format.DateTimeFormatter
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 // --- Colores del Tema de Tareas ---
 val OlivePrimary = Color(0xFF6B5E0F)
@@ -56,7 +57,9 @@ data class CalendarDay(
 @Composable
 fun TaskManagerScreen(
     navController: NavHostController,
-    viewModel: TareaViewModel = hiltViewModel()
+    // tareaDao: TareaDaoMock = TareaDaoMock()
+    // Si usas Hilt: viewModel: TareaViewModel = hiltViewModel()
+    viewModel: TareaViewModel = viewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
     val tareasFiltradas = viewModel.getTareasFiltradas()
