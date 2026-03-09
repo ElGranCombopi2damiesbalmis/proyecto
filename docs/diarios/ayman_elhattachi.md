@@ -115,6 +115,7 @@
 | Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
 |---|---|---|---|---|---|---|
 | 02/03 | S27 | He linkado el apartado de Rutinas de gimnasion, Ajustes, Estado de animo, y he creado sus respectivos ViewModels y Events. | 2h |  |  |
+| 09/03 | S28 | He solucionado los conflictos de merges y he linkado todas las vistas en la navegacion de la App. | 4h | Conflictos con archivos que editaron otros compañeros. | Ayuda con la IA. |
 |Pendiente|
 
 **Resumen del mes:**
