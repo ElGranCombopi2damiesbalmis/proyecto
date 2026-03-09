@@ -11,6 +11,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
+data class HomeUiState(
+    val nombreUsuario: String = "Andrea",
+    val fraseBienvenida: String = "¡Hola de nuevo!",
+    val tareas: List<String> = emptyList()
+)
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: HomeRepository
@@ -31,9 +37,6 @@ class HomeViewModel @Inject constructor(
         _uiState.update { homeData }
     }
 
-    /**
-     * Ejemplo de cómo actualizar los datos desde la UI
-     */
     fun onFraseBienvenidaChanged(nuevaFrase: String) {
         val currentHome = _uiState.value
         val updatedHome = currentHome.copy(fraseBienvenida = nuevaFrase)

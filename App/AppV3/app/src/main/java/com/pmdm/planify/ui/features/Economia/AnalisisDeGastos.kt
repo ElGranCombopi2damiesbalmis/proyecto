@@ -26,25 +26,26 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.pmdm.planify.models.TipoTransaccion
 import com.pmdm.planify.models.Transaccion
-import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
 import com.pmdm.planify.ui.features.Economia.AnalisisDeGastosViewModel
 import java.time.format.DateTimeFormatter
+import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
+import com.pmdm.planify.ui.features.Componentes.PlanifyHeader
 
 // Colores unificados
 val PrimaryYellow = Color(0xFFFACC15)
-val SurfaceVariant = Color(0xFFF4F4F5)
+val SurfaceVariantFinance = Color(0xFFF4F4F5)
 val SuccessGreen = Color(0xFF16A34A)
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GastosScreen(
+    navController: NavHostController,
     vm: AnalisisDeGastosViewModel = hiltViewModel(),
-    navController: NavHostController, // Ahora obligatorio para la BottomBar
     onNavigateToNuevaTransaccion: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {}
 ) {
     Scaffold(
-        bottomBar = { PlanifyBottomBar(navController) }, // Invocamos la función global
+        containerColor = Color.White,
+        bottomBar = { PlanifyBottomBar(navController) },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToNuevaTransaccion,
@@ -61,15 +62,33 @@ fun GastosScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
         ) {
-            item { HeaderSection(onProfileClick = onNavigateToSettings) }
+            // HEADER COMÚN (Mantiene la coherencia con Inicio, Gym y Tareas)
+            item {
+                PlanifyHeader(
+                    nombreUsuario = "Andrea",
+                    fraseBienvenida = "Tus finanzas",
+                    onProfileClick = onNavigateToSettings
+                )
+
+                Text(
+                    text = "Análisis de Gastos",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
+                )
+            }
+
             item { TotalCard(total = vm.gastoTotal) }
+
             item { TrendSection() }
+
             item {
                 CategoryFilters(
                     selectedCategory = vm.categoriaSeleccionada,
                     onCategoryClick = { vm.onCategoriaSelected(it) }
                 )
             }
+
             item {
                 Text(
                     "Movimientos Recientes",
@@ -82,37 +101,19 @@ fun GastosScreen(
             items(vm.transaccionesFiltradas) { transaction ->
                 TransactionItem(transaction)
             }
+
+            item { Spacer(modifier = Modifier.height(20.dp)) }
         }
     }
 }
 
-@Composable
-fun HeaderSection(onProfileClick: () -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Surface(
-            modifier = Modifier.size(40.dp).clickable { onProfileClick() },
-            shape = CircleShape,
-            color = SurfaceVariant
-        ) {
-            Icon(Icons.Default.Person, contentDescription = "Profile", modifier = Modifier.padding(8.dp))
-        }
-    }
-    Text(
-        text = "Análisis de Gastos",
-        style = MaterialTheme.typography.headlineMedium,
-        fontWeight = FontWeight.Bold
-    )
-}
+// --- COMPONENTES INTERNOS ---
 
 @Composable
 fun TotalCard(total: Double) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
-        colors = CardDefaults.cardColors(containerColor = SurfaceVariant),
+        modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+        colors = CardDefaults.cardColors(containerColor = SurfaceVariantFinance),
         shape = RoundedCornerShape(24.dp)
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
@@ -151,7 +152,7 @@ fun CategoryButton(label: String, isSelected: Boolean, onClick: () -> Unit) {
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
-        color = if (isSelected) PrimaryYellow else SurfaceVariant,
+        color = if (isSelected) PrimaryYellow else SurfaceVariantFinance,
         border = if (isSelected) null else BorderStroke(1.dp, Color(0xFFE2E8F0)),
         modifier = Modifier.height(40.dp)
     ) {
@@ -171,7 +172,7 @@ fun TransactionItem(t: Transaccion) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
-            modifier = Modifier.size(48.dp).background(SurfaceVariant, CircleShape),
+            modifier = Modifier.size(48.dp).background(SurfaceVariantFinance, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Icon(t.icon, contentDescription = null, tint = if(t.tipo == TipoTransaccion.GASTO) Color.Gray else SuccessGreen)
@@ -193,33 +194,36 @@ fun TrendSection() {
     Column {
         Text("Tendencia", fontWeight = FontWeight.Bold)
         Row(
-            modifier = Modifier.fillMaxWidth().height(120.dp).padding(top = 16.dp).background(SurfaceVariant.copy(alpha = 0.5f), RoundedCornerShape(16.dp)).padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp)
+                .padding(top = 16.dp)
+                .background(SurfaceVariantFinance.copy(alpha = 0.5f), RoundedCornerShape(16.dp))
+                .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.Bottom
         ) {
-            Bar(0.3f, "S1", false)
-            Bar(0.8f, "S2", true)
-            Bar(0.5f, "S3", false)
-            Bar(0.2f, "S4", false)
+            BarFinance(0.3f, "S1", false)
+            BarFinance(0.8f, "S2", true)
+            BarFinance(0.5f, "S3", false)
+            BarFinance(0.2f, "S4", false)
         }
     }
 }
 
 @Composable
-fun Bar(fraction: Float, label: String, isSelected: Boolean) {
+fun BarFinance(fraction: Float, label: String, isSelected: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier.width(20.dp).fillMaxHeight(fraction).clip(RoundedCornerShape(4.dp)).background(if (isSelected) PrimaryYellow else PrimaryYellow.copy(alpha = 0.3f)))
         Text(label, fontSize = 10.sp, modifier = Modifier.padding(top = 4.dp))
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun GastosScreenPreview() {
     val navController = rememberNavController()
     MaterialTheme {
-        Box(modifier = Modifier.background(Color.White)) {
-            GastosScreen(navController = navController)
-        }
+        GastosScreen(navController = navController)
     }
 }
