@@ -98,14 +98,10 @@ data class TareaUiState(
 // --- 3. Componente Principal ---
 // --- 3. Componente Principal Actualizado ---
 @Composable
-fun TaskManagerScreen(
-<<<<<<< HEAD
-    // Inyectamos el DAO por parámetro (con un val or por defecto para facilitar las Previews)
-    tareaDao: TareaDaoMock = TareaDaoMock()
-=======
+fun TaskManagerScreen( // Inyectamos el DAO por parámetro (con un val or por defecto para facilitar las Previews)
+    // tareaDao: TareaDaoMock = TareaDaoMock()
     // Si usas Hilt: viewModel: TareaViewModel = hiltViewModel()
     viewModel: TareaViewModel = viewModel()
->>>>>>> main
 ) {
     // Obtenemos la lista de tareas del DAO
     // Nota: En una app real, esto vendría de un ViewModel usando un Flow o State
