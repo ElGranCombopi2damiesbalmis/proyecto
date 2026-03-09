@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import com.pmdm.planify.models.Usuario
-import com.pmdm.planify.ui.features.VentanaPrincipal.DashboardBottomBar
 
 // --- DEFINICIÓN DE COLORES ---
 val AppPrimary = Color(0xFFF2F20D)
@@ -59,7 +58,7 @@ fun AjustesPerfilContent(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = AppBackground)
             )
         },
-        bottomBar = { DashboardBottomBar(itemSeleccionado = "Ajustes") }
+        // bottomBar gestionada por el NavHost padre
     ) { paddingValues ->
         Column(
             modifier = Modifier

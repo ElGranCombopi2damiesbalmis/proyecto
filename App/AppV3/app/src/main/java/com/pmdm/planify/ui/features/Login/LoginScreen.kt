@@ -21,7 +21,6 @@ import com.pmdm.planify.R
 import com.pmdm.planify.data.UsuarioRepository
 import com.pmdm.planify.ui.features.Login.LoginViewModel
 
-// Colores unificados
 val PrimaryYellow = Color(0xFFFACC15)
 val BackgroundWhite = Color(0xFFFFFFFF)
 val TextGray = Color(0xFF64748B)
@@ -38,12 +37,11 @@ fun LoginScreen(vm: LoginViewModel) {
     ) {
         Spacer(modifier = Modifier.height(60.dp))
 
-        Text(text = "¡Bienvenido de nuevo!", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-        Text(text = "Introduce tus datos para continuar", fontSize = 14.sp, color = TextGray, modifier = Modifier.padding(top = 8.dp))
+        Text("¡Bienvenido de nuevo!", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+        Text("Introduce tus datos para continuar", fontSize = 14.sp, color = TextGray, modifier = Modifier.padding(top = 8.dp))
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // Email conectado al ViewModel
         OutlinedTextField(
             value = vm.email,
             onValueChange = { vm.onEmailChanged(it) },
@@ -62,7 +60,6 @@ fun LoginScreen(vm: LoginViewModel) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Contraseña conectada al ViewModel
         OutlinedTextField(
             value = vm.password,
             onValueChange = { vm.onPasswordChanged(it) },
@@ -80,14 +77,13 @@ fun LoginScreen(vm: LoginViewModel) {
         )
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-            TextButton(onClick = { /* TODO: Olvidé contraseña */ }) {
+            TextButton(onClick = { }) {
                 Text("¿Has olvidado tu contraseña?", color = TextGray, fontSize = 12.sp)
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Botón de Iniciar Sesión usando la lógica del VM
         Button(
             onClick = { vm.onLoginClick() },
             modifier = Modifier.fillMaxWidth().height(56.dp),
@@ -97,14 +93,8 @@ fun LoginScreen(vm: LoginViewModel) {
             Text("Iniciar Sesión", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
 
-        // Mensaje de error dinámico
         vm.errorMessage?.let { msg ->
-            Text(
-                text = msg,
-                color = Color.Red,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(top = 16.dp)
-            )
+            Text(msg, color = Color.Red, fontSize = 12.sp, modifier = Modifier.padding(top = 16.dp))
         }
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -134,7 +124,7 @@ fun LoginScreen(vm: LoginViewModel) {
 @Composable
 fun SocialButton(text: String, iconRes: Int, modifier: Modifier = Modifier) {
     OutlinedButton(
-        onClick = { /* Acción Social Login */ },
+        onClick = { },
         modifier = modifier.height(52.dp),
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(1.dp, Color(0xFFE2E8F0)),
@@ -148,17 +138,7 @@ fun SocialButton(text: String, iconRes: Int, modifier: Modifier = Modifier) {
                 tint = Color.Unspecified
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = text, color = Color.Black, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+            Text(text, color = Color.Black, fontSize = 14.sp, fontWeight = FontWeight.Medium)
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun LoginScreenPreview() {
-    // Le pasamos el repositorio manualmente al constructor del VM para el Preview
-    val mockRepository = UsuarioRepository()
-    val mockVm = LoginViewModel(mockRepository)
-
-    LoginScreen(vm = mockVm)
 }

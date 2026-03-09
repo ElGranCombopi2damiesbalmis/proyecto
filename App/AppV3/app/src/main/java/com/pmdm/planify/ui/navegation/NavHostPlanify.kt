@@ -1,113 +1,130 @@
 package com.pmdm.planify.ui.navegation
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pmdm.planify.ui.features.Economia.AnalisisDeGastosViewModel
+import com.pmdm.planify.ui.LoginScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesNotificacionesScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesPerfilScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesPrivacidadScreen
 import com.pmdm.planify.ui.features.Ajustes.AjustesVM
 import com.pmdm.planify.ui.features.Ajustes.EditarPerfilScreen
+import com.pmdm.planify.ui.features.AnalisisDeGastos.GastosScreen
+import com.pmdm.planify.ui.features.Economia.AnalisisDeGastosViewModel
+import com.pmdm.planify.ui.features.EstadoDeAnimo.EstadoAnimoVM
+import com.pmdm.planify.ui.features.EstadoDeAnimo.EstadoDeAnimoScreen
 import com.pmdm.planify.ui.features.Login.LoginViewModel
+import com.pmdm.planify.ui.features.RutinasDeGimnasio.GymVM
+import com.pmdm.planify.ui.features.RutinasDeGimnasio.RutinasGimnasioScreen
+import com.pmdm.planify.ui.features.Tareas.TareaViewModel
 import com.pmdm.planify.ui.features.Tareas.TaskManagerScreen
+import com.pmdm.planify.ui.features.VentanaPrincipal.DashboardScreen
+import com.pmdm.planify.ui.features.VentanaPrincipal.HomeViewModel
 
 @Composable
 fun NavHostPlanify() {
     val nc = rememberNavController()
-    // Instanciamos el ViewModel usando Hilt
-    val loginVm: LoginViewModel = hiltViewModel()
+
+    // ── ViewModels ─────────────────────────────────────────────────────────────
+    val loginVm: LoginViewModel     = hiltViewModel()
+    val homeVm: HomeViewModel       = hiltViewModel()
     val gastosVm: AnalisisDeGastosViewModel = hiltViewModel()
+    val gymVm: GymVM                = hiltViewModel()
+    val tareasVm: TareaViewModel    = hiltViewModel()
+    val animoVm: EstadoAnimoVM      = hiltViewModel()
+    val ajustesVm: AjustesVM        = hiltViewModel()
 
-    /*vm.onNavigateToEconomia = { nc.navigate(EconomiaRoute) }
-    vm.onNavigateToTransaccion = { nc.navigate(TransaccionRoute) }
-    vm.onNavigateToEstadoAnimo = { nc.navigate(EstadoDeAnimoRoute) }
-    vm.onNavigateToSettings = { nc.navigate(SettingsRoute) }
-    vm.onNavigateToTarea = { nc.navigate(TareaRoute) }
-    vm.onBack = { nc.popBackStack() }*/
+    // ── Lambdas de AjustesVM ───────────────────────────────────────────────────
+    ajustesVm.onBack                    = { nc.popBackStack() }
+    ajustesVm.onNavigateToLogin         = { nc.navigate(LoginRoute)      { popUpTo(0) { inclusive = true } } }
+    ajustesVm.onNavigateToEditarPerfil  = { nc.navigate(EditarPerfilRoute) }
+    ajustesVm.onNavigateToNotificaciones= { nc.navigate(NotificacionesRoute) }
+    ajustesVm.onNavigateToPrivacidad    = { nc.navigate(PrivacidadRoute) }
 
+    NavHost(navController = nc, startDestination = HomeRoute) {
 
-    val ajustesVm = hiltViewModel<AjustesVM>()
-    ajustesVm.onBack = { nc.popBackStack() }
-
-    // Configuramos su navegación
-    ajustesVm.onBack = { nc.popBackStack() }
-    ajustesVm.onNavigateToLogin = {
-        nc.navigate(LoginRoute) { popUpTo(0) } // Al cerrar sesión limpia la pila
-    }
-    ajustesVm.onNavigateToEditarPerfil = { nc.navigate(EditarPerfilRoute) }
-    ajustesVm.onNavigateToNotificaciones = { nc.navigate(NotificacionesRoute) }
-    ajustesVm.onNavigateToPrivacidad = { nc.navigate(PrivacidadRoute) }
-
-
-    NavHost(
-        navController = nc,
-        startDestination = LoginRoute
-    ) {
-        // --- AUTH ---
-        /*loginDestination(
-            vm = loginVm,
-            onNavigateToHome = {
-                nc.navigate(InicioRoute) {
-                    popUpTo(LoginRoute) { inclusive = true } // Limpia el historial
-                }
+        // ── LOGIN ──────────────────────────────────────────────────────────────
+        composable<LoginRoute> {
+            loginVm.onLoginSuccess = {
+                homeVm.cargarDatos()
+                nc.navigate(HomeRoute) { popUpTo(LoginRoute) { inclusive = true } }
             }
-        )
-
-        inicioDestination(
-            onNavigateToSettings = { nc.navigate(SettingsRoute) }
-        )*/
-
-        tareasDestination()
-
-        gymDestination(
-            onBack = { nc.popBackStack() }
-        )
-
-        /*composable<EconomiaRoute> {
-
-            GastosScreen(
-                vm = gastosVm,
-                onNavigateToNuevaTransaccion = { nc.navigate(TransaccionRoute) },
-                onNavigateToSettings = { nc.navigate(SettingsRoute) },
-                // PASAMOS EL NAVCONTROLLER PARA LA BOTTOM BAR
-                navController = nc
-
-            /*GastosScreen() // Reemplaza por tu pantalla real si le cambiaste el nombre*/
-        }*/
-
-        // --- TAREAS ---
-        composable<TareaRoute> {
-            TaskManagerScreen()
+            LoginScreen(vm = loginVm)
         }
 
-        // --- ÁNIMO ---
-        /*composable<EstadoDeAnimoRoute> {
-            EstadoDeAnimoScreen(
-                onBackClick = { vm.onPlanifyEvent(PlanifyEvent.OnBack) }
->>>>>>> 49162f325ab2727e924248109f5c24ce4c1e40ef
+        // ── HOME ───────────────────────────────────────────────────────────────
+        composable<HomeRoute> {
+            DashboardScreen(
+                navController = nc,
+                viewModel = homeVm
             )
-        }*/
+        }
 
+        // ── TAREAS ─────────────────────────────────────────────────────────────
+        composable<TareaRoute> {
+            TaskManagerScreen(
+                navController = nc,
+                viewModel = tareasVm
+            )
+        }
 
-        animoDestination()
+        // ── GYM ────────────────────────────────────────────────────────────────
+        composable<GymRoute> {
+            RutinasGimnasioScreen(
+                navController = nc,
+                vm = gymVm
+            )
+        }
 
-        transaccionDestination(
-            onBack = { nc.popBackStack() }
-        )
+        // ── ECONOMÍA ───────────────────────────────────────────────────────────
+        composable<EconomiaRoute> {
+            GastosScreen(
+                navController = nc,
+                vm = gastosVm,
+                onNavigateToNuevaTransaccion = { nc.navigate(TransaccionRoute) },
+                onNavigateToSettings         = { nc.navigate(SettingsRoute) }
+            )
+        }
 
-        // --- RUTAS DE AJUSTES ---
+        // ── NUEVA TRANSACCIÓN (placeholder) ────────────────────────────────────
+        composable<TransaccionRoute> {
+            Box(
+                modifier = Modifier.fillMaxSize().clickable { nc.popBackStack() },
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Nueva Transacción\n(Pulsa para volver)")
+            }
+        }
+
+        // ── ESTADO DE ÁNIMO ────────────────────────────────────────────────────
+        composable<EstadoDeAnimoRoute> {
+            EstadoDeAnimoScreen(
+                navController = nc,
+                vm = animoVm
+            )
+        }
+
+        // ── AJUSTES ────────────────────────────────────────────────────────────
         composable<SettingsRoute> {
             AjustesPerfilScreen(vm = ajustesVm)
         }
+
         composable<EditarPerfilRoute> {
             EditarPerfilScreen(vm = ajustesVm)
         }
+
         composable<NotificacionesRoute> {
             AjustesNotificacionesScreen(vm = ajustesVm)
         }
+
         composable<PrivacidadRoute> {
             AjustesPrivacidadScreen(vm = ajustesVm)
         }
