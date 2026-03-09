@@ -242,7 +242,7 @@ fun SummaryCardSection() {
 
             Row(modifier = Modifier.fillMaxWidth().height(90.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Bottom) {
                 MoodBar(fraction = 0.65f, color = AppPrimary, emoji = "🙂")
-                MoodBar(fraction = 0.85f, color = Color(0xFFD1CD00), emoji = "🤩")
+                MoodBar(fraction = 0.45f, color = Color(0xFFD1CD00), emoji = "🤩")
                 MoodBar(fraction = 0.35f, color = Color(0xFFFFEDD5), emoji = "😔")
                 MoodBar(fraction = 0.15f, color = Color(0xFFFECACA), emoji = "😵")
             }
