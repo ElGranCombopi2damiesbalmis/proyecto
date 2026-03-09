@@ -23,7 +23,11 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Estado privado que maneja los datos de la Home
-    private val _uiState = MutableStateFlow(Home())
+    private val _uiState = MutableStateFlow(Home(
+        nombreUsuario = TODO(),
+        fraseBienvenida = TODO(),
+        notificacionesPendientes = TODO()
+    ))
     // Estado público que la UI observará
     val uiState: StateFlow<Home> = _uiState.asStateFlow()
 

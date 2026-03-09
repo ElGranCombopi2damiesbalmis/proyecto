@@ -10,6 +10,8 @@ object EstadoDeAnimoRoute
 
 fun NavGraphBuilder.animoDestination() {
     composable<EstadoDeAnimoRoute> {
-        EstadoDeAnimoScreen()
+        EstadoDeAnimoScreen(
+            vm = TODO()
+        )
     }
 }

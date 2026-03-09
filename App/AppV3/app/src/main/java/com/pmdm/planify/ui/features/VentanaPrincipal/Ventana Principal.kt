@@ -13,8 +13,6 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,13 +24,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.pmdm.planify.ui.features.AnalisisDeGastos.SurfaceVariant
-import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
-import com.pmdm.planify.ui.features.Componentes.PlanifyHeader
-import com.pmdm.planify.ui.navegation.SettingsRoute
 
 // --- 1. Definición de Colores ---
 val PrimaryLime = Color(0xFFE2E722)
@@ -50,16 +41,13 @@ val MoodGreat = Color(0xFFE2E722)
 
 // --- 2. Componente Principal ---
 @Composable
-fun DashboardScreen(
-    navController: NavHostController, // Añadimos el controlador para la navegación
-    viewModel: HomeViewModel = hiltViewModel() // Cambiado a hiltViewModel para consistencia
-) {
-    val homeData by viewModel.uiState.collectAsState()
-
+fun DashboardScreen() {
     Scaffold(
         containerColor = SurfaceBackground,
-        // Usamos la nueva barra centralizada que detecta automáticamente la ruta
-        bottomBar = { PlanifyBottomBar(navController) }
+        bottomBar = {
+            // AQUÍ LE PASAMOS "Inicio" PARA QUE SE MARQUE EN AMARILLO
+            DashboardBottomBar(itemSeleccionado = "Inicio")
+        }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -68,37 +56,39 @@ fun DashboardScreen(
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
-                PlanifyHeader(
-                    nombreUsuario = homeData.nombreUsuario,
-                    fraseBienvenida = homeData.fraseBienvenida,
-                    onProfileClick = { navController.navigate(SettingsRoute) }
-                )
-            }
-
+            item { HeaderSection() }
             item { MoodSection() }
-            item { // AQUI HABRÁ QUE VINCULARLO CON EL ROOM MÁS ADELANTE
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Tareas de hoy", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-
-                    TaskRow(
-                        title = "Ir al gimnasio",
-                        subtitle = "08:00 AM - Pecho y Tríceps",
-                        icon = Icons.Default.FitnessCenter,
-                        isCompleted = false
-                    )
-
-                    TaskRow(
-                        title = "Comprar cena",
-                        subtitle = "Supermercado",
-                        icon = Icons.Default.ShoppingCart,
-                        isCompleted = true
-                    )
-                }
-            }
+            item { TasksSection() }
             item { WorkoutSection() }
             item { FinanceSection() }
             item { Spacer(modifier = Modifier.height(20.dp)) }
+        }
+    }
+}
+
+// --- 3. Secciones ---
+
+@Composable
+fun HeaderSection() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 24.dp, bottom = 8.dp),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(horizontalAlignment = Alignment.End) {
+            Text("Hola, de nuevo", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+            Text("Andrea", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = TextPrimary)
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        Box {
+            Surface(modifier = Modifier.size(48.dp), shape = CircleShape, color = Color.Gray) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(Icons.Default.Person, contentDescription = null, tint = Color.White)
+                }
+            }
+            Box(modifier = Modifier.size(14.dp).background(Color(0xFF22C55E), CircleShape).border(2.dp, SurfaceBackground, CircleShape).align(Alignment.BottomEnd))
         }
     }
 }
@@ -137,6 +127,37 @@ fun MoodItem(icon: ImageVector, label: String, color: Color, isSelected: Boolean
 }
 
 @Composable
+fun TasksSection() {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = SurfaceContainer),
+        shape = RoundedCornerShape(28.dp),
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(0.dp)
+    ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Row(modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text("Mis Tareas", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Medium)
+                Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = PrimaryLime, contentColor = OnPrimary), contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp), modifier = Modifier.height(32.dp)) {
+                    Text("Ver Todo", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+            Row(modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                CalendarDayItem("Dom", "12", false)
+                CalendarDayItem("Lun", "13", false)
+                CalendarDayItem("Mar", "14", true)
+                CalendarDayItem("Mié", "15", false)
+                CalendarDayItem("Jue", "16", false)
+                CalendarDayItem("Vie", "17", false)
+                CalendarDayItem("Sab", "18", false)
+            }
+            TaskItem("Reunión con equipo", "10:00 AM • Zoom", Icons.Rounded.Videocam, false)
+            Spacer(modifier = Modifier.height(8.dp))
+            TaskItem("Comprar víveres", "Lista completada", Icons.Default.Check, true)
+        }
+    }
+}
+
+@Composable
 fun CalendarDayItem(day: String, date: String, isSelected: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = day, fontSize = 11.sp, color = TextSecondary)
@@ -148,21 +169,12 @@ fun CalendarDayItem(day: String, date: String, isSelected: Boolean) {
 }
 
 @Composable
-fun TaskRow(
-    title: String,
-    subtitle: String,
-    icon: ImageVector,
-    isCompleted: Boolean
-) {
-    Surface(
-        color = if (isCompleted) SurfaceBackground.copy(alpha = 0.5f) else SurfaceBackground,
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
+fun TaskItem(title: String, subtitle: String, icon: ImageVector, isCompleted: Boolean) {
+    Surface(color = if (isCompleted) SurfaceBackground.copy(alpha = 0.5f) else SurfaceBackground, shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             if (isCompleted) {
-                Box(modifier = Modifier.size(24.dp).background(Color(0xFFD4E157), CircleShape), contentAlignment = Alignment.Center) { // PrimaryLime
-                    Icon(Icons.Default.Check, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
+                Box(modifier = Modifier.size(24.dp).background(PrimaryLime, CircleShape), contentAlignment = Alignment.Center) {
+                    Icon(Icons.Default.Check, contentDescription = null, tint = OnPrimary, modifier = Modifier.size(16.dp))
                 }
             } else {
                 Box(modifier = Modifier.size(24.dp).border(2.dp, Color.LightGray, CircleShape))
@@ -173,7 +185,7 @@ fun TaskRow(
                 Text(text = subtitle, fontSize = 12.sp, color = TextSecondary)
             }
             if (!isCompleted) {
-                Surface(color = SurfaceVariant, shape = CircleShape, modifier = Modifier.size(32.dp)) {
+                Surface(color = SurfaceContainer, shape = CircleShape, modifier = Modifier.size(32.dp)) {
                     Box(contentAlignment = Alignment.Center) { Icon(icon, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(20.dp)) }
                 }
             }
@@ -255,15 +267,45 @@ fun FinanceBar(fillFraction: Float, isToday: Boolean, color: Color = Color.White
     }
 }
 
+// ESTA ES LA FUNCIÓN GLOBAL QUE AHORA ACEPTA EL PARÁMETRO
+@Composable
+fun DashboardBottomBar(itemSeleccionado: String) {
+    NavigationBar(
+        containerColor = SurfaceContainer,
+        contentColor = TextSecondary,
+        tonalElevation = 0.dp
+    ) {
+        val items = listOf(
+
+            Triple("Inicio", Icons.Filled.Home, itemSeleccionado == "Inicio"),
+            Triple("Tareas", Icons.Filled.CalendarMonth, itemSeleccionado == "Tareas"),
+            Triple("Gym", Icons.Filled.FitnessCenter, itemSeleccionado == "Gym"),
+            Triple("Gastos", Icons.Filled.Payments, itemSeleccionado == "Gastos"),
+            Triple("Ánimo", Icons.Filled.SentimentSatisfied, itemSeleccionado == "Ánimo")
+        )
+
+        items.forEach { (label, icon, isSelected) ->
+            NavigationBarItem(
+                selected = isSelected,
+                onClick = { /* TODO: Conectar con NavController */ },
+                icon = { Icon(icon, contentDescription = label) },
+                label = { Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = OnPrimary,
+                    selectedTextColor = TextPrimary,
+                    indicatorColor = PrimaryContainer,
+                    unselectedIconColor = TextSecondary,
+                    unselectedTextColor = TextSecondary
+                )
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true, heightDp = 1000)
 @Composable
 fun DashboardPreview() {
-    val navController = rememberNavController()
     MaterialTheme {
-        Box(modifier = Modifier.background(Color.White)) {
-            DashboardScreen(
-                navController = navController
-            )
-        }
+        DashboardScreen()
     }
 }
