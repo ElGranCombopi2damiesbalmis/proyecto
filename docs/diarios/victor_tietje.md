@@ -70,10 +70,11 @@
 | 02/03/2026 | S25 | Creación de los ViewModel de Economía y Login, además de implementar progresivamente la navegación de las mismas | 2h | Mientras picaba código he visto que en el Repository o en el Screen me faltaban cosas | He tenido que ir poco a poco analizando los diferentes kt de las clases para implementarlo correctamente | Es un trabajo algo tedioso pero es la base funcional para cualquier aplicación |
 | 03/03/2026 | S26 | Mejorando los ViewModel, la navegación y reorganizando componentes | 2h | Nos hemos dado cuenta de la gran cantidad de código que estábamos repitiendo | Hemos decidido crear una carpeta de componentes y trasladarlos todos ahi | Es mucho más funcional, pero el trabajo de reorganizar todo es muy laborioso |
 | 09/03/2026 | S27 | Vinculación para trabajar con los mismos componentes en todas las Screens | 2h | Realmente no muchos | Hemos divido el trabajo de manera que podamos crear componentes, vincularlos y darles funcionalidad de manera que cada uno tenga su trabajo | Queda mucho más limpio el código en las diferentes pantallas |
+| 11/03/2026 | S28 | Añadiendo Room | 2h | Trabajar con una gran cantidad de repositorios, muchos más que en el examen | Basándome en el propio examen y con ayuda de los apuntes y de la IA he podido insertar Room de manera correcta | No pude asistir el martes a clase por lo que he tenido que trabajar hoy. En cuanto al Room, llevamos meses trabajando con Mocks por lo que todavía tengo que acostumbrarme pero luce realmente útil |
 
 **Resumen del mes:**
 
-- **Total de horas:** 42h
+- **Total de horas:** 44h
 - **Principales logros:**
   - Aprendizaje de metodologías ágiles, metodologías SCRUM y Github projects
   - Diseño de arquitectura base, estructura lógica y esquema UML
