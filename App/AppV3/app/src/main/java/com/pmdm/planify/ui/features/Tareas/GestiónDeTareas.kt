@@ -57,15 +57,15 @@ data class CalendarDay(
 @Composable
 fun TaskManagerScreen(
     navController: NavHostController,
-    // tareaDao: TareaDaoMock = TareaDaoMock()
-    // Si usas Hilt: viewModel: TareaViewModel = hiltViewModel()
     viewModel: TareaViewModel = viewModel()
 ) {
+    // Aquí recolectamos el estado que incluye las tareas y el nombre de usuario
     val state by viewModel.uiState.collectAsState()
     val tareasFiltradas = viewModel.getTareasFiltradas()
 
     Scaffold(
         containerColor = BackgroundColor,
+        // Tu BottomBar ya está correctamente implementado aquí:
         bottomBar = { PlanifyBottomBar(navController) },
         floatingActionButton = {
             FloatingActionButton(
@@ -85,12 +85,16 @@ fun TaskManagerScreen(
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Usamos el Header común de componentes
+
             item {
+                // Pasamos el estado dinámico al Header en lugar del string estático
                 PlanifyHeader(
-                    nombreUsuario = "Andrea", // Luego vendrá de tu State si quieres
+                    nombreUsuario = state.nombreUsuario,
                     fraseBienvenida = "Tus tareas",
-                    onProfileClick = { /* Navegar a Settings */ }
+                    onProfileClick = {
+                        // Aquí podrías implementar la navegación al perfil
+                        // navController.navigate(PerfilRoute)
+                    }
                 )
             }
 

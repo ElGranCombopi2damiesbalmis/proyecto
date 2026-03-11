@@ -1,4 +1,4 @@
-package com.pmdm.planify.ui.features.Tareas // Ajusta tu package
+package com.pmdm.planify.ui.features.Tareas
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,17 +8,15 @@ import com.pmdm.planify.data.mocks.TareaMock
 import com.pmdm.planify.data.toTareaMock
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// 1. Añadimos nombreUsuario al estado de la interfaz
 data class TareaUiState(
     val tareas: List<TareaMock> = emptyList(),
     val isLoading: Boolean = false,
-    val filtroSeleccionado: String = "Todos"
+    val filtroSeleccionado: String = "Todos",
+    val nombreUsuario: String = "Andrea" // Valor por defecto inicial
 )
 
 @HiltViewModel
@@ -31,6 +29,8 @@ class TareaViewModel @Inject constructor(
 
     init {
         cargarTareas()
+        // Aquí podrías cargar el nombre del usuario desde un repositorio:
+        // cargarPerfilUsuario()
     }
 
     private fun cargarTareas() {
