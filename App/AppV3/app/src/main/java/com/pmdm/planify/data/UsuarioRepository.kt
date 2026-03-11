@@ -1,32 +1,27 @@
 package com.pmdm.planify.data
 
-import com.pmdm.planify.data.daomocks.UsuarioDaoMock
+import android.content.Context
+import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.models.Usuario
 import javax.inject.Inject
 
-class UsuarioRepository @Inject constructor(){
-    private val dao = UsuarioDaoMock()
+class UsuarioRepository @Inject constructor(context: Context) {
 
-    // Este método ahora es dinámico: devuelve el usuario que hizo login
-    fun get(): Usuario = dao.usuario.toUsuario()
+    private val dao = PlanifyDB.getDatabase(context).usuarioDao()
 
-    fun getUsuarioByEmail(email: String): Usuario? {
-        return UsuarioDaoMock.listaUsuarios
-            .find { it.correo.equals(email, ignoreCase = true) }
-            ?.toUsuario()
-    }
+    // Devuelve el usuario por su correo (usado tras el login)
+    suspend fun get(correo: String): Usuario? =
+        dao.getByCorrro(correo)?.toUsuario()
 
-    // Permite al sistema de Login establecer quién es el usuario actual
-    fun establecerSesion(email: String) {
-        UsuarioDaoMock.emailSesionActiva = email
-    }
+    suspend fun getAll(): List<Usuario> =
+        dao.getAll().map { it.toUsuario() }
 
-    fun update(usuario: Usuario) {
-        val mock = usuario.toUsuarioMock()
-        val index = UsuarioDaoMock.listaUsuarios.indexOfFirst { it.correo == mock.correo }
+    suspend fun insert(usuario: Usuario) =
+        dao.insert(usuario.toUsuarioEntity())
 
-        if (index != -1) {
-            UsuarioDaoMock.listaUsuarios[index] = mock
-        }
-    }
+    suspend fun update(usuario: Usuario) =
+        dao.update(usuario.toUsuarioEntity())
+
+    suspend fun count(): Int =
+        dao.count()
 }

@@ -1,17 +1,20 @@
 package com.pmdm.planify.data
 
-import com.pmdm.planify.data.daomocks.EconomiaDaoMock
+import android.content.Context
+import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.models.Economia
 import javax.inject.Inject
 
-class EconomiaRepository @Inject constructor(){
-    private val dao = EconomiaDaoMock()
+class EconomiaRepository @Inject constructor(context: Context) {
 
-    fun get(): Economia = dao.economia.toEconomia()
+    private val dao = PlanifyDB.getDatabase(context).transaccionDao()
 
-    fun update(economia: Economia) {
-        val mock = economia.toEconomiaMock()
-        dao.economia.saldo = mock.saldo
-        dao.economia.historialTransacciones = mock.historialTransacciones
+    // Construye el objeto Economia a partir de las transacciones almacenadas en Room
+    suspend fun get(): Economia {
+        val transacciones = dao.getAll().map { it.toTransaccion() }.toMutableList()
+        return Economia(
+            saldo = dao.getSaldo(),
+            historialTransacciones = transacciones
+        )
     }
 }

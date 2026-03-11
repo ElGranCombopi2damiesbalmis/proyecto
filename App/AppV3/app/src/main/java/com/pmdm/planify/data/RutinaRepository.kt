@@ -1,20 +1,26 @@
 package com.pmdm.planify.data
 
-import com.pmdm.planify.data.daomocks.RutinaDaoMock
+import android.content.Context
+import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.models.Rutina
 import javax.inject.Inject
 
-class RutinaRepository @Inject constructor(){
+class RutinaRepository @Inject constructor(context: Context) {
 
-    // Instancias directas
-    private val rutinaDao = RutinaDaoMock()
-    private val converter = RutinaRepositoryConverter()
+    private val dao = PlanifyDB.getDatabase(context).rutinaDao()
 
-    fun getRutinas(): List<Rutina> {
-        // 1. Obtener datos crudos (Mocks) del DAO
-        val listaMocks = rutinaDao.getRutinas()
+    suspend fun getRutinas(): List<Rutina> =
+        dao.getAll().map { it.toRutina() }
 
-        // 2. Convertir Mocks a Modelos de dominio
-        return listaMocks.map { converter.toModel(it) }
-    }
+    suspend fun insert(rutina: Rutina) =
+        dao.insert(rutina.toRutinaEntity())
+
+    suspend fun update(rutina: Rutina) =
+        dao.update(rutina.toRutinaEntity())
+
+    suspend fun delete(id: String) =
+        dao.delete(id)
+
+    suspend fun count(): Int =
+        dao.count()
 }

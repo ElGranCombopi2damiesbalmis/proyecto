@@ -1,20 +1,27 @@
 package com.pmdm.planify.data
 
-import com.pmdm.planify.data.daomocks.TransaccionDaoMock
+import android.content.Context
+import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.models.Transaccion
 import javax.inject.Inject
 
-class TransaccionRepository @Inject constructor(){
-    private val dao = TransaccionDaoMock()
+class TransaccionRepository @Inject constructor(context: Context) {
 
-    fun getAll(): MutableList<Transaccion> = dao.transacciones.map { it.toTransaccion() }.toMutableList()
+    private val dao = PlanifyDB.getDatabase(context).transaccionDao()
 
-    fun insert(transaccion: Transaccion) {
-        dao.transacciones.add(transaccion.toTransaccionMock())
-    }
+    suspend fun getAll(): MutableList<Transaccion> =
+        dao.getAll().map { it.toTransaccion() }.toMutableList()
 
-    // Método extra útil para borrar
-    fun delete(transaccion: Transaccion) {
-        dao.transacciones.removeIf { it.id == transaccion.id }
-    }
+    suspend fun insert(transaccion: Transaccion) =
+        dao.insert(transaccion.toTransaccionEntity())
+
+    suspend fun delete(transaccion: Transaccion) =
+        dao.delete(transaccion.id)
+
+    // Calcula el saldo directamente en SQL (más eficiente que traer todos los datos)
+    suspend fun getSaldo(): Double =
+        dao.getSaldo()
+
+    suspend fun count(): Int =
+        dao.count()
 }

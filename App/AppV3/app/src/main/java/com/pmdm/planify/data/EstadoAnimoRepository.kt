@@ -1,25 +1,31 @@
 package com.pmdm.planify.data
 
-import com.pmdm.planify.data.daomocks.EstadoAnimoDaoMock
+import android.content.Context
+import com.pmdm.planify.data.room.EstadoAnimoRegistroEntity
+import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.models.EstadoAnimo
 import com.pmdm.planify.models.IconoEstadoAnimo
 import java.time.LocalDate
 import javax.inject.Inject
 
-class EstadoAnimoRepository @Inject constructor(){
-    private val dao = EstadoAnimoDaoMock()
+class EstadoAnimoRepository @Inject constructor(context: Context) {
 
-    fun get(): EstadoAnimo = dao.estadoAnimo.toEstadoAnimo()
+    private val dao = PlanifyDB.getDatabase(context).estadoAnimoDao()
 
-    // Método de conveniencia para insertar un registro específico
-    fun registrar(fecha: LocalDate, icono: IconoEstadoAnimo) {
-        dao.estadoAnimo.registroAnimo[fecha] = icono
+    // Reconstruye el mapa completo desde la tabla
+    suspend fun get(): EstadoAnimo =
+        dao.getAll().toEstadoAnimo()
+
+    // Inserta o sobreescribe el registro de un día concreto
+    suspend fun registrar(fecha: LocalDate, icono: IconoEstadoAnimo) {
+        dao.insert(EstadoAnimoRegistroEntity(fecha = fecha, icono = icono))
     }
 
-    fun update(estadoAnimo: EstadoAnimo) {
-        val mock = estadoAnimo.toEstadoAnimoMock()
-        // Limpiamos y rellenamos el mapa para asegurar consistencia
-        dao.estadoAnimo.registroAnimo.clear()
-        dao.estadoAnimo.registroAnimo.putAll(mock.registroAnimo)
+    // Sincroniza todos los registros del mapa con la base de datos
+    suspend fun update(estadoAnimo: EstadoAnimo) {
+        estadoAnimo.toEstadoAnimoRegistros().forEach { dao.insert(it) }
     }
+
+    suspend fun count(): Int =
+        dao.count()
 }

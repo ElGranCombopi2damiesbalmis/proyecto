@@ -1,50 +1,51 @@
 package com.pmdm.planify.data
 
-import com.pmdm.planify.data.daomocks.LoginDaoMock
-import com.pmdm.planify.data.daomocks.UsuarioDaoMock
-import com.pmdm.planify.data.mocks.LoginMock
-import com.pmdm.planify.data.mocks.UsuarioMock
+import android.content.Context
+import com.pmdm.planify.data.room.PlanifyDB
+import com.pmdm.planify.data.room.UsuarioEntity
 import com.pmdm.planify.models.Login
+import com.pmdm.planify.models.Usuario
 import java.util.UUID
 import javax.inject.Inject
 
-class LoginRepository @Inject constructor(){
-    private val loginDao = LoginDaoMock()
-    private val usuarioDao = UsuarioDaoMock() // Conectamos con el DAO de usuarios
+class LoginRepository @Inject constructor(context: Context) {
 
-    fun autenticar(email: String, pass: String): Login? {
-        // 1. Convertimos la contraseña que el usuario escribe a su HashCode
-        val passHashIngresado = pass.hashCode().toString()
+    private val dao = PlanifyDB.getDatabase(context).usuarioDao()
 
-        // 2. Buscamos en la lista estática del DAO
-        val mockEncontrado = LoginDaoMock.credencialesValidas.find {
-            // Comparamos email e ignoramos mayúsculas por seguridad
-            it.email.equals(email, ignoreCase = true) &&
-                    // Comparamos el HASH calculado con el HASH guardado (sin volver a hashear)
-                    it.contrasenia == passHashIngresado
-        }
+    suspend fun autenticar(email: String, pass: String): Login? {
+        val passHash = pass.hashCode().toString()
+        val usuario = dao.getByCorrro(email) ?: return null
 
-        if (mockEncontrado != null) {
-            // Establecemos la sesión en el repositorio de usuario
-            UsuarioRepository().establecerSesion(email)
-            return mockEncontrado.toLoginUser()
-        }
-        return null
+        if (usuario.password != passHash) return null
+
+        return Login(
+            email = usuario.correo,
+            password = "",          // No devolvemos la contraseña a la UI
+            token = "tk-${usuario.id}",
+            esNuevoUsuario = false
+        )
     }
 
-    fun registrarNuevo(email: String, pass: String): Login {
+    suspend fun registrarNuevo(email: String, pass: String): Login {
         val passHash = pass.hashCode().toString()
         val token = "tk-${UUID.randomUUID()}"
 
-        // 1. Guardar credenciales
-        val nuevoLogin = LoginMock(email, passHash, token)
-        LoginDaoMock.credencialesValidas.add(nuevoLogin)
+        // Crea el perfil del nuevo usuario y lo persiste en Room
+        val nuevoUsuario = UsuarioEntity(
+            nombre = "Nuevo Usuario",
+            correo = email,
+            password = passHash,
+            telefono = "",
+            calle = "",
+            fotoPerfil = null
+        )
+        dao.insert(nuevoUsuario)
 
-        // 2. Crear perfil de usuario vacío vinculado a ese email
-        val nuevoUsuario = UsuarioMock(nombre = "Nuevo Usuario", correo = email, "", "")
-        // Asumiendo que añades una lista de usuarios en UsuarioDaoMock:
-        UsuarioDaoMock.listaUsuarios.add(nuevoUsuario)
-
-        return nuevoLogin.toLoginUser().copy(esNuevoUsuario = true)
+        return Login(
+            email = email,
+            password = "",
+            token = token,
+            esNuevoUsuario = true
+        )
     }
 }

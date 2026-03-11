@@ -1,28 +1,32 @@
 package com.pmdm.planify.data
 
-import com.pmdm.planify.data.daomocks.TareaDaoMock
+import android.content.Context
+import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.models.Tarea
 import javax.inject.Inject
 
-class TareaRepository @Inject constructor(){
-    private val dao = TareaDaoMock()
+class TareaRepository @Inject constructor(context: Context) {
 
-    fun getAll(): MutableList<Tarea> = dao.tareas.map { it.toTarea() }.toMutableList()
+    private val dao = PlanifyDB.getDatabase(context).tareaDao()
 
-    fun get(id: String): Tarea? = dao.tareas.find { it.id == id }?.toTarea()
+    suspend fun getAll(): MutableList<Tarea> =
+        dao.getAll().map { it.toTarea() }.toMutableList()
 
-    fun insert(tarea: Tarea) {
-        dao.tareas.add(tarea.toTareaMock())
-    }
+    suspend fun get(id: String): Tarea? =
+        dao.getById(id)?.toTarea()
 
-    fun update(tarea: Tarea) {
-        val index = dao.tareas.indexOfFirst { it.id == tarea.id }
-        if (index != -1) {
-            dao.tareas[index] = tarea.toTareaMock()
-        }
-    }
+    suspend fun insert(tarea: Tarea) =
+        dao.insert(tarea.toTareaEntity())
 
-    fun delete(id: String) {
-        dao.tareas.removeIf { it.id == id }
-    }
+    suspend fun update(tarea: Tarea) =
+        dao.update(tarea.toTareaEntity())
+
+    suspend fun delete(id: String) =
+        dao.delete(id)
+
+    suspend fun count(): Int =
+        dao.count()
+
+    suspend fun getCompletadas(): List<Tarea> =
+        dao.getCompletadas().map { it.toTarea() }
 }
