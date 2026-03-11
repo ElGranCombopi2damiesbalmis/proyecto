@@ -12,8 +12,5 @@ fun NavGraphBuilder.gymDestination(
     onBack: () -> Unit
 ) {
     composable<GymRoute> {
-        RutinasGimnasioScreen(
-            onBackClick = onBack
-        )
     }
 }

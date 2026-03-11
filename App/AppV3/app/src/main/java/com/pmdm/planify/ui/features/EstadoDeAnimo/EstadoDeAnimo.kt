@@ -1,9 +1,14 @@
-package com.pmdm.planify.ui.features.Mood // Ajusta tu package
+package com.pmdm.planify.ui.features.EstadoDeAnimo
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -27,40 +32,41 @@ import androidx.navigation.compose.rememberNavController
 import com.pmdm.planify.models.IconoEstadoAnimo
 import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
 import com.pmdm.planify.ui.features.Componentes.PlanifyHeader
-import com.pmdm.planify.ui.features.EstadoDeAnimo.EstadoAnimoVM
 import java.time.LocalDate
 
-// --- COLORES DEL TEMA ---
+// --- Colores ---
 private val AppPrimary = Color(0xFFF9F506)
 private val AppBackground = Color(0xFFFFFFFF)
 private val AppTextPrimary = Color(0xFF0F172A)
 private val AppTextSecondary = Color(0xFF94A3B8)
 private val AppGreenText = Color(0xFF16A34A)
-
-// Colores de Estados de Ánimo para el Calendario
 private val MoodGreatBg = Color(0xFFFEF08A)
 private val MoodGoodBg = Color(0xFFFEF9C3)
 private val MoodNormalBg = Color(0xFFF1F5F9)
 private val MoodSadBg = Color(0xFFFFEDD5)
 private val MoodAngryBg = Color(0xFFFEE2E2)
 
-// --- 1. COMPONENTE CON ESTADO ---
+// --- 1. Componente con estado ---
 @Composable
 fun EstadoDeAnimoScreen(
     navController: NavHostController,
-    vm: EstadoAnimoVM // Inyectado vía hiltViewModel() en el NavHost
+    vm: EstadoAnimoVM
 ) {
     EstadoDeAnimoContent(
         navController = navController,
-        historial = vm.estadoAnimo.registroAnimo
+        historial = vm.estadoAnimo.registroAnimo,
+        onSelectMood = { date, mood ->
+            vm.onEvent(EstadoAnimoEvent.OnSelectMood(date, mood))
+        }
     )
 }
 
-// --- 2. COMPONENTE SIN ESTADO (UI Pura) ---
+// --- 2. Componente sin estado ---
 @Composable
 fun EstadoDeAnimoContent(
     navController: NavHostController,
-    historial: Map<LocalDate, IconoEstadoAnimo>
+    historial: Map<LocalDate, IconoEstadoAnimo>,
+    onSelectMood: (LocalDate, IconoEstadoAnimo) -> Unit = { _, _ -> }
 ) {
     Scaffold(
         containerColor = AppBackground,
@@ -73,42 +79,33 @@ fun EstadoDeAnimoContent(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 24.dp)
         ) {
-            // HEADER CENTRALIZADO
             Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                 PlanifyHeader(
                     nombreUsuario = "Andrea",
                     fraseBienvenida = "Tu equilibrio",
-                    onProfileClick = { /* navController.navigate(SettingsRoute) */ }
+                    onProfileClick = {}
                 )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-
             MonthSelectorSection()
-
             Spacer(modifier = Modifier.height(24.dp))
-
-            CalendarGridSection(historial = historial)
-
+            CalendarGridSection(historial = historial, onSelectMood = onSelectMood)
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "Resumen Mensual",
+                "Resumen Mensual",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
                     color = AppTextPrimary
                 ),
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
-
             Spacer(modifier = Modifier.height(16.dp))
-
             SummaryCardSection()
         }
     }
 }
-
-// --- SECCIONES INTERNAS ---
 
 @Composable
 fun MonthSelectorSection() {
@@ -121,8 +118,8 @@ fun MonthSelectorSection() {
             Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, null, tint = AppTextPrimary)
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Octubre 2023", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
-            Text(text = "31 REGISTROS", style = MaterialTheme.typography.labelSmall.copy(color = AppTextSecondary, letterSpacing = 1.sp))
+            Text("Octubre 2023", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
+            Text("31 REGISTROS", style = MaterialTheme.typography.labelSmall.copy(color = AppTextSecondary, letterSpacing = 1.sp))
         }
         IconButton(onClick = {}, modifier = Modifier.size(40.dp).background(Color(0xFFF8FAFC), CircleShape)) {
             Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, tint = AppTextPrimary)
@@ -131,22 +128,24 @@ fun MonthSelectorSection() {
 }
 
 @Composable
-fun CalendarGridSection(historial: Map<LocalDate, IconoEstadoAnimo>) {
+fun CalendarGridSection(
+    historial: Map<LocalDate, IconoEstadoAnimo>,
+    onSelectMood: (LocalDate, IconoEstadoAnimo) -> Unit
+) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Row(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
             listOf("DOM", "LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB").forEach { day ->
-                Text(text = day, modifier = Modifier.weight(1f), textAlign = TextAlign.Center, style = MaterialTheme.typography.labelSmall.copy(color = Color(0xFFCBD5E1)))
+                Text(day, modifier = Modifier.weight(1f), textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.labelSmall.copy(color = Color(0xFFCBD5E1)))
             }
         }
 
-        // Datos dummy para rellenar el calendario visualmente
-        val dummyData = (1..31).map { MoodDay(it, "😊", MoodGoodBg) }
         val today = LocalDate.now()
+        val dummyData = (1..31).map { MoodDay(it, "😊", MoodGoodBg) }
 
         val mergedData = dummyData.map { dummyDay ->
             val dateForDay = try { today.withDayOfMonth(dummyDay.number) } catch (e: Exception) { null }
             val realMood = dateForDay?.let { historial[it] }
-
             if (realMood != null) {
                 val (emoji, color) = getEmojiAndColor(realMood)
                 MoodDay(dummyDay.number, emoji, color, isSelected = (dummyDay.number == today.dayOfMonth))
@@ -157,8 +156,16 @@ fun CalendarGridSection(historial: Map<LocalDate, IconoEstadoAnimo>) {
 
         mergedData.chunked(7).forEach { week ->
             Row(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
-                week.forEach { MoodDayItem(it, Modifier.weight(1f)) }
-                // Rellenar espacios vacíos si la semana tiene menos de 7 días
+                week.forEach { day ->
+                    MoodDayItem(
+                        day = day,
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            val date = try { today.withDayOfMonth(day.number) } catch (e: Exception) { null }
+                            date?.let { onSelectMood(it, IconoEstadoAnimo.BIEN) }
+                        }
+                    )
+                }
                 if (week.size < 7) { repeat(7 - week.size) { Spacer(modifier = Modifier.weight(1f)) } }
             }
         }
@@ -185,9 +192,7 @@ fun SummaryCardSection() {
                     Text("Mayormente Bien", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 }
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
             Text(
                 text = buildAnnotatedString {
                     append("Has tenido un ")
@@ -196,9 +201,7 @@ fun SummaryCardSection() {
                 },
                 style = MaterialTheme.typography.bodyMedium, color = Color(0xFF475569)
             )
-
             Spacer(modifier = Modifier.height(24.dp))
-
             Text("DISTRIBUCIÓN", style = MaterialTheme.typography.labelSmall, color = AppTextSecondary)
             Spacer(modifier = Modifier.height(12.dp))
             Row(modifier = Modifier.fillMaxWidth().height(80.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Bottom) {
@@ -211,13 +214,11 @@ fun SummaryCardSection() {
     }
 }
 
-// --- AUXILIARES ---
-
 data class MoodDay(val number: Int, val emoji: String, val color: Color, val isSelected: Boolean = false)
 
 @Composable
-fun MoodDayItem(day: MoodDay, modifier: Modifier) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+fun MoodDayItem(day: MoodDay, modifier: Modifier, onClick: () -> Unit = {}) {
+    Column(modifier = modifier.clickable { onClick() }, horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = Modifier
                 .size(40.dp)
@@ -225,9 +226,9 @@ fun MoodDayItem(day: MoodDay, modifier: Modifier) {
                 .then(if (day.isSelected) Modifier.border(2.dp, AppTextPrimary, CircleShape) else Modifier),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = day.emoji, fontSize = 18.sp)
+            Text(day.emoji, fontSize = 18.sp)
         }
-        Text(text = day.number.toString(), style = MaterialTheme.typography.labelSmall, color = AppTextSecondary)
+        Text(day.number.toString(), style = MaterialTheme.typography.labelSmall, color = AppTextSecondary)
     }
 }
 
@@ -235,16 +236,16 @@ fun MoodDayItem(day: MoodDay, modifier: Modifier) {
 fun RowScope.MoodBar(fraction: Float, color: Color, emoji: String) {
     Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction).clip(RoundedCornerShape(4.dp)).background(color))
-        Text(text = emoji, fontSize = 16.sp)
+        Text(emoji, fontSize = 16.sp)
     }
 }
 
 fun getEmojiAndColor(mood: IconoEstadoAnimo): Pair<String, Color> {
     return when (mood) {
         IconoEstadoAnimo.GENIAL -> Pair("🤩", MoodGreatBg)
-        IconoEstadoAnimo.BIEN -> Pair("😊", MoodGoodBg)
+        IconoEstadoAnimo.BIEN   -> Pair("😊", MoodGoodBg)
         IconoEstadoAnimo.NORMAL -> Pair("😐", MoodNormalBg)
-        IconoEstadoAnimo.MAL -> Pair("😔", MoodSadBg)
+        IconoEstadoAnimo.MAL    -> Pair("😔", MoodSadBg)
         IconoEstadoAnimo.MUYMAL -> Pair("😡", MoodAngryBg)
     }
 }
