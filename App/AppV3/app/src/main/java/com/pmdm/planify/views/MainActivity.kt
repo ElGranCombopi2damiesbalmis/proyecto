@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.pmdm.planify.ui.features.EstadoDeAnimo.EstadoDeAnimoContent
 import com.pmdm.planify.ui.navegation.NavHostPlanify
 import com.pmdm.planify.ui.theme.PlanifyTheme
 import dagger.hilt.android.AndroidEntryPoint

@@ -33,10 +33,8 @@ class AnalisisDeGastosViewModel @Inject constructor(
     private val transaccionRepository: TransaccionRepository
 ) : ViewModel() {
 
-    // ── Lista y filtro ────────────────────────────────────────────────────────
     var categoriaSeleccionada by mutableStateOf("Todo")
         private set
-
     var todasLasTransacciones by mutableStateOf<List<Transaccion>>(emptyList())
         private set
 
@@ -44,18 +42,16 @@ class AnalisisDeGastosViewModel @Inject constructor(
         get() = if (categoriaSeleccionada == "Todo") todasLasTransacciones
         else todasLasTransacciones.filter { it.categoria == categoriaSeleccionada }
 
-    val gastoTotal: Double
-        get() = todasLasTransacciones.filter { it.tipo == TipoTransaccion.GASTO }.sumOf { it.cantidad }
+    val gastoTotal: Double   get() = todasLasTransacciones.filter { it.tipo == TipoTransaccion.GASTO }.sumOf { it.cantidad }
+    val ingresoTotal: Double get() = todasLasTransacciones.filter { it.tipo == TipoTransaccion.INGRESO }.sumOf { it.cantidad }
 
-    val ingresoTotal: Double
-        get() = todasLasTransacciones.filter { it.tipo == TipoTransaccion.INGRESO }.sumOf { it.cantidad }
+    // Callback para notificar al Home cuando se añade una transacción
+    var onTransaccionGuardada: (() -> Unit)? = null
 
     init { cargarTransacciones() }
 
-    private fun cargarTransacciones() {
-        viewModelScope.launch {
-            todasLasTransacciones = transaccionRepository.getAll()
-        }
+    fun cargarTransacciones() {
+        viewModelScope.launch { todasLasTransacciones = transaccionRepository.getAll() }
     }
 
     fun onCategoriaSelected(cat: String) { categoriaSeleccionada = cat }
@@ -64,54 +60,39 @@ class AnalisisDeGastosViewModel @Inject constructor(
         viewModelScope.launch {
             transaccionRepository.delete(t)
             todasLasTransacciones = transaccionRepository.getAll()
+            onTransaccionGuardada?.invoke()
         }
     }
 
-    // ── Estado del diálogo ────────────────────────────────────────────────────
-    var mostrarDialogo by mutableStateOf(false)
-        private set
-
-    var nombreNueva    by mutableStateOf("")
-    var cantidadNueva  by mutableStateOf("")
-    var categoriaNueva by mutableStateOf(CATEGORIAS.first())
-    var tipoNueva      by mutableStateOf(TipoTransaccion.GASTO)
-    var errorNombre    by mutableStateOf(false)
-    var errorCantidad  by mutableStateOf(false)
+    var mostrarDialogo  by mutableStateOf(false); private set
+    var nombreNueva     by mutableStateOf("")
+    var cantidadNueva   by mutableStateOf("")
+    var categoriaNueva  by mutableStateOf(CATEGORIAS.first())
+    var tipoNueva       by mutableStateOf(TipoTransaccion.GASTO)
+    var errorNombre     by mutableStateOf(false)
+    var errorCantidad   by mutableStateOf(false)
 
     fun abrirDialogo() {
-        nombreNueva    = ""
-        cantidadNueva  = ""
-        categoriaNueva = CATEGORIAS.first()
-        tipoNueva      = TipoTransaccion.GASTO
-        errorNombre    = false
-        errorCantidad  = false
+        nombreNueva = ""; cantidadNueva = ""; categoriaNueva = CATEGORIAS.first()
+        tipoNueva = TipoTransaccion.GASTO; errorNombre = false; errorCantidad = false
         mostrarDialogo = true
     }
-
-    fun cerrarDialogo() { mostrarDialogo = false }
-
-    fun onNombreChange(v: String)              { nombreNueva = v;   errorNombre = false }
-    fun onCantidadChange(v: String)            { cantidadNueva = v; errorCantidad = false }
+    fun cerrarDialogo()                            { mostrarDialogo = false }
+    fun onNombreChange(v: String)                  { nombreNueva = v;   errorNombre = false }
+    fun onCantidadChange(v: String)                { cantidadNueva = v; errorCantidad = false }
     fun onCategoriaDialogoChange(c: CategoriaItem) { categoriaNueva = c }
-    fun onTipoChange(t: TipoTransaccion)       { tipoNueva = t }
+    fun onTipoChange(t: TipoTransaccion)           { tipoNueva = t }
 
     fun guardarTransaccion() {
         errorNombre   = nombreNueva.isBlank()
         errorCantidad = cantidadNueva.toDoubleOrNull() == null
         if (errorNombre || errorCantidad) return
-
         viewModelScope.launch {
-            val nueva = Transaccion(
-                nombre    = nombreNueva.trim(),
-                cantidad  = cantidadNueva.toDouble(),
-                fecha     = LocalDateTime.now(),
-                categoria = categoriaNueva.nombre,
-                tipo      = tipoNueva,
-                icon      = categoriaNueva.icono
-            )
+            val nueva = Transaccion(nombre = nombreNueva.trim(), cantidad = cantidadNueva.toDouble(), fecha = LocalDateTime.now(), categoria = categoriaNueva.nombre, tipo = tipoNueva, icon = categoriaNueva.icono)
             transaccionRepository.insert(nueva)
             todasLasTransacciones = transaccionRepository.getAll()
             mostrarDialogo = false
+            onTransaccionGuardada?.invoke() // Notificar al Home
         }
     }
 }

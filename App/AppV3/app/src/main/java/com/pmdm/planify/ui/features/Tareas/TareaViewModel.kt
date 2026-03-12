@@ -21,11 +21,10 @@ data class TareaUiState(
     val tareas: List<TareaMock>       = emptyList(),
     val isLoading: Boolean            = false,
     val filtroSeleccionado: String    = "Todos",
-    // ── Dialog ──
     val mostrarDialogo: Boolean       = false,
     val tituloNueva: String           = "",
     val descripcionNueva: String      = "",
-    val etiquetaNueva: EtiquetaTarea = EtiquetaTarea.OTROS,
+    val etiquetaNueva: EtiquetaTarea  = EtiquetaTarea.OTROS,
     val errorTitulo: Boolean          = false
 )
 
@@ -37,10 +36,12 @@ class TareaViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(TareaUiState())
     val uiState: StateFlow<TareaUiState> = _uiState.asStateFlow()
 
+    // Callback para notificar al Home cuando se añade una tarea
+    var onTareaGuardada: (() -> Unit)? = null
+
     init { cargarTareas() }
 
-    // ── Carga ─────────────────────────────────────────────────────────────────
-    private fun cargarTareas() {
+    fun cargarTareas() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             val lista = tareaRepository.getAll().map { it.toTareaMock() }
@@ -48,21 +49,14 @@ class TareaViewModel @Inject constructor(
         }
     }
 
-    // ── Checkbox ──────────────────────────────────────────────────────────────
     fun onTareaCheckedChange(tareaId: String, completada: Boolean) {
         viewModelScope.launch {
-            tareaRepository.get(tareaId)?.let {
-                tareaRepository.update(it.copy(completada = completada))
-            }
-            _uiState.update { s ->
-                s.copy(tareas = s.tareas.map {
-                    if (it.id == tareaId) it.copy(completada = completada) else it
-                })
-            }
+            tareaRepository.get(tareaId)?.let { tareaRepository.update(it.copy(completada = completada)) }
+            _uiState.update { s -> s.copy(tareas = s.tareas.map { if (it.id == tareaId) it.copy(completada = completada) else it }) }
+            onTareaGuardada?.invoke()
         }
     }
 
-    // ── Filtro ────────────────────────────────────────────────────────────────
     fun cambiarFiltro(f: String) = _uiState.update { it.copy(filtroSeleccionado = f) }
 
     fun getTareasFiltradas(): List<TareaMock> {
@@ -71,36 +65,21 @@ class TareaViewModel @Inject constructor(
         else s.tareas.filter { it.etiqueta.name.equals(s.filtroSeleccionado, ignoreCase = true) }
     }
 
-    // ── Diálogo ───────────────────────────────────────────────────────────────
-    fun abrirDialogo()  = _uiState.update { it.copy(
-        mostrarDialogo = true, tituloNueva = "", descripcionNueva = "",
-        etiquetaNueva = EtiquetaTarea.OTROS, errorTitulo = false) }
-
+    fun abrirDialogo()  = _uiState.update { it.copy(mostrarDialogo = true, tituloNueva = "", descripcionNueva = "", etiquetaNueva = EtiquetaTarea.OTROS, errorTitulo = false) }
     fun cerrarDialogo() = _uiState.update { it.copy(mostrarDialogo = false) }
 
-    fun onTituloChange(v: String)      = _uiState.update { it.copy(tituloNueva = v, errorTitulo = false) }
-    fun onDescripcionChange(v: String) = _uiState.update { it.copy(descripcionNueva = v) }
+    fun onTituloChange(v: String)          = _uiState.update { it.copy(tituloNueva = v, errorTitulo = false) }
+    fun onDescripcionChange(v: String)     = _uiState.update { it.copy(descripcionNueva = v) }
     fun onEtiquetaChange(e: EtiquetaTarea) = _uiState.update { it.copy(etiquetaNueva = e) }
 
     fun guardarTarea() {
         val s = _uiState.value
-        if (s.tituloNueva.isBlank()) {
-            _uiState.update { it.copy(errorTitulo = true) }
-            return
-        }
+        if (s.tituloNueva.isBlank()) { _uiState.update { it.copy(errorTitulo = true) }; return }
         viewModelScope.launch {
-            val nueva = Tarea(
-                titulo = s.tituloNueva.trim(),
-                descripcion = s.descripcionNueva.trim(),
-                etiqueta = s.etiquetaNueva,
-                fecha = LocalDateTime.now()
-            )
+            val nueva = Tarea(titulo = s.tituloNueva.trim(), descripcion = s.descripcionNueva.trim(), etiqueta = s.etiquetaNueva, fecha = LocalDateTime.now())
             tareaRepository.insert(nueva)
-            // Actualizar UI sin recargar todo
-            _uiState.update { it.copy(
-                tareas         = it.tareas + nueva.toTareaMock(),
-                mostrarDialogo = false
-            )}
+            _uiState.update { it.copy(tareas = it.tareas + nueva.toTareaMock(), mostrarDialogo = false) }
+            onTareaGuardada?.invoke() // Notificar al Home
         }
     }
 }

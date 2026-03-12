@@ -15,38 +15,15 @@ class LoginRepository @Inject constructor(@ApplicationContext context: Context) 
 
     suspend fun autenticar(email: String, pass: String): Login? {
         val passHash = pass.hashCode().toString()
-        val usuario = dao.getByCorrro(email) ?: return null
-
+        val usuario  = dao.getByCorrro(email) ?: return null
         if (usuario.password != passHash) return null
-
-        return Login(
-            email = usuario.correo,
-            password = "",          // No devolvemos la contraseña a la UI
-            token = "tk-${usuario.id}",
-            esNuevoUsuario = false
-        )
+        return Login(email = usuario.correo, password = "", token = "tk-${usuario.id}", esNuevoUsuario = false)
     }
 
-    suspend fun registrarNuevo(email: String, pass: String): Login {
+    suspend fun registrarNuevo(nombre: String, email: String, pass: String): Login {
         val passHash = pass.hashCode().toString()
-        val token = "tk-${UUID.randomUUID()}"
-
-        // Crea el perfil del nuevo usuario y lo persiste en Room
-        val nuevoUsuario = UsuarioEntity(
-            nombre = "Nuevo Usuario",
-            correo = email,
-            password = passHash,
-            telefono = "",
-            calle = "",
-            fotoPerfil = null
-        )
-        dao.insert(nuevoUsuario)
-
-        return Login(
-            email = email,
-            password = "",
-            token = token,
-            esNuevoUsuario = true
-        )
+        val token    = "tk-${UUID.randomUUID()}"
+        dao.insert(UsuarioEntity(nombre = nombre, correo = email, password = passHash, telefono = "", calle = "", fotoPerfil = null))
+        return Login(email = email, password = "", token = token, esNuevoUsuario = true)
     }
 }

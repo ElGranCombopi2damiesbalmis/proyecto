@@ -22,27 +22,18 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 data class HomeUiState(
-    // Usuario
-    val nombreUsuario: String           = "",
-    val fraseBienvenida: String         = "Hola de nuevo",
-
-    // Tareas
-    val proximasTareas: List<Tarea>     = emptyList(),
-    val tareasPendientesCount: Int      = 0,
-    val tareasCompletadasCount: Int     = 0,
-
-    // Estado de ánimo
-    val animoHoy: IconoEstadoAnimo?     = null,
-
-    // Finanzas
-    val gastoTotal: Double              = 0.0,
-    val ingresoTotal: Double            = 0.0,
+    val nombreUsuario: String                           = "",
+    val fraseBienvenida: String                         = "Hola de nuevo",
+    val proximasTareas: List<Tarea>                     = emptyList(),
+    val tareasPendientesCount: Int                      = 0,
+    val tareasCompletadasCount: Int                     = 0,
+    val animoHoy: IconoEstadoAnimo?                     = null,
+    val gastoTotal: Double                              = 0.0,
+    val ingresoTotal: Double                            = 0.0,
     val ultimasTransaccionesLabels: List<Pair<String, Double>> = emptyList(),
-
-    // Gym
-    val ultimaRutinaNombre: String      = "Sin rutinas",
-    val ultimaRutinaDetalles: String    = "",
-    val totalSesionesGym: Int           = 0
+    val ultimaRutinaNombre: String                      = "Sin rutinas",
+    val ultimaRutinaDetalles: String                    = "",
+    val totalSesionesGym: Int                           = 0
 )
 
 @HiltViewModel
@@ -61,30 +52,17 @@ class HomeViewModel @Inject constructor(
 
     fun cargarDatos() {
         viewModelScope.launch {
-            // ── Usuario ───────────────────────────────────────────────────────
-            val usuario = usuarioRepo.getAll().firstOrNull()
-
-            // ── Tareas ────────────────────────────────────────────────────────
-            val todasLasTareas = tareaRepo.getAll()
-            val pendientes     = todasLasTareas.filter { !it.completada }
-            val completadas    = todasLasTareas.filter { it.completada }
-
-            // ── Estado de ánimo ───────────────────────────────────────────────
-            val estadoAnimo = estadoAnimoRepo.get()
-            val animoHoy    = estadoAnimo.registroAnimo[LocalDate.now()]
-
-            // ── Finanzas ──────────────────────────────────────────────────────
+            val usuario       = usuarioRepo.getAll().firstOrNull()
+            val todasTareas   = tareaRepo.getAll()
+            val pendientes    = todasTareas.filter { !it.completada }
+            val completadas   = todasTareas.filter { it.completada }
+            val estadoAnimo   = estadoAnimoRepo.get()
+            val animoHoy      = estadoAnimo.registroAnimo[LocalDate.now()]
             val transacciones = transaccionRepo.getAll()
             val gastoTotal    = transacciones.filter { it.tipo == TipoTransaccion.GASTO }.sumOf { it.cantidad }
             val ingresoTotal  = transacciones.filter { it.tipo == TipoTransaccion.INGRESO }.sumOf { it.cantidad }
-            // Últimas 7 para el mini-gráfico: label + cantidad
-            val ultimas7 = transacciones
-                .sortedByDescending { it.fecha }
-                .take(7)
-                .map { Pair(it.nombre.take(6), it.cantidad) }
-
-            // ── Gym ───────────────────────────────────────────────────────────
-            val rutinas    = rutinaRepo.getRutinas()
+            val ultimas7      = transacciones.sortedByDescending { it.fecha }.take(7).map { it.nombre.take(6) to it.cantidad }
+            val rutinas       = rutinaRepo.getRutinas()
             val primeraRutina = rutinas.firstOrNull()
 
             _uiState.update {

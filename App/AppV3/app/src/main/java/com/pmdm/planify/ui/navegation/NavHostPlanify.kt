@@ -33,28 +33,40 @@ import com.pmdm.planify.ui.features.VentanaPrincipal.HomeViewModel
 fun NavHostPlanify() {
     val nc = rememberNavController()
 
-    // ── ViewModels ─────────────────────────────────────────────────────────────
-    val loginVm: LoginViewModel     = hiltViewModel()
-    val homeVm: HomeViewModel       = hiltViewModel()
-    val gastosVm: AnalisisDeGastosViewModel = hiltViewModel()
-    val gymVm: GymVM                = hiltViewModel()
-    val tareasVm: TareaViewModel    = hiltViewModel()
-    val animoVm: EstadoAnimoVM      = hiltViewModel()
-    val ajustesVm: AjustesVM        = hiltViewModel()
+    // ── ViewModels (instancia única compartida en todo el NavHost) ─────────────
+    val loginVm:   LoginViewModel             = hiltViewModel()
+    val homeVm:    HomeViewModel              = hiltViewModel()
+    val gastosVm:  AnalisisDeGastosViewModel  = hiltViewModel()
+    val gymVm:     GymVM                      = hiltViewModel()
+    val tareasVm:  TareaViewModel             = hiltViewModel()
+    val animoVm:   EstadoAnimoVM              = hiltViewModel()
+    val ajustesVm: AjustesVM                  = hiltViewModel()
 
-    // ── Lambdas de AjustesVM ───────────────────────────────────────────────────
-    ajustesVm.onBack                    = { nc.popBackStack() }
-    ajustesVm.onNavigateToLogin         = { nc.navigate(LoginRoute)      { popUpTo(0) { inclusive = true } } }
-    ajustesVm.onNavigateToEditarPerfil  = { nc.navigate(EditarPerfilRoute) }
-    ajustesVm.onNavigateToNotificaciones= { nc.navigate(NotificacionesRoute) }
-    ajustesVm.onNavigateToPrivacidad    = { nc.navigate(PrivacidadRoute) }
+    // ── Callbacks de sincronización con Home ──────────────────────────────────
+    // Al guardar tarea o transacción → Home se refresca automáticamente
+    tareasVm.onTareaGuardada          = { homeVm.cargarDatos() }
+    gastosVm.onTransaccionGuardada    = { homeVm.cargarDatos() }
+    animoVm.onAnimoCambiado           = { homeVm.cargarDatos() }
 
-    NavHost(navController = nc, startDestination = HomeRoute) {
+    // ── Ajustes ────────────────────────────────────────────────────────────────
+    ajustesVm.onBack                     = { nc.popBackStack() }
+    ajustesVm.onNavigateToLogin          = { nc.navigate(LoginRoute) { popUpTo(0) { inclusive = true } } }
+    ajustesVm.onNavigateToEditarPerfil   = { nc.navigate(EditarPerfilRoute) }
+    ajustesVm.onNavigateToNotificaciones = { nc.navigate(NotificacionesRoute) }
+    ajustesVm.onNavigateToPrivacidad     = { nc.navigate(PrivacidadRoute) }
+
+    NavHost(navController = nc, startDestination = LoginRoute) {
 
         // ── LOGIN ──────────────────────────────────────────────────────────────
         composable<LoginRoute> {
             loginVm.onLoginSuccess = {
                 homeVm.cargarDatos()
+                animoVm.cargarDatos()
+                nc.navigate(HomeRoute) { popUpTo(LoginRoute) { inclusive = true } }
+            }
+            loginVm.onGoogleLoginSuccess = {
+                homeVm.cargarDatos()
+                animoVm.cargarDatos()
                 nc.navigate(HomeRoute) { popUpTo(LoginRoute) { inclusive = true } }
             }
             LoginScreen(vm = loginVm)
@@ -64,69 +76,46 @@ fun NavHostPlanify() {
         composable<HomeRoute> {
             DashboardScreen(
                 navController = nc,
-                viewModel = homeVm
+                viewModel     = homeVm,
+                animoVm       = animoVm   // Compartido para sincronizar ánimo
             )
         }
 
         // ── TAREAS ─────────────────────────────────────────────────────────────
         composable<TareaRoute> {
-            TaskManagerScreen(
-                navController = nc,
-                viewModel = tareasVm
-            )
+            TaskManagerScreen(navController = nc, viewModel = tareasVm)
         }
 
         // ── GYM ────────────────────────────────────────────────────────────────
         composable<GymRoute> {
-            RutinasGimnasioScreen(
-                navController = nc,
-                vm = gymVm
-            )
+            RutinasGimnasioScreen(navController = nc, vm = gymVm)
         }
 
         // ── ECONOMÍA ───────────────────────────────────────────────────────────
         composable<EconomiaRoute> {
             GastosScreen(
-                navController = nc,
-                vm = gastosVm,
+                navController              = nc,
+                vm                         = gastosVm,
                 onNavigateToNuevaTransaccion = { nc.navigate(TransaccionRoute) },
-                onNavigateToSettings         = { nc.navigate(SettingsRoute) }
+                onNavigateToSettings       = { nc.navigate(SettingsRoute) }
             )
         }
 
-        // ── NUEVA TRANSACCIÓN (placeholder) ────────────────────────────────────
         composable<TransaccionRoute> {
-            Box(
-                modifier = Modifier.fillMaxSize().clickable { nc.popBackStack() },
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize().clickable { nc.popBackStack() }, contentAlignment = Alignment.Center) {
                 Text("Nueva Transacción\n(Pulsa para volver)")
             }
         }
 
         // ── ESTADO DE ÁNIMO ────────────────────────────────────────────────────
         composable<EstadoDeAnimoRoute> {
-            EstadoDeAnimoScreen(
-                navController = nc,
-                vm = animoVm
-            )
+            EstadoDeAnimoScreen(navController = nc, vm = animoVm)
         }
 
         // ── AJUSTES ────────────────────────────────────────────────────────────
-        composable<SettingsRoute> {
-            AjustesPerfilScreen(vm = ajustesVm)
-        }
-
-        composable<EditarPerfilRoute> {
-            EditarPerfilScreen(vm = ajustesVm)
-        }
-
-        composable<NotificacionesRoute> {
-            AjustesNotificacionesScreen(vm = ajustesVm)
-        }
-
-        composable<PrivacidadRoute> {
-            AjustesPrivacidadScreen(vm = ajustesVm)
-        }
+        composable<SettingsRoute>      { AjustesPerfilScreen(vm = ajustesVm) }
+        composable<EditarPerfilRoute>  { EditarPerfilScreen(vm = ajustesVm) }
+        composable<NotificacionesRoute>{ AjustesNotificacionesScreen(vm = ajustesVm) }
+        composable<PrivacidadRoute>    { AjustesPrivacidadScreen(vm = ajustesVm) }
     }
 }
