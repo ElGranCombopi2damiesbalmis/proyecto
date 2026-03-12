@@ -120,7 +120,7 @@
 |Pendiente|
 
 **Resumen del mes:**
-* **Total de horas:** 7h
+* **Total de horas:** 12h
 * **Principales logros:** 
 *  **Área de mejora:** 
 *  **Próximos objetivos:** 
