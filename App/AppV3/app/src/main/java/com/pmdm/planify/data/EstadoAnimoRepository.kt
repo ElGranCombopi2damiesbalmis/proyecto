@@ -5,10 +5,11 @@ import com.pmdm.planify.data.room.EstadoAnimoRegistroEntity
 import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.models.EstadoAnimo
 import com.pmdm.planify.models.IconoEstadoAnimo
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.LocalDate
 import javax.inject.Inject
 
-class EstadoAnimoRepository @Inject constructor(context: Context) {
+class EstadoAnimoRepository @Inject constructor(@ApplicationContext context: Context) {
 
     private val dao = PlanifyDB.getDatabase(context).estadoAnimoDao()
 

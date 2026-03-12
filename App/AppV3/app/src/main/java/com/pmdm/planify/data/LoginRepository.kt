@@ -5,10 +5,11 @@ import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.data.room.UsuarioEntity
 import com.pmdm.planify.models.Login
 import com.pmdm.planify.models.Usuario
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.UUID
 import javax.inject.Inject
 
-class LoginRepository @Inject constructor(context: Context) {
+class LoginRepository @Inject constructor(@ApplicationContext context: Context) {
 
     private val dao = PlanifyDB.getDatabase(context).usuarioDao()
 

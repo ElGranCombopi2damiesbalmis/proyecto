@@ -3,9 +3,10 @@ package com.pmdm.planify.data
 import android.content.Context
 import com.pmdm.planify.data.room.PlanifyDB
 import com.pmdm.planify.models.Transaccion
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class TransaccionRepository @Inject constructor(context: Context) {
+class TransaccionRepository @Inject constructor(@ApplicationContext context: Context) {
 
     private val dao = PlanifyDB.getDatabase(context).transaccionDao()
 
