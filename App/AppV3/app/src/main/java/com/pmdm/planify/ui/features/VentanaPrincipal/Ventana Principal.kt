@@ -3,6 +3,7 @@ package com.pmdm.planify.ui.features.VentanaPrincipal
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -28,28 +29,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.pmdm.planify.models.IconoEstadoAnimo
 import com.pmdm.planify.models.Tarea
 import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
 import com.pmdm.planify.ui.features.Componentes.PlanifyHeader
 import com.pmdm.planify.ui.features.Componentes.SurfaceBackground
+import com.pmdm.planify.ui.navegation.EconomiaRoute
+import com.pmdm.planify.ui.navegation.EstadoDeAnimoRoute
+import com.pmdm.planify.ui.navegation.GymRoute
 import com.pmdm.planify.ui.navegation.SettingsRoute
+import com.pmdm.planify.ui.navegation.TareaRoute
 
-// --- Colores ---
-val PrimaryLime = Color(0xFFE2E722)
-val OnPrimary = Color(0xFF1C1C0D)
-val PrimaryContainer = Color(0xFFF2F590)
-val SurfaceBackground = Color(0xFFFFFBFE)
-val SurfaceContainer = Color(0xFFF3F4F6)
-val SurfaceVariant = Color(0xFFE7E3EB)   // definido aquí, ya no se importa de otro package
-val TextPrimary = Color(0xFF1C1B1F)
-val TextSecondary = Color(0xFF757575)
+// ── Colores ───────────────────────────────────────────────────────────────────
+private val PrimaryLime      = Color(0xFFE2E722)
+private val OnPrimary        = Color(0xFF1C1C0D)
+private val PrimaryContainer = Color(0xFFF2F590)
+private val SurfaceBg        = Color(0xFFFFFBFE)
+private val SurfaceContainer = Color(0xFFF3F4F6)
+private val TextPrimary      = Color(0xFF1C1B1F)
+private val TextSecondary    = Color(0xFF757575)
+private val MoodAngry        = Color(0xFFEF4444)
+private val MoodSad          = Color(0xFFFB923C)
+private val MoodFine         = Color(0xFFEAB308)
+private val MoodGreat        = Color(0xFFE2E722)
+private val FinanceGreen     = Color(0xFF16A34A)
+private val FinanceRed       = Color(0xFFEF4444)
 
-val MoodAngry = Color(0xFFEF4444)
-val MoodSad = Color(0xFFFB923C)
-val MoodFine = Color(0xFFEAB308)
-val MoodGreat = Color(0xFFE2E722)
-
-// --- Componente Principal ---
+// ── SCREEN PRINCIPAL ─────────────────────────────────────────────────────────
 @Composable
 fun DashboardScreen(
     navController: NavHostController,
@@ -58,7 +64,7 @@ fun DashboardScreen(
     val state by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = SurfaceBackground,
+        containerColor = SurfaceBg,
         bottomBar = { PlanifyBottomBar(navController) }
     ) { paddingValues ->
         LazyColumn(
@@ -70,57 +76,186 @@ fun DashboardScreen(
         ) {
             item {
                 PlanifyHeader(
-                    nombreUsuario = state.nombreUsuario,
+                    nombreUsuario   = state.nombreUsuario,
                     fraseBienvenida = state.fraseBienvenida,
-                    onProfileClick = { navController.navigate(SettingsRoute) }
+                    onProfileClick  = { navController.navigate(SettingsRoute) }
                 )
             }
 
-            item { MoodSection() }
-
+            // ── Estado de ánimo ───────────────────────────────────────────────
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            "Tareas de hoy",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Surface(
-                            color = PrimaryContainer,
-                            shape = RoundedCornerShape(50)
-                        ) {
-                            Text(
-                                "${state.tareasPendientesCount} pendientes",
-                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = OnPrimary
-                            )
-                        }
-                    }
+                MoodSection(
+                    animoSeleccionado = state.animoHoy,
+                    onMoodClick       = { navController.navigate(EstadoDeAnimoRoute) }
+                )
+            }
 
-                    if (state.proximasTareas.isEmpty()) {
+            // ── Tareas ────────────────────────────────────────────────────────
+            item {
+                TareasSection(
+                    pendientes    = state.tareasPendientesCount,
+                    completadas   = state.tareasCompletadasCount,
+                    proximasTareas = state.proximasTareas,
+                    onVerTodas    = { navController.navigate(TareaRoute) }
+                )
+            }
+
+            // ── Gym ───────────────────────────────────────────────────────────
+            item {
+                WorkoutSection(
+                    rutinaNombre   = state.ultimaRutinaNombre,
+                    rutinaDetalles = state.ultimaRutinaDetalles,
+                    sesiones       = state.totalSesionesGym,
+                    onVerRutinas   = { navController.navigate(GymRoute) }
+                )
+            }
+
+            // ── Finanzas ──────────────────────────────────────────────────────
+            item {
+                FinanceSection(
+                    gastoTotal    = state.gastoTotal,
+                    ingresoTotal  = state.ingresoTotal,
+                    barras        = state.ultimasTransaccionesLabels,
+                    onVerFinanzas = { navController.navigate(EconomiaRoute) }
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(20.dp)) }
+        }
+    }
+}
+
+// ── SECCIÓN ÁNIMO ─────────────────────────────────────────────────────────────
+@Composable
+fun MoodSection(
+    animoSeleccionado: IconoEstadoAnimo?,
+    onMoodClick: () -> Unit
+) {
+    val moodItems = listOf(
+        Triple(Icons.Outlined.SentimentVeryDissatisfied, "Enfadado", MoodAngry  ) to IconoEstadoAnimo.MUYMAL,
+        Triple(Icons.Outlined.SentimentDissatisfied,     "Triste",   MoodSad   ) to IconoEstadoAnimo.MAL,
+        Triple(Icons.Outlined.SentimentSatisfied,        "Bien",     MoodFine  ) to IconoEstadoAnimo.BIEN,
+        Triple(Icons.Filled.SentimentVerySatisfied,      "Genial",   MoodGreat ) to IconoEstadoAnimo.GENIAL
+    )
+
+    Card(
+        colors    = CardDefaults.cardColors(containerColor = PrimaryContainer.copy(alpha = 0.4f)),
+        shape     = RoundedCornerShape(28.dp),
+        modifier  = Modifier.fillMaxWidth().clickable { onMoodClick() },
+        elevation = CardDefaults.cardElevation(0.dp)
+    ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    "¿Cómo te sientes hoy?",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = TextPrimary
+                )
+                if (animoSeleccionado != null) {
+                    Surface(color = PrimaryLime, shape = RoundedCornerShape(50)) {
                         Text(
-                            "¡Sin tareas pendientes! 🎉",
-                            color = TextSecondary,
-                            fontSize = 14.sp
+                            animoSeleccionado.name,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = OnPrimary
                         )
-                    } else {
-                        state.proximasTareas.forEach { tarea ->
-                            TareaRow(tarea = tarea)
-                        }
                     }
                 }
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                moodItems.forEach { (triple, icono) ->
+                    val (icon, label, color) = triple
+                    val isSelected = animoSeleccionado == icono
+                    MoodItem(icon, label, color, isSelected)
+                }
+            }
+        }
+    }
+}
 
-            item { WorkoutSection() }
-            item { FinanceSection() }
-            item { Spacer(modifier = Modifier.height(20.dp)) }
+@Composable
+fun MoodItem(icon: ImageVector, label: String, color: Color, isSelected: Boolean) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Surface(
+            modifier       = Modifier.size(56.dp),
+            shape          = CircleShape,
+            color          = if (isSelected) PrimaryLime else SurfaceBg,
+            shadowElevation = 2.dp
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(icon, label, tint = if (isSelected) OnPrimary else color, modifier = Modifier.size(32.dp))
+            }
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            label,
+            fontSize   = 11.sp,
+            color      = TextSecondary,
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+        )
+    }
+}
+
+// ── SECCIÓN TAREAS ────────────────────────────────────────────────────────────
+@Composable
+fun TareasSection(
+    pendientes: Int,
+    completadas: Int,
+    proximasTareas: List<Tarea>,
+    onVerTodas: () -> Unit
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment     = Alignment.CenterVertically
+        ) {
+            Text("Tareas de hoy",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold)
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Surface(color = PrimaryContainer, shape = RoundedCornerShape(50)) {
+                    Text("$pendientes pendientes",
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                        fontSize = 12.sp, fontWeight = FontWeight.Bold, color = OnPrimary)
+                }
+                TextButton(onClick = onVerTodas, contentPadding = PaddingValues(0.dp)) {
+                    Text("Ver todas", fontSize = 12.sp, color = TextSecondary)
+                }
+            }
+        }
+
+        // Barra de progreso completadas/total
+        val total = pendientes + completadas
+        if (total > 0) {
+            val progreso = completadas.toFloat() / total.toFloat()
+            Column {
+                LinearProgressIndicator(
+                    progress = { progreso },
+                    modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(50)),
+                    color    = PrimaryLime,
+                    trackColor = SurfaceContainer
+                )
+                Text(
+                    "$completadas de $total completadas",
+                    fontSize = 11.sp,
+                    color    = TextSecondary,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+        }
+
+        if (proximasTareas.isEmpty()) {
+            Text("¡Sin tareas pendientes! 🎉", color = TextSecondary, fontSize = 14.sp)
+        } else {
+            proximasTareas.forEach { tarea -> TareaRow(tarea = tarea) }
         }
     }
 }
@@ -128,9 +263,10 @@ fun DashboardScreen(
 @Composable
 fun TareaRow(tarea: Tarea) {
     Surface(
-        color = SurfaceBackground,
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.fillMaxWidth()
+        color    = SurfaceBg,
+        shape    = RoundedCornerShape(16.dp),
+        modifier = Modifier.fillMaxWidth(),
+        shadowElevation = 1.dp
     ) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             if (tarea.completada) {
@@ -146,90 +282,48 @@ fun TareaRow(tarea: Tarea) {
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = tarea.titulo,
-                    fontWeight = FontWeight.SemiBold,
+                    tarea.titulo,
+                    fontWeight     = FontWeight.SemiBold,
                     textDecoration = if (tarea.completada) TextDecoration.LineThrough else null,
-                    color = if (tarea.completada) TextSecondary else TextPrimary
+                    color          = if (tarea.completada) TextSecondary else TextPrimary
                 )
-                Text(
-                    text = tarea.etiqueta.name,
-                    fontSize = 12.sp,
-                    color = TextSecondary
-                )
+                Text(tarea.etiqueta.name, fontSize = 12.sp, color = TextSecondary)
             }
         }
     }
 }
 
+// ── SECCIÓN GYM ───────────────────────────────────────────────────────────────
 @Composable
-fun MoodSection() {
-    Card(
-        colors = CardDefaults.cardColors(containerColor = PrimaryContainer.copy(alpha = 0.4f)),
-        shape = RoundedCornerShape(28.dp),
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(0.dp)
-    ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            Text(
-                "¿Cómo te sientes hoy?",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = TextPrimary,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                MoodItem(Icons.Outlined.SentimentVeryDissatisfied, "Enfadado", MoodAngry, false)
-                MoodItem(Icons.Outlined.SentimentDissatisfied, "Triste", MoodSad, false)
-                MoodItem(Icons.Outlined.SentimentSatisfied, "Bien", MoodFine, false)
-                MoodItem(Icons.Filled.SentimentVerySatisfied, "Genial", OnPrimary, true)
-            }
-        }
-    }
-}
-
-@Composable
-fun MoodItem(icon: ImageVector, label: String, color: Color, isSelected: Boolean) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Surface(
-            modifier = Modifier.size(56.dp),
-            shape = CircleShape,
-            color = if (isSelected) PrimaryLime else SurfaceBackground,
-            shadowElevation = 2.dp
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(icon, label, tint = color, modifier = Modifier.size(32.dp))
-            }
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            fontSize = 11.sp,
-            color = TextSecondary,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
-        )
-    }
-}
-
-@Composable
-fun WorkoutSection() {
+fun WorkoutSection(
+    rutinaNombre: String,
+    rutinaDetalles: String,
+    sesiones: Int,
+    onVerRutinas: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(250.dp)
+            .height(220.dp)
             .clip(RoundedCornerShape(28.dp))
-            .background(Color.DarkGray)
+            .background(Color(0xFF1C1B16))
+            .clickable { onVerRutinas() }
     ) {
         Box(modifier = Modifier.fillMaxSize().background(
-            Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(0.8f)))
+            Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(0.85f)))
         ))
         Column(
             modifier = Modifier.fillMaxSize().padding(24.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Row {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Surface(
-                    color = Color.Black.copy(0.4f),
-                    shape = RoundedCornerShape(50),
+                    color  = Color.Black.copy(0.4f),
+                    shape  = RoundedCornerShape(50),
                     border = BorderStroke(1.dp, Color.White.copy(0.2f))
                 ) {
                     Row(
@@ -241,20 +335,39 @@ fun WorkoutSection() {
                         Text("Rutina de Hoy", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                     }
                 }
+                // Sesiones badge
+                if (sesiones > 0) {
+                    Surface(color = PrimaryLime, shape = RoundedCornerShape(50)) {
+                        Text(
+                            "$sesiones rutinas",
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                            fontSize = 11.sp, fontWeight = FontWeight.Bold, color = OnPrimary
+                        )
+                    }
+                }
             }
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("DÍA 4", color = PrimaryLime, fontWeight = FontWeight.Bold, fontSize = 12.sp)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text("Pierna y\nGlúteos", color = Color.White, fontSize = 32.sp, lineHeight = 36.sp)
+                    if (rutinaDetalles.isNotEmpty()) {
+                        Text(rutinaDetalles, color = Color.White.copy(0.6f), fontSize = 12.sp)
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+                    Text(
+                        rutinaNombre,
+                        color = Color.White,
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Bold,
+                        lineHeight = 30.sp
+                    )
                 }
                 Surface(color = PrimaryLime, shape = RoundedCornerShape(16.dp), modifier = Modifier.size(56.dp)) {
                     Box(contentAlignment = Alignment.Center) {
-                        Icon(Icons.Filled.PlayArrow, "Start", tint = OnPrimary, modifier = Modifier.size(32.dp))
+                        Icon(Icons.Filled.PlayArrow, "Ir al gym", tint = OnPrimary, modifier = Modifier.size(32.dp))
                     }
                 }
             }
@@ -262,23 +375,29 @@ fun WorkoutSection() {
     }
 }
 
+// ── SECCIÓN FINANZAS ──────────────────────────────────────────────────────────
 @Composable
-fun FinanceSection() {
+fun FinanceSection(
+    gastoTotal: Double,
+    ingresoTotal: Double,
+    barras: List<Pair<String, Double>>,
+    onVerFinanzas: () -> Unit
+) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = SurfaceContainer),
-        shape = RoundedCornerShape(28.dp),
-        modifier = Modifier.fillMaxWidth()
+        colors   = CardDefaults.cardColors(containerColor = SurfaceContainer),
+        shape    = RoundedCornerShape(28.dp),
+        modifier = Modifier.fillMaxWidth().clickable { onVerFinanzas() }
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
+                verticalAlignment     = Alignment.Top
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Surface(
-                        color = PrimaryContainer,
-                        shape = RoundedCornerShape(12.dp),
+                        color    = PrimaryContainer,
+                        shape    = RoundedCornerShape(12.dp),
                         modifier = Modifier.size(48.dp)
                     ) {
                         Box(contentAlignment = Alignment.Center) {
@@ -293,63 +412,75 @@ fun FinanceSection() {
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text("Total gastado", color = TextSecondary, fontSize = 12.sp)
-                    Text("$845.00", fontWeight = FontWeight.Normal, fontSize = 24.sp)
+                    Text(
+                        "$${String.format("%.2f", gastoTotal)}",
+                        fontWeight = FontWeight.Bold,
+                        fontSize   = 22.sp,
+                        color      = TextPrimary
+                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.TrendingUp, null, tint = FinanceGreen, modifier = Modifier.size(14.dp))
+                        Text(
+                            " $${String.format("%.2f", ingresoTotal)} ingresos",
+                            color    = FinanceGreen,
+                            fontSize = 11.sp
+                        )
+                    }
                 }
             }
-            Spacer(modifier = Modifier.height(24.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth().height(100.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
-            ) {
-                FinanceBar(0.4f, false)
-                FinanceBar(0.65f, false)
-                FinanceBar(0.3f, false, color = PrimaryLime.copy(alpha = 0.3f))
-                FinanceBar(0.85f, false)
-                FinanceBar(0.55f, true)
-                FinanceBar(0.2f, false, isFaded = true)
-                FinanceBar(0.2f, false, isFaded = true)
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Mini gráfico con las últimas transacciones reales
+            if (barras.isNotEmpty()) {
+                val maxCantidad = barras.maxOfOrNull { it.second } ?: 1.0
+                Row(
+                    modifier = Modifier.fillMaxWidth().height(80.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment     = Alignment.Bottom
+                ) {
+                    barras.forEachIndexed { index, (label, cantidad) ->
+                        val fraccion = (cantidad / maxCantidad).toFloat().coerceIn(0.1f, 1f)
+                        val esUltimo = index == barras.lastIndex
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.weight(1f).fillMaxHeight(),
+                            verticalArrangement = Arrangement.Bottom
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.7f)
+                                    .fillMaxHeight(fraccion)
+                                    .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
+                                    .background(if (esUltimo) PrimaryLime else PrimaryLime.copy(0.35f))
+                            )
+                        }
+                    }
+                }
+            } else {
+                // Sin datos: placeholder visual
+                Row(
+                    modifier = Modifier.fillMaxWidth().height(80.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment     = Alignment.Bottom
+                ) {
+                    listOf(0.4f, 0.65f, 0.3f, 0.85f, 0.55f, 0.2f, 0.2f).forEachIndexed { i, f ->
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.weight(1f).fillMaxHeight(),
+                            verticalArrangement = Arrangement.Bottom
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.7f)
+                                    .fillMaxHeight(f)
+                                    .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
+                                    .background(if (i == 4) PrimaryLime else PrimaryLime.copy(0.3f))
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 }
-
-@Composable
-fun FinanceBar(fillFraction: Float, isToday: Boolean, color: Color = Color.White, isFaded: Boolean = false) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxHeight().width(36.dp),
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        if (isToday) {
-            Surface(color = OnPrimary, shape = RoundedCornerShape(4.dp), modifier = Modifier.padding(bottom = 6.dp)) {
-                Text("Hoy", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(fillFraction)
-                .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                .background(if (isToday) PrimaryLime else color.copy(alpha = if (isFaded) 0.5f else 1f))
-        )
-    }
-}
-
-@Preview(showBackground = true, heightDp = 1000)
-@Composable
-fun DashboardPreview() {
-    MaterialTheme {
-        Box(modifier = Modifier.background(Color.White)) {
-            DashboardScreen(
-                navController = rememberNavController(),
-                viewModel = HomeViewModel(
-                    usuarioRepo = TODO(),
-                    tareaRepo = TODO(),
-                    estadoAnimoRepo = TODO()
-                )
-            )
-        }
-    }
-}
-

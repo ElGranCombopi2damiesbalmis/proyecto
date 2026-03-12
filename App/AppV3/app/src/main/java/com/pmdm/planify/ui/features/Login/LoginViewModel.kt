@@ -10,7 +10,6 @@ import com.pmdm.planify.data.UsuarioRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
@@ -38,12 +37,14 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onLoginClick() {
-        val resultado = loginRepository.autenticar(email, password)
-        if (resultado != null) {
-            errorMessage = null
-            onLoginSuccess?.invoke()
-        } else {
-            errorMessage = "Email o contraseña incorrectos"
+        viewModelScope.launch {
+            val resultado = loginRepository.autenticar(email, password)
+            if (resultado != null) {
+                errorMessage = null
+                onLoginSuccess?.invoke()
+            } else {
+                errorMessage = "Email o contraseña incorrectos"
+            }
         }
     }
 }

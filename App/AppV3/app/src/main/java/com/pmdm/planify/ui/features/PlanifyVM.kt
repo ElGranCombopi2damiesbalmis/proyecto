@@ -41,55 +41,53 @@ class PlanifyViewModel @Inject constructor(
     private val usuarioRepo: UsuarioRepository
 ) : ViewModel() {
 
-    // --- Estados de la UI ---
-    var economiaState by mutableStateOf<Economia?>(null)
-    var listaTareas by mutableStateOf(listOf<Tarea>())
+    var economiaState    by mutableStateOf<Economia?>(null)
+    var listaTareas      by mutableStateOf(listOf<Tarea>())
     var estadoAnimoState by mutableStateOf<EstadoAnimo?>(null)
-    var homeState by mutableStateOf<Home?>(null)
-    var usuarioState by mutableStateOf<Usuario?>(null)
+    var homeState        by mutableStateOf<Home?>(null)
+    var usuarioState     by mutableStateOf<Usuario?>(null)
 
-    var expandidoState by mutableStateOf(false)
+    var expandidoState    by mutableStateOf(false)
     var tareaSeleccionada by mutableStateOf<Tarea?>(null)
 
-    // --- Lambdas de Navegación ---
-    var onNavigateToEconomia: () -> Unit = {}
+    var onNavigateToEconomia:    () -> Unit = {}
     var onNavigateToTransaccion: () -> Unit = {}
     var onNavigateToEstadoAnimo: () -> Unit = {}
-    var onNavigateToSettings: () -> Unit = {}
-    var onNavigateToTarea: () -> Unit = {}
-    var onBack: () -> Unit = {}
+    var onNavigateToSettings:    () -> Unit = {}
+    var onNavigateToTarea:       () -> Unit = {}
+    var onBack:                  () -> Unit = {}
 
-    init {
-        actualizarTodo()
-    }
+    init { actualizarTodo() }
 
     private fun actualizarTodo() {
         viewModelScope.launch {
-            usuarioState = usuarioRepo.get()
-            economiaState = economiaRepo.get()
-            listaTareas = tareaRepo.getAll()
+            // getAll().firstOrNull() en vez de get(correo) que requiere parámetro
+            usuarioState     = usuarioRepo.getAll().firstOrNull()
+            economiaState    = economiaRepo.get()
+            listaTareas      = tareaRepo.getAll()
             estadoAnimoState = estadoAnimoRepo.get()
-            homeState = homeRepo.get()
+            homeState        = homeRepo.get()
         }
     }
 
-    // --- Menú Lateral ---
     val descripcionEIconos = listOf(
-        ItemMenuDesplegable(Icons.Default.Home, "Inicio", { onBack(); expandidoState = false }),
-        ItemMenuDesplegable(Icons.Default.AttachMoney, "Cartera", { onNavigateToEconomia(); expandidoState = false }),
-        ItemMenuDesplegable(Icons.Default.Checklist, "Tareas", { onNavigateToTarea(); expandidoState = false }),
-        ItemMenuDesplegable(Icons.Default.Face, "Ánimo", { onNavigateToEstadoAnimo(); expandidoState = false })
+        ItemMenuDesplegable(Icons.Default.Home,        "Inicio",  { onBack();               expandidoState = false }),
+        ItemMenuDesplegable(Icons.Default.AttachMoney, "Cartera", { onNavigateToEconomia();  expandidoState = false }),
+        ItemMenuDesplegable(Icons.Default.Checklist,   "Tareas",  { onNavigateToTarea();     expandidoState = false }),
+        ItemMenuDesplegable(Icons.Default.Face,        "Ánimo",   { onNavigateToEstadoAnimo(); expandidoState = false })
     )
 
     fun onPlanifyEvent(event: PlanifyEvent) {
         when (event) {
+
             is PlanifyEvent.OnLoginClick -> {
-                val user = loginRepo.autenticar(event.email, event.pass)
-                if (user != null) {
-                    actualizarTodo()
-                    onNavigateToEconomia() // Navega si es correcto
-                } else {
-                    // Opcional: Aquí podrías crear un estado para mostrar mensaje de error
+                // autenticar() es suspend → necesita coroutine
+                viewModelScope.launch {
+                    val user = loginRepo.autenticar(event.email, event.pass)
+                    if (user != null) {
+                        actualizarTodo()
+                        onNavigateToEconomia()
+                    }
                 }
             }
 
@@ -117,9 +115,9 @@ class PlanifyViewModel @Inject constructor(
                 }
             }
 
-            PlanifyEvent.OnAbrirMenu -> expandidoState = true
+            PlanifyEvent.OnAbrirMenu  -> expandidoState = true
             PlanifyEvent.OnCerrarMenu -> expandidoState = false
-            PlanifyEvent.OnBack -> onBack()
+            PlanifyEvent.OnBack       -> onBack()
 
             else -> { /* Otros eventos */ }
         }

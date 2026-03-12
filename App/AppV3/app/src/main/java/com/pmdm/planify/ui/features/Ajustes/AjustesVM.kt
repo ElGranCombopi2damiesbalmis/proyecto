@@ -17,87 +17,78 @@ class AjustesVM @Inject constructor(
     private val usuarioRepo: UsuarioRepository
 ) : ViewModel() {
 
-    // 1. Estado del Usuario Logueado
     var usuarioState by mutableStateOf<Usuario?>(null)
         private set
 
-    // 2. Estados temporales para Editar Perfil (para no guardar hasta darle a "Guardar")
-    var nombreEdit by mutableStateOf("")
+    var nombreEdit   by mutableStateOf("")
     var telefonoEdit by mutableStateOf("")
-    var calleEdit by mutableStateOf("")
+    var calleEdit    by mutableStateOf("")
 
-    // 3. Estados para Notificaciones (Clave -> Booleano)
     var notificacionesState = mutableStateMapOf(
-        "todas" to true,
+        "todas"  to true,
         "tareas" to true,
         "gastos" to false,
-        "gym" to true
+        "gym"    to true
     )
 
-    // 4. Estados para Privacidad (Clave -> Booleano)
     var privacidadState = mutableStateMapOf(
-        "perfil_publico" to false,
-        "mostrar_animo" to true,
+        "perfil_publico"  to false,
+        "mostrar_animo"   to true,
         "compartir_datos" to false
     )
 
-    // 5. Rutas de navegación (se configuran en el NavHost)
+    // Lambdas de navegación — se configuran en el NavHost
     var onNavigateToLogin: () -> Unit = {}
     var onNavigateToEditarPerfil: () -> Unit = {}
     var onNavigateToNotificaciones: () -> Unit = {}
     var onNavigateToPrivacidad: () -> Unit = {}
     var onBack: () -> Unit = {}
 
-    init {
-        cargarUsuario()
-    }
+    init { cargarUsuario() }
 
     private fun cargarUsuario() {
         viewModelScope.launch {
-            val user = usuarioRepo.get()
+            // getAll() devuelve la lista; cogemos el primero disponible
+            val user = usuarioRepo.getAll().firstOrNull()
             usuarioState = user
-            // Inicializamos los campos de edición con los datos reales
-            nombreEdit = user.nombre
-            telefonoEdit = user.telefono
-            calleEdit = user.calle
+            nombreEdit   = user?.nombre   ?: ""
+            telefonoEdit = user?.telefono ?: ""
+            calleEdit    = user?.calle    ?: ""
         }
     }
 
     fun onEvent(event: AjustesEvent) {
         when (event) {
-            is AjustesEvent.OnLogout -> {
-                usuarioRepo.establecerSesion("") // Borramos sesión
-                onNavigateToLogin()
-            }
 
-            // --- NAVEGACIÓN ---
-            is AjustesEvent.OnBack -> onBack()
-            is AjustesEvent.OnNavigateToEditarPerfil -> onNavigateToEditarPerfil()
-            is AjustesEvent.OnNavigateToNotificaciones -> onNavigateToNotificaciones()
-            is AjustesEvent.OnNavigateToPrivacidad -> onNavigateToPrivacidad()
+            // Logout: no hay sesión que borrar en el repo mock; navegamos directamente
+            is AjustesEvent.OnLogout -> onNavigateToLogin()
 
-            // --- EDICIÓN DE PERFIL ---
-            is AjustesEvent.OnNombreChange -> nombreEdit = event.nombre
+            is AjustesEvent.OnBack                    -> onBack()
+            is AjustesEvent.OnNavigateToEditarPerfil  -> onNavigateToEditarPerfil()
+            is AjustesEvent.OnNavigateToNotificaciones-> onNavigateToNotificaciones()
+            is AjustesEvent.OnNavigateToPrivacidad    -> onNavigateToPrivacidad()
+
+            is AjustesEvent.OnNombreChange   -> nombreEdit   = event.nombre
             is AjustesEvent.OnTelefonoChange -> telefonoEdit = event.telefono
-            is AjustesEvent.OnCalleChange -> calleEdit = event.calle
+            is AjustesEvent.OnCalleChange    -> calleEdit    = event.calle
+
             is AjustesEvent.OnGuardarPerfil -> {
                 usuarioState?.let { currentUser ->
-                    // Creamos una copia actualizada del usuario
                     val updatedUser = currentUser.copy(
-                        nombre = nombreEdit,
+                        nombre   = nombreEdit,
                         telefono = telefonoEdit,
-                        calle = calleEdit
+                        calle    = calleEdit
                     )
-                    // Guardamos en el repositorio
-                    usuarioRepo.update(updatedUser)
-                    usuarioState = updatedUser // Actualizamos la UI
-                    onBack() // Volvemos a la pantalla anterior
+                    viewModelScope.launch {
+                        usuarioRepo.update(updatedUser)
+                        usuarioState = updatedUser
+                        onBack()
+                    }
                 }
             }
 
-            // --- SWITCHES ---
             is AjustesEvent.OnNotificacionChange -> notificacionesState[event.clave] = event.activo
-            is AjustesEvent.OnPrivacidadChange -> privacidadState[event.clave] = event.activo
+            is AjustesEvent.OnPrivacidadChange   -> privacidadState[event.clave]     = event.activo
         }
     }
 }
