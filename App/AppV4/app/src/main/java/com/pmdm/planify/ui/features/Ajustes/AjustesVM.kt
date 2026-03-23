@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pmdm.planify.data.UsuarioRepository
+import com.pmdm.planify.data.UserSessionRepository
 import com.pmdm.planify.models.Usuario
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AjustesVM @Inject constructor(
-    private val usuarioRepo: UsuarioRepository
+    private val usuarioRepo: UsuarioRepository,
+    private val sessionRepo: UserSessionRepository
 ) : ViewModel() {
 
     var usuarioState by mutableStateOf<Usuario?>(null)
@@ -43,13 +45,14 @@ class AjustesVM @Inject constructor(
     var onNavigateToNotificaciones: () -> Unit = {}
     var onNavigateToPrivacidad: () -> Unit = {}
     var onBack: () -> Unit = {}
+    var onPerfilActualizado: () -> Unit = {}
 
     init { cargarUsuario() }
 
     private fun cargarUsuario() {
         viewModelScope.launch {
             // getAll() devuelve la lista; cogemos el primero disponible
-            val user = usuarioRepo.getAll().firstOrNull()
+            val user = usuarioRepo.getCurrent(sessionRepo) ?: usuarioRepo.getAll().firstOrNull()
             usuarioState = user
             nombreEdit   = user?.nombre   ?: ""
             telefonoEdit = user?.telefono ?: ""
@@ -60,8 +63,10 @@ class AjustesVM @Inject constructor(
     fun onEvent(event: AjustesEvent) {
         when (event) {
 
-            // Logout: no hay sesión que borrar en el repo mock; navegamos directamente
-            is AjustesEvent.OnLogout -> onNavigateToLogin()
+            is AjustesEvent.OnLogout -> {
+                sessionRepo.clearSession()
+                onNavigateToLogin()
+            }
 
             is AjustesEvent.OnBack                    -> onBack()
             is AjustesEvent.OnNavigateToEditarPerfil  -> onNavigateToEditarPerfil()
@@ -82,6 +87,7 @@ class AjustesVM @Inject constructor(
                     viewModelScope.launch {
                         usuarioRepo.update(updatedUser)
                         usuarioState = updatedUser
+                        onPerfilActualizado()
                         onBack()
                     }
                 }

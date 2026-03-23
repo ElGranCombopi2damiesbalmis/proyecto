@@ -55,12 +55,13 @@ private val BadgeGreenBg = Color(0xFF16A34A)
 @Composable
 fun RutinasGimnasioScreen(
     navController: NavHostController,
-    vm: GymVM // Asegúrate de que GymVM esté inyectado con hiltViewModel() en el NavHost
+    vm: GymVM
 ) {
     val uriHandler = LocalUriHandler.current
 
     RutinasGimnasioContent(
         navController = navController,
+        nombreUsuario = vm.nombreUsuario,
         rutinas = vm.rutinas,
         sesiones = vm.sesiones.toString(),
         tiempoFormateado = vm.formatearTiempo(),
@@ -77,6 +78,7 @@ fun RutinasGimnasioScreen(
 @Composable
 fun RutinasGimnasioContent(
     navController: NavHostController,
+    nombreUsuario: String,
     rutinas: List<Rutina>,
     sesiones: String,
     tiempoFormateado: String,
@@ -85,7 +87,7 @@ fun RutinasGimnasioContent(
 ) {
     Scaffold(
         containerColor = MdSysColorSurface,
-        bottomBar = { PlanifyBottomBar(navController) } // Usamos la barra común
+        bottomBar = { PlanifyBottomBar(navController) }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -94,18 +96,16 @@ fun RutinasGimnasioContent(
             contentPadding = PaddingValues(bottom = 24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // HEADER CENTRALIZADO
             item {
                 Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                     PlanifyHeader(
-                        nombreUsuario = "Andrea",
+                        nombreUsuario = nombreUsuario,
                         fraseBienvenida = "Tu entrenamiento",
-                        onProfileClick = { /* navController.navigate(SettingsRoute) */ }
+                        onProfileClick = { }
                     )
                 }
             }
 
-            // ESTADÍSTICAS DINÁMICAS
             item {
                 Row(
                     modifier = Modifier
@@ -120,10 +120,11 @@ fun RutinasGimnasioContent(
                 }
             }
 
-            // TÍTULO SECCIÓN
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -141,7 +142,6 @@ fun RutinasGimnasioContent(
                 }
             }
 
-            // LISTA DE RUTINAS
             items(rutinas) { rutina ->
                 GymRoutineCard(
                     rutina = rutina,
@@ -151,7 +151,6 @@ fun RutinasGimnasioContent(
         }
     }
 }
-
 // --- COMPONENTES INTERNOS ---
 
 @Composable
@@ -243,6 +242,7 @@ fun GymPreview() {
     val fakeNav = rememberNavController()
     RutinasGimnasioContent(
         navController = fakeNav,
+        nombreUsuario = "Sergi",
         rutinas = emptyList(),
         sesiones = "12",
         tiempoFormateado = "5h 20m",

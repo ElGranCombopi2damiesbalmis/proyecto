@@ -8,6 +8,7 @@ import com.pmdm.planify.data.RutinaRepository
 import com.pmdm.planify.data.TareaRepository
 import com.pmdm.planify.data.TransaccionRepository
 import com.pmdm.planify.data.UsuarioRepository
+import com.pmdm.planify.data.UserSessionRepository
 import com.pmdm.planify.models.Home
 import com.pmdm.planify.models.IconoEstadoAnimo
 import com.pmdm.planify.models.Tarea
@@ -39,6 +40,7 @@ data class HomeUiState(
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val usuarioRepo: UsuarioRepository,
+    private val sessionRepo: UserSessionRepository,
     private val tareaRepo: TareaRepository,
     private val estadoAnimoRepo: EstadoAnimoRepository,
     private val transaccionRepo: TransaccionRepository,
@@ -52,7 +54,7 @@ class HomeViewModel @Inject constructor(
 
     fun cargarDatos() {
         viewModelScope.launch {
-            val usuario       = usuarioRepo.getAll().firstOrNull()
+            val usuario       = usuarioRepo.getCurrent(sessionRepo) ?: usuarioRepo.getAll().firstOrNull()
             val todasTareas   = tareaRepo.getAll()
             val pendientes    = todasTareas.filter { !it.completada }
             val completadas   = todasTareas.filter { it.completada }

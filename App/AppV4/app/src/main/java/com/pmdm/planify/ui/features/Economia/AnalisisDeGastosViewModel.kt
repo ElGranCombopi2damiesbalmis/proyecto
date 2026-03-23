@@ -9,10 +9,14 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewModelScope
 import com.pmdm.planify.data.TransaccionRepository
+import com.pmdm.planify.data.UsuarioRepository
+import com.pmdm.planify.data.UserSessionRepository
 import com.pmdm.planify.models.TipoTransaccion
 import com.pmdm.planify.models.Transaccion
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 // Categorías disponibles con su icono asociado
@@ -28,14 +32,26 @@ val CATEGORIAS = listOf(
     CategoriaItem("Varios",     Icons.Default.MoreHoriz)
 )
 
+data class TrendPoint(
+    val label: String,
+    val amount: Double,
+    val fraction: Float,
+    val isSelected: Boolean,
+    val isPositive: Boolean
+)
+
 @HiltViewModel
 class AnalisisDeGastosViewModel @Inject constructor(
-    private val transaccionRepository: TransaccionRepository
+    private val transaccionRepository: TransaccionRepository,
+    private val usuarioRepo: UsuarioRepository,
+    private val sessionRepo: UserSessionRepository
 ) : ViewModel() {
 
     var categoriaSeleccionada by mutableStateOf("Todo")
         private set
     var todasLasTransacciones by mutableStateOf<List<Transaccion>>(emptyList())
+        private set
+    var nombreUsuario by mutableStateOf("")
         private set
 
     val transaccionesFiltradas: List<Transaccion>
@@ -51,7 +67,10 @@ class AnalisisDeGastosViewModel @Inject constructor(
     init { cargarTransacciones() }
 
     fun cargarTransacciones() {
-        viewModelScope.launch { todasLasTransacciones = transaccionRepository.getAll() }
+        viewModelScope.launch {
+            todasLasTransacciones = transaccionRepository.getAll()
+            nombreUsuario = (usuarioRepo.getCurrent(sessionRepo) ?: usuarioRepo.getAll().firstOrNull())?.nombre ?: ""
+        }
     }
 
     fun onCategoriaSelected(cat: String) { categoriaSeleccionada = cat }
@@ -93,6 +112,48 @@ class AnalisisDeGastosViewModel @Inject constructor(
             todasLasTransacciones = transaccionRepository.getAll()
             mostrarDialogo = false
             onTransaccionGuardada?.invoke() // Notificar al Home
+        }
+    }
+
+    fun tendenciaSemanal(): List<TrendPoint> {
+        val hoy = LocalDate.now()
+        val inicioSemanaActual = hoy.with(DayOfWeek.MONDAY)
+        val semanas = (3 downTo 0).map { offset ->
+            inicioSemanaActual.minusWeeks(offset.toLong())
+        }
+
+        val totales: List<Pair<LocalDate, Double>> = semanas.map { inicio ->
+            val fin = inicio.plusDays(6)
+
+            val balance = todasLasTransacciones
+                .filter { transaccion ->
+                    val fecha = transaccion.fecha?.toLocalDate()
+                    fecha != null && !fecha.isBefore(inicio) && !fecha.isAfter(fin)
+                }
+                .sumOf { transaccion ->
+                    if (transaccion.tipo == TipoTransaccion.INGRESO) {
+                        transaccion.cantidad
+                    } else {
+                        -transaccion.cantidad
+                    }
+                }
+
+            inicio to balance
+        }
+
+        val max = totales
+            .maxOfOrNull { (_, balance) -> kotlin.math.abs(balance) }
+            ?.takeIf { it > 0.0 }
+            ?: 1.0
+
+        return totales.mapIndexed { index, (inicio, balance) ->
+            TrendPoint(
+                label = "S${index + 1}",
+                amount = balance,
+                fraction = kotlin.math.abs(balance / max).toFloat().coerceIn(0.12f, 1f),
+                isSelected = index == totales.lastIndex,
+                isPositive = balance >= 0
+            )
         }
     }
 }

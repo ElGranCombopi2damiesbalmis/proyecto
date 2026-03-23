@@ -49,13 +49,6 @@ private val OliveOnSecondaryContainer = Color(0xFF201C04)
 private val TaskBackground            = Color(0xFFFFFFFF)
 private val TaskSurfaceVariant        = Color(0xFFE7E2D6)
 
-data class CalendarDay(
-    val dayNumber: String,
-    val isSelected: Boolean = false,
-    val hasEvent: Boolean   = false,
-    val eventColor: Color   = OlivePrimary
-)
-
 // ─── SCREEN PRINCIPAL ────────────────────────────────────────────────────────
 @Composable
 fun TaskManagerScreen(
@@ -103,24 +96,49 @@ fun TaskManagerScreen(
         ) {
             item {
                 PlanifyHeader(
-                    nombreUsuario   = "Andrea",
+                    nombreUsuario   = state.nombreUsuario,
                     fraseBienvenida = "Tus tareas",
                     onProfileClick  = { navController.navigate(SettingsRoute) }
                 )
             }
-            item { CalendarSection() }
+            item {
+                CalendarSection(
+                    mesVisible = state.mesVisible,
+                    fechaSeleccionada = state.fechaSeleccionada,
+                    dias = viewModel.getCalendarCells(),
+                    onDiaClick = viewModel::seleccionarFecha,
+                    onMesAnterior = viewModel::mesAnterior,
+                    onMesSiguiente = viewModel::mesSiguiente
+                )
+            }
             item {
                 FilterSection(
                     seleccionado  = state.filtroSeleccionado,
                     onFiltroClick = viewModel::cambiarFiltro
                 )
             }
-            item { TasksHeader(pendientes = tareasFiltradas.count { !it.completada }) }
-            items(tareasFiltradas) { tarea ->
-                TaskCard(
-                    tarea           = tarea,
-                    onCheckedChange = { viewModel.onTareaCheckedChange(tarea.id, it) }
-                )
+            item { TasksHeader(pendientes = tareasFiltradas.count { !it.completada }, fechaSeleccionada = state.fechaSeleccionada) }
+            if (tareasFiltradas.isEmpty()) {
+                item {
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        color = TaskSurfaceVariant.copy(alpha = 0.45f)
+                    ) {
+                        Text(
+                            text = "No hay tareas para la fecha seleccionada",
+                            modifier = Modifier.padding(16.dp),
+                            color = Color.Gray
+                        )
+                    }
+                }
+            } else {
+                items(tareasFiltradas) { tarea ->
+                    TaskCard(
+                        tarea           = tarea,
+                        onCheckedChange = { viewModel.onTareaCheckedChange(tarea.id, it) }
+                    )
+                }
             }
             item { Spacer(modifier = Modifier.height(20.dp)) }
         }
@@ -302,37 +320,29 @@ fun TaskCard(tarea: TareaMock, onCheckedChange: (Boolean) -> Unit) {
 
 // ─── SUB-COMPONENTES ─────────────────────────────────────────────────────────
 @Composable
-fun CalendarSection() {
+fun CalendarSection(
+    mesVisible: java.time.YearMonth,
+    fechaSeleccionada: java.time.LocalDate,
+    dias: List<CalendarCell>,
+    onDiaClick: (java.time.LocalDate) -> Unit,
+    onMesAnterior: () -> Unit,
+    onMesSiguiente: () -> Unit
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
-            modifier = Modifier
-                .width(300.dp).height(40.dp)
-                .border(1.dp, Color.Gray.copy(0.5f), CircleShape)
-                .clip(CircleShape)
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier.weight(1f).fillMaxHeight()
-                    .background(OliveSecondaryContainer).clickable {},
-                contentAlignment = Alignment.Center
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Outlined.CalendarViewMonth, null, Modifier.size(18.dp), OliveOnSecondaryContainer)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Mes", color = OliveOnSecondaryContainer, fontWeight = FontWeight.Medium)
-                }
-            }
-            Box(
-                modifier = Modifier.weight(1f).fillMaxHeight().clickable {},
-                contentAlignment = Alignment.Center
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Outlined.ViewWeek, null, Modifier.size(18.dp), Color.Gray)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Semana", color = Color.Gray, fontWeight = FontWeight.Medium)
-                }
-            }
+            IconButton(onClick = onMesAnterior) { Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Mes anterior") }
+            Text(
+                text = mesVisible.month.name.lowercase().replaceFirstChar { it.uppercase() } + " " + mesVisible.year,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+            IconButton(onClick = onMesSiguiente) { Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Mes siguiente") }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             listOf("D","L","M","X","J","V","S").forEach { day ->
                 Text(day, modifier = Modifier.width(40.dp), color = Color.Gray,
@@ -340,23 +350,27 @@ fun CalendarSection() {
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            DayItem(CalendarDay("5", isSelected = true))
-            DayItem(CalendarDay("6"))
-            DayItem(CalendarDay("7"))
-            DayItem(CalendarDay("8"))
-            DayItem(CalendarDay("9", hasEvent = true, eventColor = Color.Red))
-            DayItem(CalendarDay("10"))
-            DayItem(CalendarDay("11"))
+        dias.chunked(7).forEach { semana ->
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                semana.forEach { day -> DayItem(day = day, onClick = onDiaClick) }
+                repeat(7 - semana.size) { Spacer(modifier = Modifier.size(40.dp)) }
+            }
+            Spacer(modifier = Modifier.height(6.dp))
         }
-        Icon(Icons.Default.KeyboardArrowDown, null, tint = Color.Gray, modifier = Modifier.padding(top = 8.dp))
+        Text(
+            text = "Seleccionado: ${fechaSeleccionada.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))}",
+            color = Color.Gray,
+            fontSize = 12.sp,
+            modifier = Modifier.padding(top = 8.dp)
+        )
     }
 }
 
 @Composable
-fun DayItem(day: CalendarDay) {
+fun DayItem(day: CalendarCell, onClick: (java.time.LocalDate) -> Unit) {
+    val clickableModifier = if (day.date != null) Modifier.clickable { onClick(day.date) } else Modifier
     Column(
-        modifier = Modifier.size(40.dp).clip(CircleShape)
+        modifier = Modifier.size(40.dp).then(clickableModifier).clip(CircleShape)
             .background(if (day.isSelected) OlivePrimary else Color.Transparent),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -366,7 +380,7 @@ fun DayItem(day: CalendarDay) {
             fontWeight = if (day.isSelected) FontWeight.SemiBold else FontWeight.Normal)
         if (day.hasEvent && !day.isSelected) {
             Spacer(Modifier.height(2.dp))
-            Box(Modifier.size(4.dp).clip(CircleShape).background(day.eventColor))
+            Box(Modifier.size(4.dp).clip(CircleShape).background(OlivePrimary))
         }
     }
 }
@@ -404,13 +418,13 @@ fun FilterChipItem(label: String, icon: ImageVector, isSelected: Boolean, onClic
 }
 
 @Composable
-fun TasksHeader(pendientes: Int) {
+fun TasksHeader(pendientes: Int, fechaSeleccionada: java.time.LocalDate) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment     = Alignment.CenterVertically
     ) {
-        Text("Tareas de hoy", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+        Text("Tareas del ${fechaSeleccionada.format(DateTimeFormatter.ofPattern("dd/MM"))}", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
         Surface(color = OlivePrimaryContainer, shape = RoundedCornerShape(50)) {
             Text("$pendientes pendientes",
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),

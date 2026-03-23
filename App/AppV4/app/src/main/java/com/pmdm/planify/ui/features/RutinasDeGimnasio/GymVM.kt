@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pmdm.planify.data.RutinaRepository
+import com.pmdm.planify.data.UsuarioRepository
+import com.pmdm.planify.data.UserSessionRepository
 import com.pmdm.planify.models.Rutina
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,10 +15,15 @@ import java.time.LocalDate
 import javax.inject.Inject
 @HiltViewModel
 class GymVM @Inject constructor(
-    private val rutinaRepo: RutinaRepository
+    private val rutinaRepo: RutinaRepository,
+    private val usuarioRepo: UsuarioRepository,
+    private val sessionRepo: UserSessionRepository
 ) : ViewModel() {
 
     var rutinas by mutableStateOf<List<Rutina>>(emptyList())
+        private set
+
+    var nombreUsuario      by mutableStateOf("")
         private set
 
     var sesiones           by mutableStateOf(0)
@@ -28,11 +35,12 @@ class GymVM @Inject constructor(
 
     private var ultimaFechaEntrenamiento: LocalDate? = null
 
-    init { cargarRutinas() }
+    init { cargarDatos() }
 
-    private fun cargarRutinas() {
+    fun cargarDatos() {
         viewModelScope.launch {
             rutinas = rutinaRepo.getRutinas()
+            nombreUsuario = (usuarioRepo.getCurrent(sessionRepo) ?: usuarioRepo.getAll().firstOrNull())?.nombre ?: ""
         }
     }
 

@@ -54,6 +54,13 @@ fun NavHostPlanify() {
     ajustesVm.onNavigateToEditarPerfil   = { nc.navigate(EditarPerfilRoute) }
     ajustesVm.onNavigateToNotificaciones = { nc.navigate(NotificacionesRoute) }
     ajustesVm.onNavigateToPrivacidad     = { nc.navigate(PrivacidadRoute) }
+    ajustesVm.onPerfilActualizado        = {
+        homeVm.cargarDatos()
+        animoVm.cargarDatos()
+        gastosVm.cargarTransacciones()
+        gymVm.cargarDatos()
+        tareasVm.cargarTareas()
+    }
 
     NavHost(navController = nc, startDestination = LoginRoute) {
 
@@ -62,11 +69,17 @@ fun NavHostPlanify() {
             loginVm.onLoginSuccess = {
                 homeVm.cargarDatos()
                 animoVm.cargarDatos()
+                gastosVm.cargarTransacciones()
+                gymVm.cargarDatos()
+                tareasVm.cargarTareas()
                 nc.navigate(HomeRoute) { popUpTo(LoginRoute) { inclusive = true } }
             }
             loginVm.onGoogleLoginSuccess = {
                 homeVm.cargarDatos()
                 animoVm.cargarDatos()
+                gastosVm.cargarTransacciones()
+                gymVm.cargarDatos()
+                tareasVm.cargarTareas()
                 nc.navigate(HomeRoute) { popUpTo(LoginRoute) { inclusive = true } }
             }
             LoginScreen(vm = loginVm)
