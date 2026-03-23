@@ -118,6 +118,7 @@
 | 09/03 | S28 | He solucionado los conflictos de merges y he linkado todas las vistas en la navegacion de la App, tambien he añadido los dialogos de añadir tanto en Tareas como en Transacciones(Recuperada 1hora del jueves 5). | 5h | Conflictos con archivos que editaron otros compañeros. | Ayuda con la IA. |
 | 12/03 | S29 | He dado funcionalidad al estado de animo, tareas, transacciones, rutina gymnasio y home interactivo y con persistencia, he solucionado problemas con Room. | 5h | Revisar codigo de room y solucionar errores con notaciones de hilt y VM. |  |
 | 21/03 | S30 | He importado la version 4 del proyecto con las funcionalidades nuevas hechas por Victor y he probado la App viendo que funciona correctamente y que no. | 2h |  |  |  |
+| 23/03 | 
 |Pendiente|
 
 **Resumen del mes:**
