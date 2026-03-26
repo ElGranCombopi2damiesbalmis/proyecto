@@ -38,7 +38,16 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onGoogleAccountSelected(email: String) {
-        viewModelScope.launch { errorMessage = null; onGoogleLoginSuccess?.invoke() }
+        viewModelScope.launch {
+            runCatching {
+                loginRepository.autenticarConGoogle(email)
+            }.onSuccess {
+                errorMessage = null
+                onGoogleLoginSuccess?.invoke()
+            }.onFailure {
+                errorMessage = "No se pudo iniciar sesión con Google"
+            }
+        }
     }
 
     // ── Registro ──────────────────────────────────────────────────────────────

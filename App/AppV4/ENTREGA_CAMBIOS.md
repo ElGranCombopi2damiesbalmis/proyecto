@@ -70,3 +70,8 @@ No se ha tocado ningún otro archivo de configuración más allá de lo impresci
 - Navegación y packages unificados.
 - Preparado para abrir directamente en Android Studio.
 - Entrega final empaquetada en ZIP.
+
+## G. Regeneración de entrega
+
+- Versión regenerada: v2
+- Cambio menor aplicado: actualización mínima del documento de entrega para regenerar el ZIP.

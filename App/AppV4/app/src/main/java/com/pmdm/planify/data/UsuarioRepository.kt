@@ -14,6 +14,9 @@ class UsuarioRepository @Inject constructor(@ApplicationContext context: Context
     suspend fun get(correo: String): Usuario? =
         dao.getByCorrro(correo)?.toUsuario()
 
+    suspend fun getCurrent(sessionRepository: UserSessionRepository): Usuario? =
+        sessionRepository.getCurrentUserEmail()?.let { correo -> get(correo) }
+
     suspend fun getAll(): List<Usuario> =
         dao.getAll().map { it.toUsuario() }
 

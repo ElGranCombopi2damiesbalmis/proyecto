@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pmdm.planify.data.EstadoAnimoRepository
 import com.pmdm.planify.data.UsuarioRepository
+import com.pmdm.planify.data.UserSessionRepository
 import com.pmdm.planify.models.EstadoAnimo
 import com.pmdm.planify.models.IconoEstadoAnimo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EstadoAnimoVM @Inject constructor(
     private val repository: EstadoAnimoRepository,
-    private val usuarioRepo: UsuarioRepository
+    private val usuarioRepo: UsuarioRepository,
+    private val sessionRepo: UserSessionRepository
 ) : ViewModel() {
 
     var estadoAnimo    by mutableStateOf(EstadoAnimo())
@@ -35,7 +37,7 @@ class EstadoAnimoVM @Inject constructor(
     fun cargarDatos() {
         viewModelScope.launch {
             estadoAnimo   = repository.get()
-            nombreUsuario = usuarioRepo.getAll().firstOrNull()?.nombre ?: ""
+            nombreUsuario = (usuarioRepo.getCurrent(sessionRepo) ?: usuarioRepo.getAll().firstOrNull())?.nombre ?: ""
         }
     }
 

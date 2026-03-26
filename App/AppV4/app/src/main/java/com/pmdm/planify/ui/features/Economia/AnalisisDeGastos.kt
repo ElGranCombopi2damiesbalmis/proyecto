@@ -88,7 +88,7 @@ fun GastosScreen(
         ) {
             item {
                 PlanifyHeader(
-                    nombreUsuario   = "Andrea",
+                    nombreUsuario   = vm.nombreUsuario,
                     fraseBienvenida = "Tus finanzas",
                     onProfileClick  = onNavigateToSettings
                 )
@@ -98,7 +98,7 @@ fun GastosScreen(
                     modifier   = Modifier.padding(top = 8.dp, bottom = 16.dp))
             }
             item { TotalCard(gastos = vm.gastoTotal, ingresos = vm.ingresoTotal) }
-            item { TrendSection() }
+            item { TrendSection(vm = vm) }
             item {
                 CategoryFilters(
                     selectedCategory = vm.categoriaSeleccionada,
@@ -357,7 +357,7 @@ fun TransactionItem(t: Transaccion) {
 }
 
 @Composable
-fun TrendSection() {
+fun TrendSection(vm: AnalisisDeGastosViewModel) {
     Column {
         Text("Tendencia", fontWeight = FontWeight.Bold)
         Row(
@@ -368,20 +368,31 @@ fun TrendSection() {
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment     = Alignment.Bottom
         ) {
-            BarFinance(0.3f, "S1", false)
-            BarFinance(0.8f, "S2", true)
-            BarFinance(0.5f, "S3", false)
-            BarFinance(0.2f, "S4", false)
+            vm.tendenciaSemanal().forEach { punto ->
+                BarFinance(
+                    fraction = punto.fraction,
+                    label = punto.label,
+                    isSelected = punto.isSelected,
+                    isPositive = punto.isPositive
+                )
+            }
         }
     }
 }
 
 @Composable
-fun BarFinance(fraction: Float, label: String, isSelected: Boolean) {
+fun BarFinance(fraction: Float, label: String, isSelected: Boolean, isPositive: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(modifier = Modifier.width(20.dp).fillMaxHeight(fraction)
             .clip(RoundedCornerShape(4.dp))
-            .background(if (isSelected) FinanceYellow else FinanceYellow.copy(0.3f)))
+            .background(
+                when {
+                    isSelected && isPositive -> FinanceGreen
+                    isSelected && !isPositive -> FinanceRed
+                    isPositive -> FinanceGreen.copy(0.3f)
+                    else -> FinanceRed.copy(0.3f)
+                }
+            ))
         Text(label, fontSize = 10.sp, modifier = Modifier.padding(top = 4.dp))
     }
 }
