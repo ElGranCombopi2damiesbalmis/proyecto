@@ -11,6 +11,7 @@
 - 📅 Enero 2026
 - 📅 Febrero 2026
 - 📅 Marzo 2026
+- 📅 Abril 2026
 
 ## Octubre 2025
 
@@ -72,9 +73,15 @@
 | 09/03/2026 | S27 | Vinculación para trabajar con los mismos componentes en todas las Screens | 2h | Realmente no muchos | Hemos divido el trabajo de manera que podamos crear componentes, vincularlos y darles funcionalidad de manera que cada uno tenga su trabajo | Queda mucho más limpio el código en las diferentes pantallas |
 | 11/03/2026 | S28 | Añadiendo Room | 2h | Trabajar con una gran cantidad de repositorios, muchos más que en el examen | Basándome en el propio examen y con ayuda de los apuntes y de la IA he podido insertar Room de manera correcta | No pude asistir el martes a clase por lo que he tenido que trabajar hoy. En cuanto al Room, llevamos meses trabajando con Mocks por lo que todavía tengo que acostumbrarme pero luce realmente útil |
 
+## Abril 2026
+
+| Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
+| --- | --- | --- | --- | --- | --- | --- |
+| 20/04/2026 | S26 | Revisión del proceso realizado hasta la fecha y planificación de próximos sprints | 1h | Se han juntado las vacaciones de Semana Santa junto con el inicio de las prácticas y un proceso médico que tuve que realizar en Valencia, por lo que ha sido dificil mantener el ritmo de trabajo previo a la finalización de la segunda evaluación | Queda un último empujón, teniendo ahora que ultimar los detalles que nos quedan y conseguir finalizar el proyecto de la manera que queríamos desde un principio |
+
 **Resumen del mes:**
 
-- **Total de horas:** 44h
+- **Total de horas:** 45h
 - **Principales logros:**
   - Aprendizaje de metodologías ágiles, metodologías SCRUM y Github projects
   - Diseño de arquitectura base, estructura lógica y esquema UML
