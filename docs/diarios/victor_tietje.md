@@ -12,6 +12,7 @@
 - 📅 Febrero 2026
 - 📅 Marzo 2026
 - 📅 Abril 2026
+- 📅 Mayo 2026
 
 ## Octubre 2025
 
@@ -77,11 +78,17 @@
 
 | Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
 | --- | --- | --- | --- | --- | --- | --- |
-| 20/04/2026 | S26 | Revisión del proceso realizado hasta la fecha y planificación de próximos sprints | 1h | Se han juntado las vacaciones de Semana Santa junto con el inicio de las prácticas y un proceso médico que tuve que realizar en Valencia, por lo que ha sido dificil mantener el ritmo de trabajo previo a la finalización de la segunda evaluación | Queda un último empujón, teniendo ahora que ultimar los detalles que nos quedan y conseguir finalizar el proyecto de la manera que queríamos desde un principio |
+| 20/04/2026 | S26 | Revisión del proceso realizado hasta la fecha y planificación de próximos sprints | 1h | Se han juntado las vacaciones de Semana Santa junto con el inicio de las prácticas y un proceso médico que tuve que realizar en Valencia, por lo que ha sido dificil mantener el ritmo de trabajo previo a la finalización de la segunda evaluación | Queda un último empujón, teniendo ahora que ultimar los detalles que nos quedan y conseguir finalizar el proyecto de la manera que queríamos desde un principio | Tengo muchas ganas de que quede bien y lo haremos |
+
+## Mayo 2026
+
+| Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
+| --- | --- | --- | --- | --- | --- | --- |
+| 13/05/2026 | S27 | Mejoras en el Login y comentarios añadidos para facilitar la explicación durante la presentación | 1h | Seguimos de prácticas y entre las mismas, las vacaciones y el trabajo que tengo por mi cuenta es bastante complicado sacar tiempo para el proyecto | Realmente dejamos el el proyecto bien encaminado antes de irnos de prácticas, por lo que no ha sido necesario dedidarle una gran cantidad de tiempo como quizás hubiese pasado si hubiesemos ido más retrasados | Ahora con todo encaminado el siguiente paso es ver todo lo que hemos trabajado y realizar la documentación y la presentación sobre ello |
 
 **Resumen del mes:**
 
-- **Total de horas:** 45h
+- **Total de horas:** 47h
 - **Principales logros:**
   - Aprendizaje de metodologías ágiles, metodologías SCRUM y Github projects
   - Diseño de arquitectura base, estructura lógica y esquema UML
