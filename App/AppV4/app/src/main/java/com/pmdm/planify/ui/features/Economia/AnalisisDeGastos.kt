@@ -67,6 +67,7 @@ fun GastosScreen(
         )
     }
 
+    // Diseño
     Scaffold(
         containerColor = Color.White,
         bottomBar      = { PlanifyBottomBar(navController) },
@@ -175,7 +176,7 @@ fun NuevaTransaccionDialog(
                     }
                 }
 
-                // ── Nombre ──
+                // Concepto de la transacción
                 OutlinedTextField(
                     value         = nombre,
                     onValueChange = onNombreChange,

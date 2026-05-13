@@ -122,6 +122,7 @@ class AnalisisDeGastosViewModel @Inject constructor(
             inicioSemanaActual.minusWeeks(offset.toLong())
         }
 
+        // Para cada semana, filtra las transacciones dentro del rango y calcula el balance neto
         val totales: List<Pair<LocalDate, Double>> = semanas.map { inicio ->
             val fin = inicio.plusDays(6)
 
@@ -146,6 +147,7 @@ class AnalisisDeGastosViewModel @Inject constructor(
             ?.takeIf { it > 0.0 }
             ?: 1.0
 
+        // Convierte cada semana en un TrendPoint con su fraccion normalizada
         return totales.mapIndexed { index, (inicio, balance) ->
             TrendPoint(
                 label = "S${index + 1}",

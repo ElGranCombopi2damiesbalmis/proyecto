@@ -7,8 +7,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -36,18 +38,26 @@ private val TextGray        = Color(0xFF64748B)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(vm: LoginViewModel) {
+    // Añadimos scroll para evitar problemas con el teclado en pantallas pequeñas
+    val scrollState = rememberScrollState()
+    var verPasswordLogin by remember { mutableStateOf(false) }
 
     val googleAccountLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val email = result.data?.getStringExtra(AccountManager.KEY_ACCOUNT_NAME) ?: return@rememberLauncherForActivityResult
+            val email = result.data?.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
+                ?: return@rememberLauncherForActivityResult
             vm.onGoogleAccountSelected(email)
         }
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().background(BackgroundWhite).padding(horizontal = 24.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundWhite)
+            .verticalScroll(scrollState) // Scroll preventivo
+            .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(60.dp))
@@ -55,68 +65,94 @@ fun LoginScreen(vm: LoginViewModel) {
         Text("Introduce tus datos para continuar", fontSize = 14.sp, color = TextGray, modifier = Modifier.padding(top = 8.dp))
         Spacer(Modifier.height(40.dp))
 
+        // Email Field
         OutlinedTextField(
-            value = vm.email, onValueChange = { vm.onEmailChanged(it) },
-            label = { Text("Email") }, modifier = Modifier.fillMaxWidth(),
+            value = vm.email,
+            onValueChange = { vm.onEmailChanged(it) },
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             isError = vm.errorMessage != null,
-            colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PrimaryYellow, focusedLabelColor = Color.Black, cursorColor = PrimaryYellow, errorBorderColor = Color.Red)
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = PrimaryYellow,
+                focusedLabelColor = Color.Black,
+                cursorColor = PrimaryYellow,
+                errorBorderColor = Color.Red
+            )
         )
+
         Spacer(Modifier.height(16.dp))
+
+        // Password Field (AHORA CON VISIBILIDAD)
         OutlinedTextField(
-            value = vm.password, onValueChange = { vm.onPasswordChanged(it) },
-            label = { Text("Contraseña") }, visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp),
+            value = vm.password,
+            onValueChange = { vm.onPasswordChanged(it) },
+            label = { Text("Contraseña") },
+            visualTransformation = if (verPasswordLogin) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { verPasswordLogin = !verPasswordLogin }) {
+                    Icon(
+                        imageVector = if (verPasswordLogin) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                        contentDescription = null,
+                        tint = TextGray
+                    )
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
             isError = vm.errorMessage != null,
-            colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PrimaryYellow, focusedLabelColor = Color.Black, cursorColor = PrimaryYellow, errorBorderColor = Color.Red)
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = PrimaryYellow,
+                focusedLabelColor = Color.Black,
+                cursorColor = PrimaryYellow
+            )
         )
+
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-            TextButton(onClick = { }) { Text("¿Has olvidado tu contraseña?", color = TextGray, fontSize = 12.sp) }
+            TextButton(onClick = { /* Lógica pass olvidada */ }) {
+                Text("¿Has olvidado tu contraseña?", color = TextGray, fontSize = 12.sp)
+            }
         }
+
         Spacer(Modifier.height(24.dp))
 
+        // Botón con estado de carga
         Button(
             onClick = { vm.onLoginClick() },
             modifier = Modifier.fillMaxWidth().height(56.dp),
             shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryYellow)
-        ) { Text("Iniciar Sesión", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 16.sp) }
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryYellow),
+            enabled = vm.email.isNotBlank() && vm.password.isNotBlank() // <-- MEJORA: Deshabilitar si vacío
+        ) {
+            Text("Iniciar Sesión", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+        }
 
-        vm.errorMessage?.let { Text(it, color = Color.Red, fontSize = 12.sp, modifier = Modifier.padding(top = 8.dp)) }
+        vm.errorMessage?.let {
+            Text(it, color = Color.Red, fontSize = 12.sp, modifier = Modifier.padding(top = 8.dp))
+        }
 
         Spacer(Modifier.height(32.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            HorizontalDivider(modifier = Modifier.weight(1f), color = Color.LightGray)
-            Text(" O continuar con ", color = TextGray, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 8.dp))
-            HorizontalDivider(modifier = Modifier.weight(1f), color = Color.LightGray)
-        }
-        Spacer(Modifier.height(24.dp))
-
-        OutlinedButton(
-            onClick = {
-                val intent = AccountManager.newChooseAccountIntent(null, null, arrayOf("com.google"), null, null, null, null)
-                googleAccountLauncher.launch(intent)
-            },
-            modifier = Modifier.fillMaxWidth().height(56.dp), shape = RoundedCornerShape(12.dp),
-            border = BorderStroke(1.dp, Color(0xFFE2E8F0)),
-            colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.White)
-        ) {
-            Icon(painter = painterResource(id = R.drawable.google_logo), contentDescription = "Google", modifier = Modifier.size(22.dp), tint = Color.Unspecified)
-            Spacer(Modifier.width(12.dp))
-            Text("Continuar con Google", color = Color.Black, fontSize = 15.sp, fontWeight = FontWeight.Medium)
-        }
 
         Spacer(Modifier.weight(1f))
-        Row(modifier = Modifier.padding(bottom = 32.dp), verticalAlignment = Alignment.CenterVertically) {
+
+        // Footer para registro
+        Row(
+            modifier = Modifier.padding(vertical = 32.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text("¿No tienes una cuenta?", color = TextGray)
-            TextButton(onClick = { vm.abrirDialogoRegistro() }, contentPadding = PaddingValues(start = 4.dp)) {
-                Text("Regístrate", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            TextButton(onClick = { vm.abrirDialogoRegistro() }) {
+                Text("Regístrate", color = Color.Black, fontWeight = FontWeight.Bold)
             }
         }
     }
 
-    if (vm.mostrarDialogoRegistro) { RegistroDialog(vm = vm) }
+    if (vm.mostrarDialogoRegistro) {
+        RegistroDialog(vm = vm)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
