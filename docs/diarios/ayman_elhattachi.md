@@ -128,3 +128,19 @@
 *  **Próximos objetivos:** 
 
 [🔝 Volver al índice](#índice-de-meses)
+
+
+## Mayo 2026
+
+| Fecha  | Sesión | Tareas Realizadas | Tiempo | Problemas Encontrados | Soluciones Aplicadas | Reflexión/Aprendizaje |
+|---|---|---|---|---|---|---|
+| 13/05 | S32 | He arreglado la vistas de Runitas y Estado de animo el componente de usuario, y he quitado el token en el login. | 2h |  |  |
+|Pendiente|
+
+**Resumen del mes:**
+* **Total de horas:** 2h
+* **Principales logros:** 
+*  **Área de mejora:** 
+*  **Próximos objetivos:** 
+
+[🔝 Volver al índice](#índice-de-meses)
