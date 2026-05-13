@@ -6,6 +6,5 @@ import com.pmdm.planify.models.Login
 fun LoginMock.toLoginUser() = Login(
     email = this.email,
     password = "", // NO devolvemos la contraseña a la UI por seguridad
-    token = this.authToken,
     esNuevoUsuario = false
 )

@@ -38,6 +38,7 @@ import com.pmdm.planify.models.Rutina
 import com.pmdm.planify.models.TipoEtiquetaRutina
 import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
 import com.pmdm.planify.ui.features.Componentes.PlanifyHeader
+import com.pmdm.planify.ui.navigation.SettingsRoute // <-- IMPORTACIÓN AÑADIDA
 
 // --- COLORES DEL TEMA GIMNASIO ---
 private val MdSysColorPrimary = Color(0xFF725C00)
@@ -101,7 +102,7 @@ fun RutinasGimnasioContent(
                     PlanifyHeader(
                         nombreUsuario = nombreUsuario,
                         fraseBienvenida = "Tu entrenamiento",
-                        onProfileClick = { }
+                        onProfileClick = { navController.navigate(SettingsRoute) } // <-- NAVEGACIÓN AÑADIDA
                     )
                 }
             }

@@ -39,6 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pmdm.planify.models.IconoEstadoAnimo
 import com.pmdm.planify.ui.features.Componentes.PlanifyBottomBar
 import com.pmdm.planify.ui.features.Componentes.PlanifyHeader
+import com.pmdm.planify.ui.navigation.SettingsRoute
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -111,7 +112,7 @@ fun EstadoDeAnimoScreen(navController: NavHostController, vm: EstadoAnimoVM) {
                 PlanifyHeader(
                     nombreUsuario   = vm.nombreUsuario,
                     fraseBienvenida = "Tu equilibrio",
-                    onProfileClick  = {}
+                    onProfileClick  = { navController.navigate(SettingsRoute) } // Navegación agregada aquí
                 )
             }
 
