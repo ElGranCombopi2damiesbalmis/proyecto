@@ -1,4 +1,4 @@
-# Planify — Documentación del proyecto (versión final)
+# Planify — Documentación del proyecto (versión actualizada)
 
 ## Índice
 - 1. Título
@@ -157,4 +157,90 @@ interface UsuarioDao {
 }
 ```
 
-Comments omitted in display
+## 6. Manual de usuario
+
+### Tipos de usuario
+- Usuario estándar: puede registrarse, iniciar sesión, gestionar tareas, registrar transacciones y estado de ánimo.
+- (Futuro) Usuario administrador: gestión avanzada y supervisión, no implementado actualmente.
+
+### Vista general del manual
+El manual de usuario describe la aplicación por pantallas y flujos. Se recomienda acompañarlo con capturas de pantalla o prototipos de las pantallas clave para facilitar su comprensión.
+
+### Pantallas y flujos principales
+- **Pantalla de registro/login:** el usuario crea su cuenta o accede con correo y contraseña.
+- **Home:** resumen de tareas del día, saldo económico y acceso rápido a las secciones principales.
+- **Gestión de tareas:** crear, editar, marcar como completada y eliminar tareas.
+- **Economía:** registrar ingresos/gastos por categoría, consultar histórico y ver estadísticas.
+- **Estado de ánimo:** seleccionar un valor diario y revisar el historial de ánimo.
+
+### Recomendaciones de prototipado
+- Usar capturas de pantalla reales desde `App/AppV4/app/src/main/res` y `ui.features` o un prototipo visual similar.
+- Incluir leyendas breves que expliquen cada componente de la UI.
+- Priorizar las pantallas de Login, Home, Crear Tarea, Lista de Transacciones y Estado de Ánimo.
+
+## 7. Requisitos e instalación
+
+### Descripción del entregable
+El entregable es la aplicación Android `App/AppV4` junto con la documentación de uso y diseño. Contiene:
+- `App/AppV4/app`: código fuente Kotlin, recursos, layouts y navegación.
+- `App/AppV4/build.gradle.kts` y `settings.gradle.kts`: configuración de Gradle.
+- `App/AppV4/ENTREGA_CAMBIOS.md`: cambios implementados.
+- `Documentacion/documentacion_AppV4.md`: documentación final.
+- `Documentacion/screenshots/`: capturas o diagramas generados.
+- `Documentacion/diagrams/`: definición PlantUML de diagramas.
+
+### Estructura de ficheros
+```
+AppV4/
+├─ app/
+│  ├─ src/main/java/...       # código Kotlin y lógica de UI
+│  ├─ src/main/res/...        # recursos gráficos y layouts
+│  └─ build.gradle.kts        # configuración del módulo Android
+├─ build.gradle.kts           # configuración del proyecto
+├─ settings.gradle.kts        # configuración de módulos
+└─ ENTREGA_CAMBIOS.md         # lista de cambios y mejoras
+Documentacion/
+├─ documentacion_AppV4.md     # documentación final
+├─ screenshots/               # imágenes y capturas de apoyo
+└─ diagrams/                  # diagramas PlantUML fuente
+```
+
+### Procedimientos de instalación y prueba
+1. Abrir `App/AppV4` en Android Studio.
+2. Configurar JDK 17 y Android SDK con API 34.
+3. Sincronizar el proyecto Gradle.
+4. Ejecutar en un emulador o dispositivo:
+```powershell
+cd "App/AppV4"
+./gradlew assembleDebug
+./gradlew installDebug
+```
+5. Lanzar la app y crear un usuario para verificar la persistencia en Room.
+
+### Recursos adicionales
+- La base de datos SQLite se crea automáticamente al iniciar la app.
+- No es necesario crear bases de datos adicionales manualmente.
+- Si se añade backend en el futuro, deberá documentarse la configuración de API y credenciales.
+
+## 8. Conclusiones
+
+### Conclusiones sobre el trabajo realizado
+- La aplicación se estructuró con MVVM, Room y Hilt, proporcionando separación de responsabilidades y fácil mantenimiento.
+- La documentación incluye diseño, datos, código y un manual de usuario básico.
+
+### Posibles ampliaciones y mejoras
+- Sincronización remota y autenticación federada.
+- Pruebas unitarias e instrumentadas.
+- Módulo de backup/restore y exportación de datos.
+
+## 9. Bibliografía
+
+Libros, artículos y apuntes
+- Material de curso y apuntes de Android, MVVM y Room.
+
+Direcciones Web
+- Documentación Android: https://developer.android.com
+- Repositorio del proyecto: (este repositorio local)
+- Diario de Cosme: [docs/diarios/cosme_rodriguez.md](docs/diarios/cosme_rodriguez.md)
+
+
