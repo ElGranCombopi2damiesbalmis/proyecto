@@ -85,10 +85,11 @@
 | Fecha | Sesión | Tareas realizadas | Tiempo | Problemas encontrados | Soluciones aplicadas | Reflexión/Aprendizaje |
 | --- | --- | --- | --- | --- | --- | --- |
 | 13/05/2026 | S27 | Mejoras en el Login y comentarios añadidos para facilitar la explicación durante la presentación | 1h | Seguimos de prácticas y entre las mismas, las vacaciones y el trabajo que tengo por mi cuenta es bastante complicado sacar tiempo para el proyecto | Realmente dejamos el el proyecto bien encaminado antes de irnos de prácticas, por lo que no ha sido necesario dedidarle una gran cantidad de tiempo como quizás hubiese pasado si hubiesemos ido más retrasados | Ahora con todo encaminado el siguiente paso es ver todo lo que hemos trabajado y realizar la documentación y la presentación sobre ello |
+| 22/05/2026 | S28 | Redacción de la documentación | 2h | La realización de los PlantUML o el propio hecho de que sea la primera documentación que realizo | Ahora que he acabado la labor principal que tenía durante las prácticas y el examen de recuperación he podido dedicar más tiempo al proyecto, realizando en este caso la documentación sobre el mismo entre ayer y hoy | Solo queda la última parte, pero estoy realmente contendo del trabajo realizado |
 
 **Resumen del mes:**
 
-- **Total de horas:** 47h
+- **Total de horas:** 49h
 - **Principales logros:**
   - Aprendizaje de metodologías ágiles, metodologías SCRUM y Github projects
   - Diseño de arquitectura base, estructura lógica y esquema UML

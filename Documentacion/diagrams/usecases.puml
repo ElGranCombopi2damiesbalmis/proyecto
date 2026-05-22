@@ -1,0 +1,12 @@
+@startuml
+left to right direction
+actor Usuario
+rectangle App {
+  Usuario -- (Registrarse)
+  Usuario -- (Iniciar sesión)
+  Usuario -- (Gestionar tareas)
+  Usuario -- (Gestionar transacciones)
+  Usuario -- (Registrar estado de ánimo)
+  Usuario -- (Consultar estadísticas)
+}
+@enduml

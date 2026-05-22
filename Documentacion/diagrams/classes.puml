@@ -1,0 +1,39 @@
+@startuml
+class Usuario {
+  +id: Long
+  +nombre: String
+  +email: String
+  +passwordHash: String
+  +validarPassword(pwd: String): Boolean
+}
+
+class Tarea {
+  +id: Long
+  +usuarioId: Long
+  +titulo: String
+  +descripcion: String
+  +fecha: LocalDate
+  +estado: Estado
+  +marcarCompletada(): void
+  +actualizar(datos): void
+}
+
+class Transaccion {
+  +id: Long
+  +usuarioId: Long
+  +monto: Double
+  +categoria: String
+  +fecha: LocalDate
+  +tipo: TipoTransaccion
+}
+
+class EstadoAnimo {
+  +id: Long
+  +usuarioId: Long
+  +fecha: LocalDate
+  +valor: Int
+}
+
+Usuario "1" -- "*" Tarea
+Usuario "1" -- "*" Transaccion
+@enduml

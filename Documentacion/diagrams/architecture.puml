@@ -1,0 +1,15 @@
+@startuml
+component "UI (Compose Screens)" as UI
+component "ViewModels" as VM
+component "Repositories" as Repo
+component "Room Database" as DB
+component "DaoMocks" as Mock
+component "Hilt (DI)" as Hilt
+
+UI --> VM : eventos de usuario
+VM --> Repo : solicitudes de datos
+Repo --> DB : persistencia / consultas
+Repo --> Mock : datos de prueba
+Hilt ..> VM
+Hilt ..> Repo
+@enduml
