@@ -1,17 +1,23 @@
-# Documentación de AppV4 (Planify)
+# Planify — Documentación del proyecto (versión final)
 
 ## Índice
-- **Introducción**: objetivo y justificación
-- **Requisitos funcionales**: lista de funcionalidades
-- **Análisis y diseño**: arquitectura, casos de uso, clases, datos
-- **Codificación**: fragmentos y decisiones técnicas
-- **Manual de usuario**: flujos y capturas
-- **Requisitos e instalación**: pasos para ejecutar
-- **Conclusiones**: mejoras y próximos pasos
+- 1. Título
+- 2. Introducción
+- 3. Requisitos funcionales
+- 4. Análisis y Diseño
+  - 4.1 Diagrama de arquitectura
+  - 4.2 Módulos y despliegue
+  - 4.3 Diagrama de casos de uso
+  - 4.4 Diagrama de clases
+  - 4.5 Diseño de datos
+- 5. Codificación
+- 6. Manual de usuario
+- 7. Requisitos e instalación
+- 8. Conclusiones
+- 9. Bibliografía
 
-## Resumen
-AppV4 es la versión entregable de la aplicación móvil "Planify" para Android. Es una aplicación modular construida con Jetpack Compose, arquitectura MVVM, inyección de dependencias con Hilt y persistencia local con Room. Incluye funcionalidades principales: login, home, gestión de tareas, gestión económica (transacciones) y registro de estado de ánimo.
-# Planify — Documentación del proyecto
+
+# Planify — Documentación del proyecto (versión actualizada)
 
 ## 1. Título
 Planify — Aplicación para gestión personal: tareas, rutinas y finanzas.
@@ -41,92 +47,114 @@ Análisis de lo existente
 Arquitectura
 : La aplicación sigue MVVM con las capas: UI (Compose), ViewModels, Repositories y Data (Room/DAOs). Hilt se usa para inyección de dependencias.
 
+### 4.1 Diagrama de arquitectura (PlantUML)
 Diagrama de la arquitectura
 ![Diagrama de arquitectura](./screenshots/architecture.png)
 
+### 4.2 Módulos y despliegue
+- `app` (módulo Android): UI, navegación, recursos, `MainActivity`.
+- `ui.features`: pantallas Compose por feature (Login, Home, Tareas, Economia, EstadoAnimo, Ajustes).
+- `viewmodel`: ViewModels por pantalla.
+- `repository`: Repositorios que encapsulan lógica de acceso a datos.
+- `data`/`room`: `@Entity`, `@Dao`, `PlanifyDatabase`, converters.
+- `di`: módulos Hilt, `PlanifyApp` con precarga de datos.
+
+Tipo de aplicación y dependencias externas
+- Aplicación móvil Android (Kotlin + Jetpack Compose).
+- Integraciones previstas: servicios REST para sincronización, Google Sign-In/Firebase Auth, analytics.
+- Almacenamiento local: Room (SQLite). Opcionalmente Firestore o backend REST en futuras versiones.
+
+### 4.3 Diagrama de casos de uso (PlantUML)
 Diagrama de casos de uso
 ![Diagrama de casos de uso](./screenshots/usecases.png)
 
+### 4.4 Diagrama de clases (atributos y métodos) — simplificado
 Diagrama de clases (simplificado)
 ![Diagrama de clases](./screenshots/classes.png)
 
-Diseño de datos
-- Entidades principales: `Usuario`, `Tarea`, `Transaccion`, `EstadoAnimo`.
-- Relaciones: un `Usuario` posee muchas `Tarea` y `Transaccion`.
-- Se usa Room con converters para tipos de fecha (`LocalDate`) y enums.
+### 4.5 Diseño de datos (BD relacional — Room / SQLite)
+Se presenta el modelo Entidad/Interrelación y la descripción de las tablas principales. Room mapeará estas entidades a tablas SQLite.
+
+Tablas principales (esquema resumido):
+
+- `Usuario` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `nombre` TEXT NOT NULL,
+  `email` TEXT UNIQUE NOT NULL,
+  `passwordHash` TEXT NOT NULL
+)
+
+- `Tarea` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `usuarioId` INTEGER NOT NULL,
+  `titulo` TEXT NOT NULL,
+  `descripcion` TEXT,
+  `fecha` TEXT,
+  `estado` TEXT,
+  FOREIGN KEY(`usuarioId`) REFERENCES `Usuario`(`id`)
+)
+
+- `Transaccion` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `usuarioId` INTEGER NOT NULL,
+  `monto` REAL NOT NULL,
+  `categoria` TEXT,
+  `fecha` TEXT,
+  `tipo` TEXT,
+  FOREIGN KEY(`usuarioId`) REFERENCES `Usuario`(`id`)
+)
+
+- `EstadoAnimo` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `usuarioId` INTEGER NOT NULL,
+  `fecha` TEXT,
+  `valor` INTEGER,
+  FOREIGN KEY(`usuarioId`) REFERENCES `Usuario`(`id`)
+)
+
+Notas:
+- `fecha` se almacena en ISO-8601 (`YYYY-MM-DD`) y se convierte a `LocalDate` mediante converters en Room.
+- Las migraciones deben manejarse explícitamente mediante `Migration` en producción.
+
+Si se empleara NoSQL (p.ej. Firestore) la estructura propuesta sería: `usuarios/{userId}` documentos con subcolecciones `tareas`, `transacciones`, `estadoAnimo`.
 
 ## 5. Codificación
 
-Entorno de programación
-- JDK 17
-- Android Studio con soporte para Jetpack Compose
-- Gradle (wrapper incluido en `App/AppV4`)
+### Lenguajes y por qué
+- Kotlin: lenguaje principal para la app Android (conciso, interoperable con Java, soporte oficial para Android y Jetpack Compose).
+- (Java): files históricos y bocetos; migración a Kotlin recomendada y ya realizada en AppV4.
 
-Lenguajes y herramientas
-- Kotlin (Android + Jetpack Compose)
-- Room (persistencia local)
-- Hilt (inyección de dependencias)
-- Kotlinx.serialization (serialización)
-- KSP para generación de código (Room/Hilt)
+### Herramientas y entornos
+- Android Studio (recomendado) con soporte Compose.
+- Gradle (wrapper incluido).
+- KSP para generación (Room/Hilt).
+- Kotlinx.serialization para persistencia/serialización cuando sea necesario.
 
-Aspectos relevantes de la implementación
-- MVVM con separación clara: `ViewModel` expone `StateFlow`/`LiveData` a la UI.
-- Repositories encapsulan lógica de acceso a datos y mapeo entre entidades y modelos de dominio.
-- Precarga de datos en `PlanifyApp` para tener contenido inicial útil en la primera ejecución.
-- Manejo de errores en lectura de base de datos: consultas defensivas (ej. `COALESCE` para evitar nulls en agregados).
+### Fragmentos de código relevantes (comentados)
 
-## 6. Manual de usuario
+1) Ejemplo de `@Entity` y `@Dao` (Room)
+```kotlin
+// UsuarioEntity.kt
+@Entity(tableName = "Usuario")
+data class UsuarioEntity(
+  @PrimaryKey(autoGenerate = true) val id: Long = 0,
+  val nombre: String,
+  @ColumnInfo(index = true) val email: String,
+  val passwordHash: String
+)
 
-Instalación en dispositivo/emulador
-1. Abrir `App/AppV4` en Android Studio.
-2. Conectar un emulador o dispositivo con API >= 28.
-3. Ejecutar Run -> `app` (Debug) o usar el comando:
+// UsuarioDao.kt
+@Dao
+interface UsuarioDao {
+  @Query("SELECT * FROM Usuario WHERE email = :email LIMIT 1")
+  suspend fun findByEmail(email: String): UsuarioEntity?
 
-```powershell
-.\gradlew :app:installDebug
+  @Insert(onConflict = OnConflictStrategy.ABORT)
+  suspend fun insert(usuario: UsuarioEntity): Long
+
+  @Update
+  suspend fun update(usuario: UsuarioEntity)
+}
 ```
 
-Uso básico
-- Registro: crear cuenta desde la pantalla de Login -> Registro.
-- Home: resumen de tareas del día y saldo rápido.
-- Tareas: añadir nueva tarea desde `+`, editar vía swipe o menú contextual.
-- Finanzas: añadir transacción desde la pantalla Economía, categorizarla.
-- Estado de ánimo: registrar valor diario desde la pantalla de Estado de Ánimo.
-
-## 7. Requisitos e instalación
-
-Requisitos mínimos
-- Android 9 (API 28)
-- 2 GB RAM mínimo para emulador, recomendado 4 GB
-
-Pasos de instalación (resumen)
-```powershell
-# En la raíz AppV4
-.\gradlew assembleDebug
-.\gradlew installDebug
-```
-
-## 8. Conclusiones
-
-Conclusiones sobre el trabajo realizado
-- Se logró una reestructuración consistente hacia MVVM, integración de Room y Hilt, y migración a Kotlin con pantallas Compose funcionales.
-
-Posibles ampliaciones y mejoras
-- Añadir sincronización remota (backend / API) y autenticación federada (Google Sign-In).
-- Implementar pruebas unitarias e instrumentadas.
-- Mejorar UX con analítica y recomendaciones personalizadas.
-
-## 9. Bibliografía
-
-Libros, artículos y apuntes
-- Material de curso (apuntes y guías sobre Android, MVVM, Room)
-
-Direcciones Web
-- Documentación Android: https://developer.android.com
-- Repositorio del proyecto: (este repositorio local)
-- Diario de Cosme (ruta local): [docs/diarios/cosme_rodriguez.md](docs/diarios/cosme_rodriguez.md)
-- Documentar los endpoints (si se integra backend) y formatos de serialización.
-- Incluir un pequeño diagrama de arquitectura (PlantUML o Mermaid) dentro de `docs/` para visualización rápida.
-
----
-Generado y actualizado con diagramas PlantUML el 22-05-2026.
+Comments omitted in display
